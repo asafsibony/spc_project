@@ -69,12 +69,6 @@ public class ChatClient extends AbstractClient
   {
     try
     {
-    	/*TODO: add the functionality to ChatIF and all it's implementations and use it to handle message type "send"*/
-
-//    	if(message.equals("send")) {
-//    		message = "sharon-204505846 matan-305764102 oshrit-203545876 gena-317238228 . IP: " + getInetAddress().getHostAddress();
-//    	}
-        
     	sendToServer(message);
     }
     catch(IOException e)
