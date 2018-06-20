@@ -9,23 +9,48 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-public class CheckInCheckOutController
+import client.*;
+public class CheckInCheckOutController extends CommonController
 {
+	@FXML
+	private Button SignInButton;
 
-    @FXML
-    private Button SignInButton;
+	@FXML
+	private TextField carIdCheckInText;
 
-    @FXML
-    void SignInAction(ActionEvent event) throws IOException
-    {
-    	Parent parent = FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
-		Scene child = new Scene(parent);
+	@FXML
+	private Button submitCheckInButton;
 
-		Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
-		window.setScene(child);
-		window.show();
-    }
+	@FXML
+	private TextField checkInIdText;
+
+	@FXML
+	private TextField emailCheckInText;
+
+	@FXML
+	private TextField depCheckInText;
+
+	@FXML
+	private Button leaveCheckOutButton;
+
+	@FXML
+	private Button payCheckOutButton;
+	
+	@FXML
+	void SignInAction(ActionEvent event) throws IOException
+	{
+		super.openScene("LoginScene.fxml", event);
+	}
+
+	@FXML
+	void submitCheckInAction(ActionEvent event) 
+	{
+		String id = checkInIdText.getText();
+		
+		String cmd="submitCheckIn "+id;
+		Main.cts.send(cmd);
+	}
 
 }

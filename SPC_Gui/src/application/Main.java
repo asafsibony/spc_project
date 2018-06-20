@@ -2,6 +2,10 @@ package application;
 	
 import java.io.IOException;
 import java.net.URL;
+
+import client.ChatClient;
+import client.ClientConsole;
+import client.ConnectToServer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,8 +16,12 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+
+	static ConnectToServer cts;
+	
 	public static void main(String[] args) 
 	{
+		cts = new ConnectToServer(args);
 		launch(args);
 	}
 	

@@ -11,7 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class SignUpController 
+public class SignUpController extends CommonController
 {
     @FXML
     private Button PreviousButton;
@@ -19,11 +19,6 @@ public class SignUpController
     @FXML
     void PreviousAction(ActionEvent event) throws IOException 
     {
-    	Parent parent = FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
-		Scene child = new Scene(parent);
-
-		Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
-		window.setScene(child);
-		window.show();
+		super.openScene("LoginScene.fxml", event);
     }
 }

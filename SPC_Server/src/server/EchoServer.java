@@ -3,7 +3,10 @@
 // license found at www.lloseng.com 
 package server;
 import java.io.*;
-import ocsf.server.*;
+
+import ocsf.server.AbstractServer;
+import ocsf.server.ConnectionToClient;
+
 
 /**
  * This class overrides some of the methods in the abstract 

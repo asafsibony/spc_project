@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class ClientsSystemController
+public class ClientsSystemController extends CommonController
 {
     @FXML
     private Button LogOutButton;
@@ -18,11 +18,6 @@ public class ClientsSystemController
     @FXML
     void LogOutAction(ActionEvent event) throws IOException
     {
-    	Parent parent = FXMLLoader.load(getClass().getResource("LoginScene.fxml"));
-		Scene child = new Scene(parent);
-
-		Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
-		window.setScene(child);
-		window.show();
+		super.openScene("LoginScene.fxml", event);
     }
 }

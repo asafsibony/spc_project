@@ -4,8 +4,10 @@
 
 package client;
 
-import ocsf.client.*;
+
 import java.io.*;
+
+import ocsf.client.AbstractClient;
 
 /**
  * This class overrides some of the methods defined in the abstract

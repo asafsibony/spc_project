@@ -66,33 +66,34 @@ public class ClientConsole implements ChatIF
 	 * This method waits for input from the console.  Once it is 
 	 * received, it sends it to the client's message handler.
 	 */
-	public void accept() 
+	public void accept(String cmd) 
 	{
 		BufferedReader fromConsole = 
 				new BufferedReader(new InputStreamReader(System.in));
 		String message;
-		System.out.println("Please enter your command number:");
-		System.out.println("(1) Add new user");
-		System.out.println("(2) Get all users");
-		while(true) {
+//		System.out.println("Please enter your command number:");
+//		System.out.println("(1) Add new user");
+//		System.out.println("(2) Get all users");
+//		while(true) {
 			try {
-				message = fromConsole.readLine();
-				int getOrder = Integer.parseInt(message);
-				if(getOrder < 1 || getOrder > 2) {
-					System.out.println("bad command, try again..");
-					continue;
-				}
-				if(getOrder==1) {
-					System.out.println("Enter user name:");
-					message = "1 "+fromConsole.readLine();
-					System.out.println("Enter password:");
-					message += " "+fromConsole.readLine();
-					client.handleMessageFromClientUI(message);
-				}
-				if(getOrder==2) {
-					client.handleMessageFromClientUI("2");
-				}
-				//break;
+//				message = fromConsole.readLine();
+//				int getOrder = Integer.parseInt(message);
+//				if(getOrder < 1 || getOrder > 2) {
+//					System.out.println("bad command, try again..");
+//					continue;
+//				}
+//				if(getOrder==1) {
+//					System.out.println("Enter user name:");
+//					message = "1 "+fromConsole.readLine();
+//					System.out.println("Enter password:");
+//					message += " "+fromConsole.readLine();
+//					client.handleMessageFromClientUI(message);
+//				}
+//				if(getOrder==2) {
+//					client.handleMessageFromClientUI("2");
+//				}
+//				//break;
+				client.handleMessageFromClientUI(cmd);
 			}
 			catch (Exception ex) 
 			{
@@ -100,7 +101,7 @@ public class ClientConsole implements ChatIF
 				("Unexpected error while reading from console!");
 			}
 		}
-	}
+//	}
 
 	/**
 	 * This method overrides the method in the ChatIF interface.  It
@@ -121,21 +122,21 @@ public class ClientConsole implements ChatIF
 	 *
 	 * @param args[0] The host to connect to.
 	 */
-	public static void main(String[] args) 
-	{
-		String host = "";
-		int port = 0;  //The port number
-		try
-		{
-			host = args[0];
-		}
-		catch(ArrayIndexOutOfBoundsException e)
-		{
-			host = "localhost";
-		}
-		/*TODO: add code to get user info(user name, user id) and pass it, NOTE: no need to check if info is valid */
-		ClientConsole chat= new ClientConsole(host, DEFAULT_PORT);
-		chat.accept();  //Wait for console data			
-	}
+//	public static void main(String[] args) 
+//	{
+//		String host = "";
+//		int port = 0;  //The port number
+//		try
+//		{
+//			host = args[0];
+//		}
+//		catch(ArrayIndexOutOfBoundsException e)
+//		{
+//			host = "localhost";
+//		}
+//		/*TODO: add code to get user info(user name, user id) and pass it, NOTE: no need to check if info is valid */
+//		ClientConsole chat= new ClientConsole(host, DEFAULT_PORT);
+//		//chat.accept();  //Wait for console data			
+//	}
 }
 //End of ConsoleChat class

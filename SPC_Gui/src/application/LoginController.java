@@ -11,62 +11,50 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 
-public class LoginController
+public class LoginController extends CommonController
 {
-	@FXML // fx:id="SignInButton"
-	private Button SignInButton; // Value injected by FXMLLoader
+	@FXML 
+	private Button SignInButton; 
 	@FXML
 	private Button SignInAsAdminButton;
-
 	@FXML
 	private Button SignUpButton;
-
 	@FXML
 	private Button backButton;
+	
+//	String[] parkingLotsNames; //put in combobox after parser calls getParkingLotsNamesFromServer
 
+	public LoginController(){
+		//Main.cts.send("getAllParkingLots");
+	}
 	@FXML
 	void SignInAction(ActionEvent event) throws IOException
 	{
-		Parent parent = FXMLLoader.load(getClass().getResource("ClientsSystemScene.fxml"));
-		Scene child = new Scene(parent);
-
-		Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
-		window.setScene(child);
-		window.show();
+		super.openScene("ClientsSystemScene.fxml", event);
 	}	
 
 	@FXML
 	void SignInAsAdminAction(ActionEvent event) throws IOException
 	{
-		Parent parent = FXMLLoader.load(getClass().getResource("AdminSystemScene.fxml"));
-		Scene child = new Scene(parent);
-
-		Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
-		window.setScene(child);
-		window.show();
+		super.openScene("AdminSystemScene.fxml", event);
 	}
 
 	@FXML
 	void SignUpAction(ActionEvent event) throws IOException 
 	{
-		Parent parent = FXMLLoader.load(getClass().getResource("SignUpScene.fxml"));
-		Scene child = new Scene(parent);
-
-		Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
-		window.setScene(child);
-		window.show();
+		super.openScene("SignUpScene.fxml", event);
 	}
 
 	@FXML
 	void backAction(ActionEvent event) throws IOException 
 	{
-		Parent parent = FXMLLoader.load(getClass().getResource("CheckInCheckOutScene.fxml"));
-		Scene child = new Scene(parent);
-
-		Stage window = (Stage) (((Node) event.getSource()).getScene().getWindow());
-		window.setScene(child);
-		window.show();
+		super.openScene("CheckInCheckOutScene.fxml", event);
 	}
+	
+//	public void getParkingLotsNamesFromServer(String[] names) {
+//		parkingLotsNames= names;
+//	}
+	
 }
 
 

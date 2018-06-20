@@ -26,7 +26,7 @@
             </VBox>
             <Button fx:id="LogOutButton" mnemonicParsing="false" onAction="#LogOutAction" text="Log Out">
                <HBox.margin>
-                  <Insets left="310.0" top="10.0" />
+                  <Insets left="300.0" top="10.0" />
                </HBox.margin>
             </Button>
          </children>
@@ -127,6 +127,19 @@
                                     </AnchorPane>
                               </content>
                             </Tab>
+                              <Tab text="Add New Parking Lot">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TextField layoutX="14.0" layoutY="85.0" prefHeight="25.0" prefWidth="163.0" promptText="Name" />
+                                          <Label layoutX="14.0" layoutY="51.0" text="Please fill out these fields:" />
+                                          <TextField layoutX="14.0" layoutY="123.0" prefHeight="25.0" prefWidth="163.0" promptText="Number Of Floors" />
+                                          <TextField layoutX="14.0" layoutY="162.0" prefHeight="25.0" prefWidth="163.0" promptText="Number Of Spaces In Floor" />
+                                          <Button layoutX="50.0" layoutY="212.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="91.0" text="Add" />
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </Tab>
                           </tabs>
                            <padding>
                               <Insets left="10.0" />
