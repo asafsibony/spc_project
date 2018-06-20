@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginController">
+   <children>
+      <AnchorPane prefHeight="500.0" prefWidth="1088.0" style="-fx-background-color: #333333;">
+         <children>
+            <ImageView fitHeight="427.0" fitWidth="754.0" layoutY="40.0" opacity="0.32" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@366762.jpg" />
+               </image>
+            </ImageView>
+            <Label layoutX="50.0" layoutY="197.0" text="Welcome to Car Parking System" textFill="#d3c1c1">
+               <font>
+                  <Font size="31.0" />
+               </font>
+            </Label>
+            <Label layoutX="74.0" layoutY="249.0" text="Not a member?" textFill="#d3caca">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Button fx:id="SignUpButton" layoutX="74.0" layoutY="290.0" mnemonicParsing="false" onAction="#SignUpAction" prefHeight="33.0" prefWidth="204.0" style="-fx-background-color: #d3c1c1;" text="Sign Up" />
+            <AnchorPane layoutX="702.0" layoutY="40.0" opacity="0.91" prefHeight="424.0" prefWidth="366.0" style="-fx-background-color: #9c2b27;">
+               <children>
+                  <TextField layoutX="33.0" layoutY="148.0" prefHeight="33.0" prefWidth="288.0" promptText="User Name" />
+                  <Button fx:id="SignInButton" layoutX="33.0" layoutY="306.0" mnemonicParsing="false" onAction="#SignInAction" prefHeight="33.0" prefWidth="288.0" style="-fx-background-color: #d0cccc;" text="Sign In" />
+                  <Label layoutX="144.0" layoutY="54.0" text="Sign In" textFill="#d0cccc">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="SignInAsAdminButton" layoutX="131.0" layoutY="368.0" mnemonicParsing="false" onAction="#SignInAsAdminAction" style="-fx-background-color: #d0cccc;" text="Sign In As Admin" />
+                  <PasswordField layoutX="33.0" layoutY="219.0" prefHeight="33.0" prefWidth="288.0" promptText="Password" />
+               </children>
+            </AnchorPane>
+            <Button fx:id="backButton" layoutX="14.0" layoutY="422.0" mnemonicParsing="false" onAction="#backAction" prefHeight="33.0" prefWidth="73.0" style="-fx-background-color: #d3c1c1;" text="Back " />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

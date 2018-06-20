@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="424.0" prefWidth="366.0" style="-fx-background-color: #9c2b27;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SignUpController">
+   <children>
+      <Label layoutX="144.0" layoutY="54.0" text="Sign Up" textFill="#d0cccc">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Button layoutX="33.0" layoutY="335.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="288.0" style="-fx-background-color: #d0cccc;" text="Sign Up" />
+      <TextField layoutX="33.0" layoutY="148.0" prefHeight="33.0" prefWidth="288.0" promptText="User Name" />
+      <Button fx:id="PreviousButton" layoutX="5.0" layoutY="8.0" mnemonicParsing="false" onAction="#PreviousAction" style="-fx-background-color: #d0cccc;" text="Previous" />
+      <PasswordField layoutX="33.0" layoutY="205.0" prefHeight="33.0" prefWidth="288.0" promptText="Password" />
+      <PasswordField layoutX="33.0" layoutY="260.0" prefHeight="33.0" prefWidth="288.0" promptText="Confirm Password" />
+   </children>
+</AnchorPane>

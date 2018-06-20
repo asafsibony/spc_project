@@ -2,6 +2,8 @@
 
 http://cs.telhai.ac.il/phpmyadmin/
 
+<classpathentry combineaccessrules="false" kind="src" path="/OCSF"/>
+
 TODO:
 
 Client:
