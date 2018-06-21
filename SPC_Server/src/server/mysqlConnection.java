@@ -49,15 +49,17 @@ public class mysqlConnection {
 		}catch(SQLException e) { return "Failure, try other user name.";}
 	}
 	
-	public static String checkIfUserExists(String userName, String password, String clientOrAdmin)
+	public static String checkIfUserExists(String userName, String password, String type)
 	{
-		Statement stmt;
-		Statement stmt2;
-		String str = "";
 		try 
 		{
-			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			PreparedStatement  ps = conn.prepareStatement("SELECT * FROM users WHERE User = ? AND Password = ?;");
+			String query="";
+			conn.createStatement();
+			if(type.equals("client"))
+				query = "SELECT * FROM users WHERE User = ? AND Password = ?;";
+			else if (type.equals("admin"))
+				query = "SELECT * FROM admins WHERE User = ? AND Password = ?;";
+			PreparedStatement  ps = conn.prepareStatement(query);
 			ps.setString(1, userName);
 			ps.setString(2, password);
 			
@@ -73,15 +75,15 @@ public class mysqlConnection {
 				}
 				else
 				{
-					stmt2 = conn.createStatement();
-					PreparedStatement  ps2 = conn.prepareStatement("UPDATE users SET Logged = ? WHERE WHERE User = ? AND Password = ?;");
+					if(type.equals("client"))
+						query = "UPDATE users SET Logged = ? WHERE User = ? AND Password = ?;";
+					else if (type.equals("admin"))
+						query = "UPDATE admins SET Logged = ? WHERE User = ? AND Password = ?;";
+					PreparedStatement  ps2 = conn.prepareStatement(query);
 					ps2.setBoolean(1, true);
 					ps2.setString(2, userName);
 					ps2.setString(3, password);
 					ps2.executeUpdate();
-//					rs.last();
-//					rs.updateBoolean("Logged", true);
-//					rs.updateRow();
 					return "true";
 				}
 			}
@@ -90,6 +92,28 @@ public class mysqlConnection {
 			System.out.println(e.getMessage());
 			return "SQL failure.";}
 	}
+
+	public static String logout(String user, String type) {
+		try {
+			conn.createStatement();
+			String query="";
+			if(type.equals("client"))
+				query = "UPDATE users SET Logged = ? WHERE User = ?;";
+			else if (type.equals("admin"))
+				query = "UPDATE admins SET Logged = ? WHERE User = ?;";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setBoolean(1, false);
+			ps.setString(2, user);
+			int res = ps.executeUpdate();
+			if (res==0)
+				return "Logout: the user: '" + user + "' not found";
+			else
+				return "true";
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return "SQL failure.";}
+	}
+	
 	
 //	public static String showUsers()
 //	{

@@ -10,8 +10,12 @@ public class Login {
 	}
 
 	public String SignInAsAdmin(String user, String pass) {
+		return mysqlConnection.checkIfUserExists(user, pass, "admin");
+	}
+
+	public static String Logout(String user, String Type) {
 		// TODO Auto-generated method stub
-		return null;
+		return mysqlConnection.logout(user, Type);
 	}
 
 }

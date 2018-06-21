@@ -58,7 +58,7 @@ public class ServerMessageParser
 			String cost = args[2];
 
 			CheckInCheckOut checkInCheckOut = new CheckInCheckOut();
-			client.sendToClient("payCheckOut" + checkInCheckOut.payCheckOut(id, cost));
+			client.sendToClient("payCheckOut " + checkInCheckOut.payCheckOut(id, cost));
 		}
 
 		else if(args[0].equals("leaveParkingLot"))
@@ -67,7 +67,7 @@ public class ServerMessageParser
 			String carId = args[2];
 
 			CheckInCheckOut checkInCheckOut = new CheckInCheckOut();
-			client.sendToClient("leaveParkingLot" + checkInCheckOut.removeCarFromDB(id, carId));
+			client.sendToClient("leaveParkingLot " + checkInCheckOut.removeCarFromDB(id, carId));
 		}
 
 		/* Client System */
@@ -84,7 +84,7 @@ public class ServerMessageParser
 			ClientSystem clientSystem = new ClientSystem();
 			if(clientSystem.addInAdvanceParkingToDB(id, carId, arrivalDate, arrivalHour, depDate, depHour, parkingLot).equals("succeeded"))
 			{
-				client.sendToClient("submitInAdvanceParking" + clientSystem.CalcInAdvanceParkingCost(arrivalDate, arrivalHour, depDate, depHour));
+				client.sendToClient("submitInAdvanceParking " + clientSystem.CalcInAdvanceParkingCost(arrivalDate, arrivalHour, depDate, depHour));
 			}			
 		}
 
@@ -102,7 +102,7 @@ public class ServerMessageParser
 			if(clientSystem.addSubscriptionToDB(id, carsId, date, regOrbuis).equals("succeeded"))
 			{
 				int cost = numberOfCars*74;
-				client.sendToClient("submitSubscription" + String.valueOf(cost));						
+				client.sendToClient("submitSubscription " + String.valueOf(cost));						
 			}
 		}
 
@@ -114,7 +114,7 @@ public class ServerMessageParser
 			String hour = args[4];
 
 			ClientSystem clientSystem = new ClientSystem();
-			client.sendToClient("cancelOrder" + clientSystem.cancelOrder(id, carId, date, hour));
+			client.sendToClient("cancelOrder " + clientSystem.cancelOrder(id, carId, date, hour));
 		}
 
 		else if(args[0].equals("viewOrder"))
@@ -123,7 +123,7 @@ public class ServerMessageParser
 			String carId = args[2];
 
 			ClientSystem clientSystem = new ClientSystem();
-			client.sendToClient("viewOrder" + clientSystem.cancelOrder(id, carId));
+			client.sendToClient("viewOrder " + clientSystem.cancelOrder(id, carId));
 		}
 
 		else if(args[0].equals("complaint"))
@@ -131,7 +131,7 @@ public class ServerMessageParser
 			String id = args[1];
 
 			ClientSystem clientSystem = new ClientSystem();
-			client.sendToClient("complaint" + clientSystem.complaint(id));
+			client.sendToClient("complaint " + clientSystem.complaint(id));
 		}
 
 		/* Admin System */
@@ -141,7 +141,7 @@ public class ServerMessageParser
 			String spot = args[2];
 
 			AdminSystem adminSystem = new AdminSystem();
-			client.sendToClient("registerDefectSpot" + adminSystem.registerDefectSpot(parkingLot, spot));
+			client.sendToClient("registerDefectSpot " + adminSystem.registerDefectSpot(parkingLot, spot));
 		}
 
 		else if(args[0].equals("preserveSpot"))
@@ -150,7 +150,7 @@ public class ServerMessageParser
 			String spot = args[2];
 
 			AdminSystem adminSystem = new AdminSystem();
-			client.sendToClient("preserveSpot" + adminSystem.preserveSpot(parkingLot, spot));
+			client.sendToClient("preserveSpot " + adminSystem.preserveSpot(parkingLot, spot));
 		}
 
 		else if(args[0].equals("submitUpdatePrices"))
@@ -160,7 +160,7 @@ public class ServerMessageParser
 			String sub = args[3];
 
 			AdminSystem adminSystem = new AdminSystem();
-			client.sendToClient("submitUpdatePrices" + adminSystem.updatePrices(local, inAdv, sub));
+			client.sendToClient("submitUpdatePrices " + adminSystem.updatePrices(local, inAdv, sub));
 		}
 
 		else if(args[0].equals("produceSnapShot"))
@@ -169,13 +169,13 @@ public class ServerMessageParser
 			String spot = args[2];
 
 			AdminSystem adminSystem = new AdminSystem();
-			client.sendToClient("produceSnapShot" + adminSystem.produceSnapShot(parkingLot, spot));
+			client.sendToClient("produceSnapShot " + adminSystem.produceSnapShot(parkingLot, spot));
 		}
 
 		else if(args[0].equals("producePerformanceReport"))
 		{
 			AdminSystem adminSystem = new AdminSystem();
-			client.sendToClient("producePerformanceReport" + adminSystem.producePerformanceReport());
+			client.sendToClient("producePerformanceReport " + adminSystem.producePerformanceReport());
 		}
 
 		else if(args[0].equals("addNewParkingLot"))
@@ -185,9 +185,15 @@ public class ServerMessageParser
 			String spaces = args[3];
 
 			AdminSystem adminSystem = new AdminSystem();
-			client.sendToClient("addNewParkingLot" + adminSystem.addNewParkingLotToDB(name, floors, spaces));
+			client.sendToClient("addNewParkingLot " + adminSystem.addNewParkingLotToDB(name, floors, spaces));
 		}
-
+		else if(args[0].equals("logout"))
+		{
+			String name = args[1];
+			String type = args[2];
+			Login login = new Login();
+			client.sendToClient("logout " + Login.Logout(name, type));
+		}
 		else
 		{
 			System.out.println("Command sent from client not found: "+msg);
