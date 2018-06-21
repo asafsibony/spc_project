@@ -17,7 +17,7 @@ public class ServerMessageParser
 	{
 		String[] args =  msg.split("\\s+");
 		
-		if(args[0].equals("signUp")) 
+		if(args[0].equals("signUp")) 	//Done
 		{
 			String user= args[1];
 			String pass= args[2];
@@ -25,7 +25,7 @@ public class ServerMessageParser
 			client.sendToClient("signUp "+signUp.signUpToDB(user, pass));
 		}
 
-		else if(args[0].equals("SignIn"))
+		else if(args[0].equals("SignIn")) 	//Done
 		{
 			String user= args[1];
 			String pass= args[2];
@@ -33,7 +33,7 @@ public class ServerMessageParser
 			client.sendToClient("SignIn " + login.SignIn(user, pass));
 		}
 
-		else if(args[0].equals("SignInAsAdmin"))
+		else if(args[0].equals("SignInAsAdmin")) 	//Done
 		{
 			String user= args[1];
 			String pass= args[2];
@@ -187,7 +187,7 @@ public class ServerMessageParser
 			AdminSystem adminSystem = new AdminSystem();
 			client.sendToClient("addNewParkingLot " + adminSystem.addNewParkingLotToDB(name, floors, spaces));
 		}
-		else if(args[0].equals("logout"))
+		else if(args[0].equals("logout")) 	//Done
 		{
 			String name = args[1];
 			String type = args[2];

@@ -184,6 +184,9 @@ public class AdminSystemController extends CommonController
     @FXML
     void LogOutAction(ActionEvent event) throws IOException 
     {
+    	if(!Main.userName.equals("")) {
+    		Main.cts.send("logout " + Main.userName + " admin");
+    	}
     	super.openScene("LoginScene.fxml", event);
     }
 }

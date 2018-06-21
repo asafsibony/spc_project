@@ -18,6 +18,7 @@ public class Main extends Application {
 
 
 	static ConnectToServer cts;
+	static public String userName="";
 	
 	public static void main(String[] args) 
 	{

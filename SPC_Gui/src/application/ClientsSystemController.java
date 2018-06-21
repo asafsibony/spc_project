@@ -331,6 +331,9 @@ public class ClientsSystemController extends CommonController
 	@FXML
 	void LogOutAction(ActionEvent event) throws IOException
 	{
+		if(!Main.userName.equals("")) {
+    		Main.cts.send("logout " + Main.userName + " client");
+    	}
 		super.openScene("LoginScene.fxml", event);
 	}
 

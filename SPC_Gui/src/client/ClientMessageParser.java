@@ -119,7 +119,10 @@ public class ClientMessageParser {
 		{
 			handleAddNewParkingLotParse(args);
 		}
-		
+		else if(args[0].equals("logout"))
+		{
+			handleLogout(args);
+		}
 		else 
 		{
 			System.out.println("Command sent from server not found: "+msg);
@@ -132,103 +135,103 @@ public class ClientMessageParser {
 	private void handleAddNewParkingLotParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
-		
+		System.out.println(statusFromServer);
 	}
 
 	private void handleProducePerformanceReportParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handleProduceSnapShotParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handleUpdatePricesParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handlePreserveSpotParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handleRegisterDefectSpotParse(String[] args) 
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handleComplaintParse(String[] args) 
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handleViewOrderParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handleCancelOrderParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handlePaySubscriptionParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handleSubmitSubscriptionParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handleSubmitInAdvanceParkingParse(String[] args) 
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handlePayInAdvanceParkingParse(String[] args) 
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handleLeaveParkingLotParse(String[] args) 
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handlePayCheckOutParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handleSubmitCheckInParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handleSignInAsAdminParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
-
+		System.out.println(statusFromServer);
 	}
 
 	private void handleSignInParse(String[] args)
@@ -245,6 +248,12 @@ public class ClientMessageParser {
 		
 	}
 	
+	private void handleLogout(String[] args)
+	{
+		String statusFromServer = parseMessage(args);
+		System.out.println(statusFromServer);
+		
+	}
 	private String parseMessage(String[] args)
 	{
 		int argsLength = args.length;

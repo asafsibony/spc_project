@@ -42,6 +42,7 @@ public class LoginController extends CommonController
 		
 		if(super.validateInputNotNull(new String[] {user, pass}))
 		{
+			Main.userName = user;
 			String cmd = "SignIn " + user + " " + pass;
 			Main.cts.send(cmd);
 		}
@@ -63,6 +64,7 @@ public class LoginController extends CommonController
 		
 		if(super.validateInputNotNull(new String[] {user, pass}))
 		{
+			Main.userName = user;
 			String cmd = "SignInAsAdmin " + user + " " + pass;
 			Main.cts.send(cmd);
 		}
