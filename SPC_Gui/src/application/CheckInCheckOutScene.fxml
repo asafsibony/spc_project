@@ -28,12 +28,13 @@
                   <Label layoutX="31.0" layoutY="377.0" text="Parking cost will be calculated when exiting the parking lot." />
                   <Button fx:id="submitCheckInButton" layoutX="31.0" layoutY="332.0" mnemonicParsing="false" onAction="#submitCheckInAction" prefHeight="33.0" prefWidth="266.0" text="Submit" />
                   <Label layoutX="24.0" layoutY="67.0" text="Please fill out these fields:" />
-                  <TextField fx:id="emailCheckInText" layoutX="31.0" layoutY="277.0" prefHeight="33.0" prefWidth="266.0" promptText="Email" />
-                  <TextField fx:id="depCheckInText" layoutX="31.0" layoutY="232.0" prefHeight="33.0" prefWidth="266.0" promptText="Approximated Departure" />
-                  <TextField fx:id="carIdCheckInText" layoutX="31.0" layoutY="187.0" prefHeight="33.0" prefWidth="266.0" promptText="Car ID" />
-                  <TextField fx:id="checkInIdText" layoutX="31.0" layoutY="144.0" prefHeight="33.0" prefWidth="266.0" promptText="ID" />
+                  <TextField fx:id="emailCheckInText" layoutX="31.0" layoutY="289.0" prefHeight="33.0" prefWidth="266.0" promptText="Email" />
+                  <TextField fx:id="depCheckInText" layoutX="31.0" layoutY="244.0" prefHeight="33.0" prefWidth="266.0" promptText="Approximated Departure" />
+                  <TextField fx:id="carIdCheckInText" layoutX="31.0" layoutY="199.0" prefHeight="33.0" prefWidth="266.0" promptText="Car ID" />
+                  <TextField fx:id="checkInIdText" layoutX="31.0" layoutY="156.0" prefHeight="33.0" prefWidth="266.0" promptText="ID" />
                   <Separator layoutY="83.0" prefWidth="200.0" />
-                  <ComboBox layoutX="31.0" layoutY="104.0" prefWidth="150.0" promptText="Choose Parking Lot" />
+                  <ComboBox fx:id="parkingLotComboBox" layoutX="31.0" layoutY="121.0" prefHeight="25.0" prefWidth="179.0" promptText="Choose Parking Lot" />
+                  <ComboBox fx:id="CheckInTypeComboBox" layoutX="30.0" layoutY="89.0" prefHeight="25.0" prefWidth="179.0" promptText="Choose Check-In type" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
