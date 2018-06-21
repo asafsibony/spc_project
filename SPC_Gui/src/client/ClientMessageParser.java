@@ -18,7 +18,6 @@ public class ClientMessageParser {
 			String statusFromServer= args[1];
 			System.out.println(statusFromServer);
 			//Show dialog to user with 'statusFromServer' string.
-			
 		}
 		
 		

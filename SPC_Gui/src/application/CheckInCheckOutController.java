@@ -47,10 +47,10 @@ public class CheckInCheckOutController extends CommonController
 	@FXML
 	void submitCheckInAction(ActionEvent event) 
 	{
-		String id = checkInIdText.getText();
-		
-		String cmd="submitCheckIn "+id;
-		Main.cts.send(cmd);
+//		String id = checkInIdText.getText();
+//		
+//		String cmd="submitCheckIn "+id;
+//		Main.cts.send(cmd);
 	}
 
 }
