@@ -32,7 +32,7 @@ public class mysqlConnection {
      	    }
 	}
 
-	public static void addUser(String user, String password)
+	public static String addUser(String user, String password)
 	{
 		Statement stmt;
 		try {
@@ -43,33 +43,34 @@ public class mysqlConnection {
 			uprs.updateString("Password", password);
 			uprs.insertRow();
 			uprs.moveToCurrentRow();  
-		}catch(SQLException e) { /* ignored */}
+			return "User added Successfuly";
+		}catch(SQLException e) { return "Failure, try other user name.";}
 	}
 	
-	public static String showUsers()
-	{
-		Statement stmt;
-		String str = "";
-		try 
-		{
-			stmt = conn.createStatement();
-			PreparedStatement  ps = conn.prepareStatement("SELECT * FROM users;");
-			ResultSet rs = ps.executeQuery();
-	 		while(rs.next())
-	 		{
-	 			str+=(rs.getString(1)+'\n');
-	 		} 
-	 	    if (rs != null) {
-	 	        try {
-	 	            rs.close();
-	 	        } catch (SQLException e) { /* ignored */}
-	 	    }
-	 	    if (stmt != null) {
-	 	        try {
-	 	            stmt.close();
-	 	        } catch (SQLException e) { /* ignored */}
-	 	    }
-		} catch (SQLException e) {e.printStackTrace();}
-		return str;
-	}
+//	public static String showUsers()
+//	{
+//		Statement stmt;
+//		String str = "";
+//		try 
+//		{
+//			stmt = conn.createStatement();
+//			PreparedStatement  ps = conn.prepareStatement("SELECT * FROM users;");
+//			ResultSet rs = ps.executeQuery();
+//	 		while(rs.next())
+//	 		{
+//	 			str+=(rs.getString(1)+'\n');
+//	 		} 
+//	 	    if (rs != null) {
+//	 	        try {
+//	 	            rs.close();
+//	 	        } catch (SQLException e) { /* ignored */}
+//	 	    }
+//	 	    if (stmt != null) {
+//	 	        try {
+//	 	            stmt.close();
+//	 	        } catch (SQLException e) { /* ignored */}
+//	 	    }
+//		} catch (SQLException e) {e.printStackTrace();}
+//		return str;
+//	}
 }

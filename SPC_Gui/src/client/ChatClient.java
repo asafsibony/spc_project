@@ -8,6 +8,7 @@ package client;
 import java.io.*;
 
 import ocsf.client.AbstractClient;
+import client.ClientMessageParser;
 
 /**
  * This class overrides some of the methods defined in the abstract
@@ -27,7 +28,7 @@ public class ChatClient extends AbstractClient
    * the display method in the client.
    */
   ChatIF clientUI; 
-
+  ClientMessageParser parser;
   
   //Constructors ****************************************************
   
@@ -43,6 +44,7 @@ public class ChatClient extends AbstractClient
     throws IOException 
   {
     super(host, port); //Call the superclass constructor
+    this.parser = new ClientMessageParser();
     this.clientUI = clientUI;
     openConnection();
   }
@@ -57,7 +59,8 @@ public class ChatClient extends AbstractClient
    */
   public void handleMessageFromServer(Object msg) 
   {
-    clientUI.display(msg.toString());
+    //clientUI.display(msg.toString());
+	  parser.parse(msg.toString());
   }
 
   /**

@@ -13,10 +13,9 @@
             <Font size="25.0" />
          </font>
       </Label>
-      <Button layoutX="33.0" layoutY="335.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="288.0" style="-fx-background-color: #d0cccc;" text="Sign Up" />
-      <TextField layoutX="33.0" layoutY="148.0" prefHeight="33.0" prefWidth="288.0" promptText="User Name" />
+      <Button layoutX="33.0" layoutY="335.0" mnemonicParsing="false" onAction="#signUpAction" prefHeight="33.0" prefWidth="288.0" style="-fx-background-color: #d0cccc;" text="Sign Up" />
+      <TextField fx:id="userText" layoutX="33.0" layoutY="148.0" prefHeight="33.0" prefWidth="288.0" promptText="User Name" />
       <Button fx:id="PreviousButton" layoutX="5.0" layoutY="8.0" mnemonicParsing="false" onAction="#PreviousAction" style="-fx-background-color: #d0cccc;" text="Previous" />
-      <PasswordField layoutX="33.0" layoutY="205.0" prefHeight="33.0" prefWidth="288.0" promptText="Password" />
-      <PasswordField layoutX="33.0" layoutY="260.0" prefHeight="33.0" prefWidth="288.0" promptText="Confirm Password" />
+      <PasswordField fx:id="passText" layoutX="33.0" layoutY="205.0" prefHeight="33.0" prefWidth="288.0" promptText="Password" />
    </children>
 </AnchorPane>

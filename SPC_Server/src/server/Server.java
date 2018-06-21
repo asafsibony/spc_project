@@ -9,19 +9,24 @@ import ocsf.server.ConnectionToClient;
 
 public class Server extends AbstractServer 
 {
-	ClientMessageParser parser;
+	ServerMessageParser parser;
 	
 	public Server(int port) 
 	{
 		super(port);
-		parser = new ClientMessageParser();
+		parser = new ServerMessageParser();
 	}
 
 	public void handleMessageFromClient
 	(Object msg, ConnectionToClient client)
 	{
 		System.out.println("Message received: " + msg + " from " + client);
-		parser.parse(msg.toString(), client);
+		try {
+			parser.parse(msg.toString(), client);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// TODO check choice
 //		String[] str =  msg.toString().split("\\s+");
 //		int id = Integer.parseInt(str[0]);

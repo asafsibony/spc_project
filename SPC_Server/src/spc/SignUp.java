@@ -1,13 +1,14 @@
 package spc;
 
+import server.mysqlConnection;
+
 public class SignUp {
 
-	String user;
-	String pass;
+	public SignUp() {
+		//System.out.println(user+" "+pass);
+	}
 	
-	public SignUp(String user, String pass) {
-		this.user = user;
-		this.pass = pass;
-		System.out.println(user+" "+pass);
+	public String signUpToDB(String user, String pass){
+		return mysqlConnection.addUser(user, pass);
 	}
 }
