@@ -100,9 +100,9 @@ public class ClientMessageParser {
 			handlePreserveSpotParse(args);
 		}
 		
-		if(args[0].equals("getPermissionForUpdatePrices"))
+		if(args[0].equals("submitUpdatePrices"))
 		{
-			handleGetPermissionForUpdatePricesParse(args);
+			handleUpdatePricesParse(args);
 		}
 		
 		if(args[0].equals("produceSnapShot"))
@@ -115,7 +115,7 @@ public class ClientMessageParser {
 			handleProducePerformanceReportParse(args);
 		}
 		
-		if(args[0].equals("addNewParkingLot "))
+		if(args[0].equals("addNewParkingLot"))
 		{
 			handleAddNewParkingLotParse(args);
 		}
@@ -147,7 +147,7 @@ public class ClientMessageParser {
 
 	}
 
-	private void handleGetPermissionForUpdatePricesParse(String[] args)
+	private void handleUpdatePricesParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
 
