@@ -27,95 +27,95 @@ public class ClientMessageParser {
 		}
 		
 		/* Sign In */
-		if(args[0].equals("SignIn"))
+		else if(args[0].equals("SignIn"))
 		{
 			handleSignInParse(args);
 		}
 		
-		if(args[0].equals("SignInAsAdmin"))
+		else if(args[0].equals("SignInAsAdmin"))
 		{
 			handleSignInAsAdminParse(args);
 		}
 		
 		/* Check In and Check Out */
-		if(args[0].equals("submitCheckIn"))
+		else if(args[0].equals("submitCheckIn"))
 		{
 			handleSubmitCheckInParse(args);
 		}
 		
-		if(args[0].equals("payCheckOut"))
+		else if(args[0].equals("payCheckOut"))
 		{
 			handlePayCheckOutParse(args);
 		}
 		
-		if(args[0].equals("leaveParkingLot"))
+		else if(args[0].equals("leaveParkingLot"))
 		{
 			handleLeaveParkingLotParse(args);
 		}
 		
 		/* Client System */
-		if(args[0].equals("submitInAdvanceParking"))
+		else if(args[0].equals("submitInAdvanceParking"))
 		{
 			handleSubmitInAdvanceParkingParse(args);
 		}
 		
-		if(args[0].equals("payInAdvanceParking"))
+		else if(args[0].equals("payInAdvanceParking"))
 		{
 			handlePayInAdvanceParkingParse(args);
 		}
 		
-		if(args[0].equals("submitSubscription"))
+		else if(args[0].equals("submitSubscription"))
 		{
 			handleSubmitSubscriptionParse(args);
 		}
 		
-		if(args[0].equals("paySubscription"))
+		else if(args[0].equals("paySubscription"))
 		{
 			handlePaySubscriptionParse(args);
 		}
 		
-		if(args[0].equals("cancelOrder"))
+		else if(args[0].equals("cancelOrder"))
 		{
 			handleCancelOrderParse(args);
 		}
 		
-		if(args[0].equals("viewOrder"))
+		else if(args[0].equals("viewOrder"))
 		{
 			handleViewOrderParse(args);
 		}
 		
-		if(args[0].equals("complaint"))
+		else if(args[0].equals("complaint"))
 		{
 			handleComplaintParse(args);
 		}
 		
 		/* Admin System */
-		if(args[0].equals("registerDefectSpot"))
+		else if(args[0].equals("registerDefectSpot"))
 		{
 			handleRegisterDefectSpotParse(args);
 		}
 		
-		if(args[0].equals("preserveSpot"))
+		else if(args[0].equals("preserveSpot"))
 		{
 			handlePreserveSpotParse(args);
 		}
 		
-		if(args[0].equals("submitUpdatePrices"))
+		else if(args[0].equals("submitUpdatePrices"))
 		{
 			handleUpdatePricesParse(args);
 		}
 		
-		if(args[0].equals("produceSnapShot"))
+		else if(args[0].equals("produceSnapShot"))
 		{
 			handleProduceSnapShotParse(args);
 		}
 		
-		if(args[0].equals("producePerformanceReport"))
+		else if(args[0].equals("producePerformanceReport"))
 		{
 			handleProducePerformanceReportParse(args);
 		}
 		
-		if(args[0].equals("addNewParkingLot"))
+		else if(args[0].equals("addNewParkingLot"))
 		{
 			handleAddNewParkingLotParse(args);
 		}
@@ -234,6 +234,7 @@ public class ClientMessageParser {
 	private void handleSignInParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
+		System.out.println(statusFromServer);
 
 	}
 

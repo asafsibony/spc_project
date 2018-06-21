@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.management.Query;
+
 
 public class mysqlConnection {
 	public static Connection conn;
@@ -45,6 +47,48 @@ public class mysqlConnection {
 			uprs.moveToCurrentRow();  
 			return "User added Successfuly";
 		}catch(SQLException e) { return "Failure, try other user name.";}
+	}
+	
+	public static String checkIfUserExists(String userName, String password, String clientOrAdmin)
+	{
+		Statement stmt;
+		Statement stmt2;
+		String str = "";
+		try 
+		{
+			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			PreparedStatement  ps = conn.prepareStatement("SELECT * FROM users WHERE User = ? AND Password = ?;");
+			ps.setString(1, userName);
+			ps.setString(2, password);
+			
+			ResultSet rs = ps.executeQuery();
+			if(!rs.next())
+			{
+				return "User not found";
+			}
+			else
+			{
+				if(rs.getBoolean("Logged") == true) {
+					return "User already logged in";
+				}
+				else
+				{
+					stmt2 = conn.createStatement();
+					PreparedStatement  ps2 = conn.prepareStatement("UPDATE users SET Logged = ? WHERE WHERE User = ? AND Password = ?;");
+					ps2.setBoolean(1, true);
+					ps2.setString(2, userName);
+					ps2.setString(3, password);
+					ps2.executeUpdate();
+//					rs.last();
+//					rs.updateBoolean("Logged", true);
+//					rs.updateRow();
+					return "true";
+				}
+			}
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage());
+			return "SQL failure.";}
 	}
 	
 //	public static String showUsers()

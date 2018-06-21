@@ -25,7 +25,7 @@ public class ServerMessageParser
 			client.sendToClient("signUp "+signUp.signUpToDB(user, pass));
 		}
 
-		if(args[0].equals("SignIn"))
+		else if(args[0].equals("SignIn"))
 		{
 			String user= args[1];
 			String pass= args[2];
@@ -33,7 +33,7 @@ public class ServerMessageParser
 			client.sendToClient("SignIn " + login.SignIn(user, pass));
 		}
 
-		if(args[0].equals("SignInAsAdmin"))
+		else if(args[0].equals("SignInAsAdmin"))
 		{
 			String user= args[1];
 			String pass= args[2];
@@ -41,7 +41,7 @@ public class ServerMessageParser
 			client.sendToClient("SignInAsAdmin " + login.SignInAsAdmin(user, pass));
 		}
 
-		if(args[0].equals("submitCheckIn"))
+		else if(args[0].equals("submitCheckIn"))
 		{
 			String id = args[1];
 			String carId = args[2];
@@ -52,7 +52,7 @@ public class ServerMessageParser
 			client.sendToClient("submitCheckIn " + checkInCheckOut.CheckInCarToDB(id, carId, dep, email));
 		}
 
-		if(args[0].equals("payCheckOut"))
+		else if(args[0].equals("payCheckOut"))
 		{
 			String id = args[1];
 			String cost = args[2];
@@ -61,7 +61,7 @@ public class ServerMessageParser
 			client.sendToClient("payCheckOut" + checkInCheckOut.payCheckOut(id, cost));
 		}
 
-		if(args[0].equals("leaveParkingLot"))
+		else if(args[0].equals("leaveParkingLot"))
 		{
 			String id = args[1];
 			String carId = args[2];
@@ -71,7 +71,7 @@ public class ServerMessageParser
 		}
 
 		/* Client System */
-		if(args[0].equals("submitInAdvanceParking"))
+		else if(args[0].equals("submitInAdvanceParking"))
 		{
 			String id = args[1];
 			String carId = args[2];
@@ -88,7 +88,7 @@ public class ServerMessageParser
 			}			
 		}
 
-		if(args[0].equals("submitSubscription"))
+		else if(args[0].equals("submitSubscription"))
 		{
 			String id = args[1];
 			String carsId = args[2]; //need to parse cars id if there is more than one car (business)
@@ -106,7 +106,7 @@ public class ServerMessageParser
 			}
 		}
 
-		if(args[0].equals("cancelOrder"))
+		else if(args[0].equals("cancelOrder"))
 		{
 			String id = args[1];
 			String carId = args[2];
@@ -117,7 +117,7 @@ public class ServerMessageParser
 			client.sendToClient("cancelOrder" + clientSystem.cancelOrder(id, carId, date, hour));
 		}
 
-		if(args[0].equals("viewOrder"))
+		else if(args[0].equals("viewOrder"))
 		{
 			String id = args[1];
 			String carId = args[2];
@@ -126,7 +126,7 @@ public class ServerMessageParser
 			client.sendToClient("viewOrder" + clientSystem.cancelOrder(id, carId));
 		}
 
-		if(args[0].equals("complaint"))
+		else if(args[0].equals("complaint"))
 		{
 			String id = args[1];
 
@@ -135,7 +135,7 @@ public class ServerMessageParser
 		}
 
 		/* Admin System */
-		if(args[0].equals("registerDefectSpot"))
+		else if(args[0].equals("registerDefectSpot"))
 		{
 			String parkingLot = args[1];
 			String spot = args[2];
@@ -144,7 +144,7 @@ public class ServerMessageParser
 			client.sendToClient("registerDefectSpot" + adminSystem.registerDefectSpot(parkingLot, spot));
 		}
 
-		if(args[0].equals("preserveSpot"))
+		else if(args[0].equals("preserveSpot"))
 		{
 			String parkingLot = args[1];
 			String spot = args[2];
@@ -153,7 +153,7 @@ public class ServerMessageParser
 			client.sendToClient("preserveSpot" + adminSystem.preserveSpot(parkingLot, spot));
 		}
 
-		if(args[0].equals("submitUpdatePrices"))
+		else if(args[0].equals("submitUpdatePrices"))
 		{
 			String local = args[1];
 			String inAdv = args[2];
@@ -163,7 +163,7 @@ public class ServerMessageParser
 			client.sendToClient("submitUpdatePrices" + adminSystem.updatePrices(local, inAdv, sub));
 		}
 
-		if(args[0].equals("produceSnapShot"))
+		else if(args[0].equals("produceSnapShot"))
 		{
 			String parkingLot = args[1];
 			String spot = args[2];
@@ -172,13 +172,13 @@ public class ServerMessageParser
 			client.sendToClient("produceSnapShot" + adminSystem.produceSnapShot(parkingLot, spot));
 		}
 
-		if(args[0].equals("producePerformanceReport"))
+		else if(args[0].equals("producePerformanceReport"))
 		{
 			AdminSystem adminSystem = new AdminSystem();
 			client.sendToClient("producePerformanceReport" + adminSystem.producePerformanceReport());
 		}
 
-		if(args[0].equals("addNewParkingLot"))
+		else if(args[0].equals("addNewParkingLot"))
 		{
 			String name = args[1];
 			String floors = args[2];
