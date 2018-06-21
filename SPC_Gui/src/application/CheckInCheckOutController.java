@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -21,6 +22,9 @@ public class CheckInCheckOutController extends CommonController
 	private TextField carIdCheckInText;
 
 	@FXML
+	private Button leaveCheckOutButton;
+
+	@FXML
 	private Button submitCheckInButton;
 
 	@FXML
@@ -30,14 +34,21 @@ public class CheckInCheckOutController extends CommonController
 	private TextField emailCheckInText;
 
 	@FXML
+	private TextField idCheckOutText;
+
+	@FXML
 	private TextField depCheckInText;
 
 	@FXML
-	private Button leaveCheckOutButton;
+	private TextField carIdCheckOutText;
 
 	@FXML
 	private Button payCheckOutButton;
-	
+
+	@FXML
+	private TextField costCheckOutText;
+
+
 	@FXML
 	void SignInAction(ActionEvent event) throws IOException
 	{
@@ -47,10 +58,56 @@ public class CheckInCheckOutController extends CommonController
 	@FXML
 	void submitCheckInAction(ActionEvent event) 
 	{
-//		String id = checkInIdText.getText();
-//		
-//		String cmd="submitCheckIn "+id;
-//		Main.cts.send(cmd);
+		String id = checkInIdText.getText();
+		String carId = carIdCheckInText.getText();
+		String dep = depCheckInText.getText();
+		String email = emailCheckInText.getText();
+
+		if(super.validateInputNotNull(new String[] {id, carId, dep, email}))
+		{			
+			String cmd = "submitCheckIn " + id + " " + carId + " " + dep + " " + email;
+			Main.cts.send(cmd);
+		}
+
+    	else
+    	{
+    		super.displayNotAllFieldsFullError();
+    	}
 	}
 
+	@FXML
+	void payAction(ActionEvent event) 
+	{
+		String id = checkInIdText.getText();
+		String cost = costCheckOutText.getText();
+
+		if(super.validateInputNotNull(new String[] {id, cost}))
+		{			
+			String cmd = "payCheckOut " + id + " " + cost;
+			Main.cts.send(cmd);
+		}
+		
+    	else
+    	{
+    		super.displayNotAllFieldsFullError();
+    	}
+	}
+
+	@FXML
+	void leaveAction(ActionEvent event) 
+	{
+		String id = checkInIdText.getText();
+		String carId = carIdCheckInText.getText();
+
+		if(super.validateInputNotNull(new String[] {id, carId}))
+		{			
+			String cmd = "leaveParkingLot " + id + " " + carId;
+			Main.cts.send(cmd);
+		}
+		
+    	else
+    	{
+    		super.displayNotAllFieldsFullError();
+    	}
+	}
 }

@@ -1,10 +1,9 @@
 package server;
 
 public class Main {
-
 	static mysqlConnection m;
 	final public static int DEFAULT_PORT = 5555;
-	
+
 	public static void main(String[] args) {
 		int port = 0;
 		m = new mysqlConnection();

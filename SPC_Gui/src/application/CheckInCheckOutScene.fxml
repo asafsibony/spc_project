@@ -28,7 +28,7 @@
                   <Label layoutX="31.0" layoutY="377.0" text="Parking cost will be calculated when exiting the parking lot." />
                   <Button fx:id="submitCheckInButton" layoutX="31.0" layoutY="332.0" mnemonicParsing="false" onAction="#submitCheckInAction" prefHeight="33.0" prefWidth="266.0" text="Submit" />
                   <Label layoutX="24.0" layoutY="67.0" text="Please fill out these fields:" />
-                  <TextField fx:id="emailCheckInText" layoutX="31.0" layoutY="277.0" prefHeight="33.0" prefWidth="266.0" promptText="Enail" />
+                  <TextField fx:id="emailCheckInText" layoutX="31.0" layoutY="277.0" prefHeight="33.0" prefWidth="266.0" promptText="Email" />
                   <TextField fx:id="depCheckInText" layoutX="31.0" layoutY="232.0" prefHeight="33.0" prefWidth="266.0" promptText="Approximated Departure" />
                   <TextField fx:id="carIdCheckInText" layoutX="31.0" layoutY="187.0" prefHeight="33.0" prefWidth="266.0" promptText="Car ID" />
                   <TextField fx:id="checkInIdText" layoutX="31.0" layoutY="144.0" prefHeight="33.0" prefWidth="266.0" promptText="ID" />
@@ -38,7 +38,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TextField layoutX="41.0" layoutY="144.0" prefHeight="33.0" prefWidth="266.0" promptText="ID" />
+                  <TextField fx:id="idCheckOutText" layoutX="41.0" layoutY="144.0" prefHeight="33.0" prefWidth="266.0" promptText="ID" />
                   <Label layoutX="82.0" layoutY="-2.0" text="Check Out Car">
                      <font>
                         <Font size="25.0" />
@@ -47,11 +47,11 @@
                         <Insets top="5.0" />
                      </padding>
                   </Label>
-                  <TextField layoutX="41.0" layoutY="187.0" prefHeight="33.0" prefWidth="266.0" promptText="Car ID" />
+                  <TextField fx:id="carIdCheckOutText" layoutX="41.0" layoutY="187.0" prefHeight="33.0" prefWidth="266.0" promptText="Car ID" />
                   <Label layoutX="34.0" layoutY="67.0" text="Please fill out these fields:" />
-                  <TextField layoutX="41.0" layoutY="273.0" prefHeight="33.0" prefWidth="266.0" promptText="Cost" />
-                  <Button fx:id="payCheckOutButton" layoutX="49.0" layoutY="331.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="106.0" text="Pay" />
-                  <Button fx:id="leaveCheckOutButton" layoutX="182.0" layoutY="331.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="119.0" text="Leave Parking Lot" />
+                  <TextField fx:id="costCheckOutText" layoutX="41.0" layoutY="273.0" prefHeight="33.0" prefWidth="266.0" promptText="Cost" />
+                  <Button fx:id="payCheckOutButton" layoutX="49.0" layoutY="331.0" mnemonicParsing="false" onAction="#payAction" prefHeight="33.0" prefWidth="106.0" text="Pay" />
+                  <Button fx:id="leaveCheckOutButton" layoutX="182.0" layoutY="331.0" mnemonicParsing="false" onAction="#leaveAction" prefHeight="33.0" prefWidth="119.0" text="Leave Parking Lot" />
                   <Separator layoutX="1.0" layoutY="83.0" prefWidth="200.0" />
                </children>
             </AnchorPane>

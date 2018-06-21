@@ -43,10 +43,10 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <ComboBox layoutX="10.0" layoutY="77.0" promptText="Choose Parking Lot" />
+                                    <ComboBox fx:id="parkingLotDefectComboBox" layoutX="10.0" layoutY="77.0" promptText="Choose Parking Lot" />
                                     <Label layoutX="14.0" layoutY="51.0" text="Please fill out these fields:" />
-                                    <TextField layoutX="11.0" layoutY="122.0" promptText="Parking Spot Index" />
-                                    <Button layoutX="11.0" layoutY="172.0" mnemonicParsing="false" text="Report This Spot As Defect" />
+                                    <TextField fx:id="parkingSpotIndexDefectText" layoutX="11.0" layoutY="122.0" promptText="Parking Spot Index" />
+                                    <Button fx:id="reportDefectButton" layoutX="11.0" layoutY="172.0" mnemonicParsing="false" onAction="#reportAsDefectAction" text="Report This Spot As Defect" />
                                  </children>
                                  <padding>
                                     <Insets left="5.0" />
@@ -58,10 +58,10 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <Button layoutX="23.0" layoutY="162.0" mnemonicParsing="false" text="Preserve This Spot" />
-                                    <TextField layoutX="9.0" layoutY="119.0" promptText="Parking Spot Index" />
+                                    <Button fx:id="preserveButton" layoutX="23.0" layoutY="162.0" mnemonicParsing="false" onAction="#presereveSpotAction" text="Preserve This Spot" />
+                                    <TextField fx:id="parkingSpotIndexPreserveText" layoutX="9.0" layoutY="119.0" promptText="Parking Spot Index" />
                                     <Label layoutX="14.0" layoutY="51.0" text="Please fill out these fields:" />
-                                    <ComboBox layoutX="10.0" layoutY="75.0" promptText="Choose Parking Lot" />
+                                    <ComboBox fx:id="parkingLotPreserveComboBox" layoutX="10.0" layoutY="75.0" promptText="Choose Parking Lot" />
                                  </children>
                               </AnchorPane>
                         </content>
@@ -83,11 +83,11 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <Button layoutX="14.0" layoutY="236.0" mnemonicParsing="false" text="Submit Changes" />
-                                          <Button layoutX="14.0" layoutY="197.0" mnemonicParsing="false" text="Get Permission From Network Managment" />
-                                          <TextField layoutX="11.0" layoutY="154.0" promptText="New subscription price" />
-                                          <TextField layoutX="11.0" layoutY="124.0" promptText="New in advance parking price" />
-                                          <TextField layoutX="11.0" layoutY="92.0" promptText="New local parking price" />
+                                          <Button fx:id="submitUpdatePricesButton" layoutX="14.0" layoutY="236.0" mnemonicParsing="false" onAction="#submitUpdatePricesAction" text="Submit Changes" />
+                                          <Button fx:id="permissionPriceButton" layoutX="14.0" layoutY="197.0" mnemonicParsing="false" onAction="#getPermissionPricesAction" text="Get Permission From Network Managment" />
+                                          <TextField fx:id="newSubPriceText" layoutX="11.0" layoutY="154.0" promptText="New subscription price" />
+                                          <TextField fx:id="newInAdvPriceText" layoutX="11.0" layoutY="124.0" promptText="New in advance parking price" />
+                                          <TextField fx:id="newLocalPriceText" layoutX="11.0" layoutY="92.0" promptText="New local parking price" />
                                           <Label layoutX="14.0" layoutY="51.0" text="Please fill out these fields:" />
                                        </children>
                                     </AnchorPane>
@@ -112,8 +112,8 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <Button layoutX="30.0" layoutY="83.0" mnemonicParsing="false" text="Produce Snapshot" />
-                                          <ComboBox layoutX="14.0" layoutY="51.0" promptText="Choose Parking Lot" />
+                                          <Button fx:id="produceSnapshotButton" layoutX="30.0" layoutY="83.0" mnemonicParsing="false" onAction="#produceSnapshotAction" text="Produce Snapshot" />
+                                          <ComboBox fx:id="parkingLotSnapshotComboBox" layoutX="14.0" layoutY="51.0" promptText="Choose Parking Lot" />
                                        </children>
                                     </AnchorPane>
                               </content>
@@ -122,20 +122,20 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <Button layoutX="14.0" layoutY="51.0" mnemonicParsing="false" text="Produce Performance Report" />
+                                          <Button fx:id="performanceReportButton" layoutX="14.0" layoutY="51.0" mnemonicParsing="false" onAction="#performanceReportAction" text="Produce Performance Report" />
                                        </children>
                                     </AnchorPane>
                               </content>
                             </Tab>
-                              <Tab text="Add New Parking Lot">
+                              <Tab fx:id="nameNewParkingLotText" text="Add New Parking Lot">
                                 <content>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
                                           <TextField layoutX="14.0" layoutY="85.0" prefHeight="25.0" prefWidth="163.0" promptText="Name" />
                                           <Label layoutX="14.0" layoutY="51.0" text="Please fill out these fields:" />
-                                          <TextField layoutX="14.0" layoutY="123.0" prefHeight="25.0" prefWidth="163.0" promptText="Number Of Floors" />
-                                          <TextField layoutX="14.0" layoutY="162.0" prefHeight="25.0" prefWidth="163.0" promptText="Number Of Spaces In Floor" />
-                                          <Button layoutX="50.0" layoutY="212.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="91.0" text="Add" />
+                                          <TextField fx:id="floorsNewParkingLotText" layoutX="14.0" layoutY="123.0" prefHeight="25.0" prefWidth="163.0" promptText="Number Of Floors" />
+                                          <TextField fx:id="spacesNewParkingLotText" layoutX="14.0" layoutY="162.0" prefHeight="25.0" prefWidth="163.0" promptText="Number Of Spaces In Floor" />
+                                          <Button fx:id="addNewParkingLotButton" layoutX="50.0" layoutY="212.0" mnemonicParsing="false" onAction="#addNewParkingLotAction" prefHeight="18.0" prefWidth="91.0" text="Add" />
                                        </children>
                                     </AnchorPane>
                                 </content>

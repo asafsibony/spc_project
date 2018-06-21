@@ -44,18 +44,18 @@
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
                                     <Label layoutX="14.0" layoutY="33.0" text="Please fill out these fields:" />
-                                    <TextField layoutX="21.0" layoutY="73.0" prefHeight="33.0" prefWidth="266.0" promptText="ID" />
-                                    <TextField layoutX="21.0" layoutY="116.0" prefHeight="33.0" prefWidth="266.0" promptText="Car ID" />
-                                    <ComboBox layoutX="23.0" layoutY="243.0" prefHeight="33.0" prefWidth="264.0" promptText="Choose Parking Lot" />
-                                    <TextField layoutX="22.0" layoutY="288.0" prefHeight="33.0" prefWidth="266.0" promptText="Email" />
-                                    <Button layoutX="23.0" layoutY="346.0" mnemonicParsing="false" text="Submit" />
-                                    <TextField layoutX="89.0" layoutY="346.0" prefHeight="22.0" prefWidth="202.0" promptText="Cost" />
-                                    <Button layoutX="309.0" layoutY="346.0" mnemonicParsing="false" text="Pay" />
+                                    <TextField fx:id="idInAdvText" layoutX="21.0" layoutY="73.0" prefHeight="33.0" prefWidth="266.0" promptText="ID" />
+                                    <TextField fx:id="carIdInAdvText" layoutX="21.0" layoutY="116.0" prefHeight="33.0" prefWidth="266.0" promptText="Car ID" />
+                                    <ComboBox fx:id="parkingLotsInAdvComboBox" layoutX="23.0" layoutY="243.0" prefHeight="33.0" prefWidth="264.0" promptText="Choose Parking Lot" />
+                                    <TextField fx:id="emailInAdvText" layoutX="22.0" layoutY="288.0" prefHeight="33.0" prefWidth="266.0" promptText="Email" />
+                                    <Button fx:id="submitInAdvButton" layoutX="23.0" layoutY="346.0" mnemonicParsing="false" onAction="#submitInAdvanceParkingAction" text="Submit" />
+                                    <TextField fx:id="costInAdvText" layoutX="89.0" layoutY="346.0" prefHeight="22.0" prefWidth="202.0" promptText="Cost" />
+                                    <Button fx:id="payInAdvButton" layoutX="309.0" layoutY="346.0" mnemonicParsing="false" onAction="#payInAdvanceParkingAction" text="Pay" />
                                     <Label layoutX="27.0" layoutY="387.0" text="Refund/debt will be calculated when exiting the parking lot" />
-                                    <DatePicker layoutX="23.0" layoutY="157.0" prefHeight="33.0" prefWidth="263.0" promptText="Arrival" />
-                                    <DatePicker layoutX="23.0" layoutY="199.0" prefHeight="33.0" prefWidth="264.0" promptText="Departure" />
-                                    <TextField layoutX="309.0" layoutY="157.0" prefHeight="33.0" prefWidth="266.0" promptText="Arrival Hour" />
-                                    <TextField layoutX="309.0" layoutY="197.0" prefHeight="33.0" prefWidth="266.0" promptText="Departure Hour" />
+                                    <DatePicker fx:id="arrivalDateInAdvDate" layoutX="23.0" layoutY="157.0" prefHeight="33.0" prefWidth="263.0" promptText="Arrival" />
+                                    <DatePicker fx:id="departureDateInAdvDate" layoutX="23.0" layoutY="199.0" prefHeight="33.0" prefWidth="264.0" promptText="Departure" />
+                                    <TextField fx:id="arrivalHourInAdvText" layoutX="309.0" layoutY="157.0" prefHeight="33.0" prefWidth="266.0" promptText="Arrival Hour" />
+                                    <TextField fx:id="departureHourInAdvText" layoutX="309.0" layoutY="197.0" prefHeight="33.0" prefWidth="266.0" promptText="Departure Hour" />
                                  </children>
                               </AnchorPane>
                         </content>
@@ -65,14 +65,14 @@
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
                                     <Label layoutX="14.0" layoutY="33.0" text="Please fill out these fields:" />
-                                    <TextField layoutX="23.0" layoutY="133.0" prefHeight="33.0" prefWidth="266.0" promptText="ID" />
-                                    <RadioButton layoutX="21.0" layoutY="73.0" mnemonicParsing="false" text="Business" />
-                                    <RadioButton layoutX="150.0" layoutY="73.0" mnemonicParsing="false" text="Regular" />
-                                    <TextField layoutX="23.0" layoutY="176.0" prefHeight="33.0" prefWidth="266.0" promptText="Car/s ID" />
-                                    <DatePicker layoutX="23.0" layoutY="220.0" prefHeight="33.0" prefWidth="267.0" promptText="Start Date" />
-                                    <Button layoutX="21.0" layoutY="273.0" mnemonicParsing="false" text="Submit" />
-                                    <TextField layoutX="87.0" layoutY="273.0" prefHeight="22.0" prefWidth="201.0" promptText="Cost" />
-                                    <Button layoutX="302.0" layoutY="273.0" mnemonicParsing="false" text="Pay" />
+                                    <TextField fx:id="idSubText" layoutX="23.0" layoutY="133.0" prefHeight="33.0" prefWidth="266.0" promptText="ID" />
+                                    <RadioButton fx:id="BusinessSubRadioButton" layoutX="21.0" layoutY="73.0" mnemonicParsing="false" onAction="#checkBusinessSubAction" text="Business" />
+                                    <RadioButton fx:id="regularSubRadioButton" layoutX="150.0" layoutY="73.0" mnemonicParsing="false" onAction="#checkRegularSubAction" text="Regular" />
+                                    <TextField fx:id="carIdSubText" layoutX="23.0" layoutY="176.0" prefHeight="33.0" prefWidth="266.0" promptText="Car/s ID" />
+                                    <DatePicker fx:id="startDateSubDate" layoutX="23.0" layoutY="220.0" prefHeight="33.0" prefWidth="267.0" promptText="Start Date" />
+                                    <Button fx:id="submitSubButton" layoutX="21.0" layoutY="273.0" mnemonicParsing="false" onAction="#submitSubscriptionAction" text="Submit" />
+                                    <TextField fx:id="costSubText" layoutX="87.0" layoutY="273.0" prefHeight="22.0" prefWidth="201.0" promptText="Cost" />
+                                    <Button fx:id="paySubButton" layoutX="302.0" layoutY="273.0" mnemonicParsing="false" onAction="#paySubscriptionAction" text="Pay" />
                                     <Separator layoutX="17.0" layoutY="-1.0" prefWidth="200.0" />
                                  </children>
                               </AnchorPane>
@@ -90,12 +90,12 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Label layoutX="23.0" layoutY="75.0" text="Please fill out these fields:" />
-                        <TextField layoutX="23.0" layoutY="155.0" prefHeight="33.0" prefWidth="266.0" promptText="Car ID" />
-                        <TextField layoutX="23.0" layoutY="109.0" prefHeight="33.0" prefWidth="266.0" promptText="ID" />
-                        <Button layoutX="23.0" layoutY="249.0" mnemonicParsing="false" text="Submit" />
-                        <DatePicker layoutX="23.0" layoutY="199.0" prefHeight="33.0" prefWidth="265.0" promptText="Parkinig Date" />
-                        <TextField layoutX="325.0" layoutY="199.0" prefHeight="33.0" prefWidth="266.0" promptText="Parking Hour" />
-                        <TextField layoutX="99.0" layoutY="298.0" prefHeight="33.0" prefWidth="266.0" promptText="Cost" />
+                        <TextField fx:id="carIdCancelOrderText" layoutX="23.0" layoutY="155.0" prefHeight="33.0" prefWidth="266.0" promptText="Car ID" />
+                        <TextField fx:id="idCancelOrderText" layoutX="23.0" layoutY="109.0" prefHeight="33.0" prefWidth="266.0" promptText="ID" />
+                        <Button fx:id="submitCancelOrderButton" layoutX="23.0" layoutY="249.0" mnemonicParsing="false" onAction="#cancelOrderAction" text="Submit" />
+                        <DatePicker fx:id="parkingDateCancelOrderDate" layoutX="23.0" layoutY="199.0" prefHeight="33.0" prefWidth="265.0" promptText="Parkinig Date" />
+                        <TextField fx:id="parkingHourCancelOrderText" layoutX="325.0" layoutY="199.0" prefHeight="33.0" prefWidth="266.0" promptText="Parking Hour" />
+                        <TextField fx:id="refundCostCancelOrderText" layoutX="99.0" layoutY="298.0" prefHeight="33.0" prefWidth="266.0" promptText="Cost" />
                         <Label layoutX="23.0" layoutY="307.0" text="Refund Cost:" />
                      </children>
                   </AnchorPane>
@@ -105,11 +105,11 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TextField layoutX="23.0" layoutY="109.0" prefHeight="33.0" prefWidth="266.0" promptText="ID" />
-                        <TextField layoutX="23.0" layoutY="157.0" prefHeight="33.0" prefWidth="266.0" promptText="Car ID" />
+                        <TextField fx:id="idViewOrdersText" layoutX="23.0" layoutY="109.0" prefHeight="33.0" prefWidth="266.0" promptText="ID" />
+                        <TextField fx:id="carIdViewOrdersText" layoutX="23.0" layoutY="157.0" prefHeight="33.0" prefWidth="266.0" promptText="Car ID" />
                         <Label layoutX="23.0" layoutY="75.0" text="Please fill out these fields:" />
-                        <Button layoutX="23.0" layoutY="206.0" mnemonicParsing="false" text="Submit" />
-                        <ListView layoutX="365.0" layoutY="109.0" prefHeight="336.0" prefWidth="458.0" />
+                        <Button fx:id="submitViewOrderButton" layoutX="23.0" layoutY="206.0" mnemonicParsing="false" onAction="#submitViewOrderAction" text="Submit" />
+                        <ListView fx:id="yourOrdersTextArea" layoutX="365.0" layoutY="109.0" prefHeight="336.0" prefWidth="458.0" />
                         <Label layoutX="365.0" layoutY="75.0" text="Your Orders" />
                      </children>
                   </AnchorPane>
@@ -120,9 +120,9 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Label layoutX="23.0" layoutY="75.0" text="Please fill out these fields:" />
-                        <TextField layoutX="23.0" layoutY="109.0" prefHeight="33.0" prefWidth="266.0" promptText="ID" />
-                        <TextArea layoutX="23.0" layoutY="154.0" prefHeight="245.0" prefWidth="803.0" promptText="Write your complaint here" />
-                        <Button layoutX="23.0" layoutY="412.0" mnemonicParsing="false" text="Submit" />
+                        <TextField fx:id="idComplaintText" layoutX="23.0" layoutY="109.0" prefHeight="33.0" prefWidth="266.0" promptText="ID" />
+                        <TextArea fx:id="complaintText" layoutX="23.0" layoutY="154.0" prefHeight="245.0" prefWidth="803.0" promptText="Write your complaint here" />
+                        <Button fx:id="submitComplaintButton" layoutX="23.0" layoutY="412.0" mnemonicParsing="false" onAction="#submitComplaintAction" text="Submit" />
                      </children>
                   </AnchorPane>
               </content>
