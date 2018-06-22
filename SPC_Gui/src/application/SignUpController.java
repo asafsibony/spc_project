@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import client.ClientMessageParser;
 import client.ConnectToServer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -57,8 +58,9 @@ public class SignUpController extends CommonController
     	}
     }
     
-	public void test() {
-		System.out.println("sdssdasfa");
-		super.displayNotAllFieldsFullError();
+	public static void test(String msg) {
+		Platform.runLater(() -> {
+			new Alert(Alert.AlertType.INFORMATION, msg).showAndWait();
+		});
 	}
 }
