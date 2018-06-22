@@ -14,7 +14,7 @@ import javafx.scene.control.ButtonType;
 public class ClientMessageParser {
 
 	CommonController cc;
-	
+
 	public ClientMessageParser() {
 		cc = new CommonController();
 	}
@@ -22,102 +22,107 @@ public class ClientMessageParser {
 	public void parse(String msg)
 	{
 		String[] args =  msg.split("\\s+");
-	
+
 		/* Sign Up */
 		if(args[0].equals("signUp")) //the return status from signUp method.
 		{	
 			handleSignUpParse(args);			
 		}
-		
+
 		/* Sign In */
 		else if(args[0].equals("SignIn"))
 		{
 			handleSignInParse(args);
 		}
-		
+
 		else if(args[0].equals("SignInAsAdmin"))
 		{
 			handleSignInAsAdminParse(args);
 		}
-		
+
 		/* Check In and Check Out */
 		else if(args[0].equals("submitCheckIn"))
 		{
 			handleSubmitCheckInParse(args);
 		}
-		
-		else if(args[0].equals("payCheckOut"))
+
+		//		else if(args[0].equals("payCheckOut"))
+		//		{
+		//			handlePayCheckOutParse(args);
+		//		}
+
+		else if(args[0].equals("submitCheckOutAction"))
 		{
-			handlePayCheckOutParse(args);
+			handleSubmitCheckOutParse(args);
 		}
-		
+
 		else if(args[0].equals("leaveParkingLot"))
 		{
 			handleLeaveParkingLotParse(args);
 		}
-		
+
 		/* Client System */
 		else if(args[0].equals("submitInAdvanceParking"))
 		{
 			handleSubmitInAdvanceParkingParse(args);
 		}
-		
+
 		else if(args[0].equals("payInAdvanceParking"))
 		{
 			handlePayInAdvanceParkingParse(args);
 		}
-		
+
 		else if(args[0].equals("submitSubscription"))
 		{
 			handleSubmitSubscriptionParse(args);
 		}
-		
+
 		else if(args[0].equals("paySubscription"))
 		{
 			handlePaySubscriptionParse(args);
 		}
-		
+
 		else if(args[0].equals("cancelOrder"))
 		{
 			handleCancelOrderParse(args);
 		}
-		
+
 		else if(args[0].equals("viewOrder"))
 		{
 			handleViewOrderParse(args);
 		}
-		
+
 		else if(args[0].equals("complaint"))
 		{
 			handleComplaintParse(args);
 		}
-		
+
 		/* Admin System */
 		else if(args[0].equals("registerDefectSpot"))
 		{
 			handleRegisterDefectSpotParse(args);
 		}
-		
+
 		else if(args[0].equals("preserveSpot"))
 		{
 			handlePreserveSpotParse(args);
 		}
-		
+
 		else if(args[0].equals("submitUpdatePrices"))
 		{
 			handleUpdatePricesParse(args);
 		}
-		
+
 		else if(args[0].equals("produceSnapShot"))
 		{
 			handleProduceSnapShotParse(args);
 		}
-		
+
 		else if(args[0].equals("producePerformanceReport"))
 		{
 			handleProducePerformanceReportParse(args);
 		}
-		
+
 		else if(args[0].equals("addNewParkingLot"))
 		{
 			handleAddNewParkingLotParse(args);
@@ -131,10 +136,16 @@ public class ClientMessageParser {
 			System.out.println("Command sent from server not found: "+msg);
 		}
 	}
-	
-	
+
+
 	/* Message From Server Handlres*/
-	
+
+	private void handleSubmitCheckOutParse(String[] args) 
+	{
+		String statusFromServer = parseMessage(args);
+		System.out.println(statusFromServer);	
+	}
+
 	private void handleAddNewParkingLotParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
@@ -229,6 +240,9 @@ public class ClientMessageParser {
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
+		Platform.runLater(() -> {
+			new Alert(Alert.AlertType.INFORMATION, statusFromServer).showAndWait();
+		});
 	}
 
 	private void handleSignInAsAdminParse(String[] args)
@@ -251,12 +265,12 @@ public class ClientMessageParser {
 			new Alert(Alert.AlertType.INFORMATION, statusFromServer).showAndWait();
 		});
 	}
-	
+
 	private void handleLogout(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
-		
+
 	}
 	private String parseMessage(String[] args)
 	{
@@ -268,7 +282,7 @@ public class ClientMessageParser {
 			statusFromServer += space;
 			statusFromServer += args[i];
 		}
-		
+
 		return statusFromServer;
 	}
 }

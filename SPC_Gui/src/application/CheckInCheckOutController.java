@@ -35,6 +35,9 @@ public class CheckInCheckOutController extends CommonController
 	private TextField emailCheckInText;
 
 	@FXML
+	private Button submitCheckOutButton;
+
+	@FXML
 	private TextField idCheckOutText;
 
 	@FXML
@@ -49,62 +52,88 @@ public class CheckInCheckOutController extends CommonController
 	@FXML
 	private TextField costCheckOutText;
 
-    @FXML
-    private ComboBox<String> parkingLotComboBox;
+	@FXML
+	private ComboBox<String> parkingLotComboBox;
 
-    @FXML
-    private ComboBox<String> CheckInTypeComboBox;
-    
+	@FXML
+	private ComboBox<String> CheckInTypeComboBox;
+
 	@FXML
 	void SignInAction(ActionEvent event) throws IOException
 	{
 		super.openScene("LoginScene.fxml", event);
 	}
-	
+
 	@FXML
 	public void initialize() 
 	{
 		CheckInTypeComboBox.getItems().add("Casual");
 		CheckInTypeComboBox.getItems().add("Order");
 		CheckInTypeComboBox.getItems().add("Subscription");
+
+		CheckInTypeComboBox.getSelectionModel().select("Casual");
 	}
-	
+
 	@FXML
 	void submitCheckInAction(ActionEvent event) 
 	{
 		String id = checkInIdText.getText();
 		String carId = carIdCheckInText.getText();
 		String dep = depCheckInText.getText();
-		String email = emailCheckInText.getText();
+		//String email = emailCheckInText.getText();
+		String type = CheckInTypeComboBox.getValue();
 
-		if(super.validateInputNotNull(new String[] {id, carId, dep, email}))
+		if(!type.equals("Casual"))
+		{
+			dep = "None";
+			if(super.validateInputNotNull(new String[] {id, carId, type}))
+			{			
+				String cmd = "submitCheckIn " + id + " " + carId + " " + dep + " " + type ;
+				Main.cts.send(cmd);
+			}
+
+			else
+			{
+				super.displayNotAllFieldsFullError();
+			}
+		}
+		else if(type.equals("Casual"))
+		{
+			if(super.validateInputNotNull(new String[] {id, carId, type, dep}))
+			{			
+				String cmd = "submitCheckIn " + id + " " + carId + " " + dep + " " + type;
+				Main.cts.send(cmd);
+			}
+
+			else
+			{
+				super.displayNotAllFieldsFullError();
+			}
+		}    	
+	}
+
+	@FXML
+	void submitCheckOutAction(ActionEvent event) 
+	{
+		String id = idCheckOutText.getText();
+		String carId = carIdCheckOutText.getText();
+
+		if(super.validateInputNotNull(new String[] {id, carId}))
 		{			
-			String cmd = "submitCheckIn " + id + " " + carId + " " + dep + " " + email;
+			String cmd = "submitCheckOutAction " + id + " " + carId;
 			Main.cts.send(cmd);
 		}
 
-    	else
-    	{
-    		super.displayNotAllFieldsFullError();
-    	}
+		else
+		{
+			super.displayNotAllFieldsFullError();
+		}
 	}
 
 	@FXML
 	void payAction(ActionEvent event) 
 	{
-		String id = checkInIdText.getText();
-		String cost = costCheckOutText.getText();
-
-		if(super.validateInputNotNull(new String[] {id, cost}))
-		{			
-			String cmd = "payCheckOut " + id + " " + cost;
-			Main.cts.send(cmd);
-		}
-		
-    	else
-    	{
-    		super.displayNotAllFieldsFullError();
-    	}
+		new Alert(Alert.AlertType.CONFIRMATION, "Payment ended succsesfully").showAndWait();
 	}
 
 	@FXML
@@ -118,11 +147,11 @@ public class CheckInCheckOutController extends CommonController
 			String cmd = "leaveParkingLot " + id + " " + carId;
 			Main.cts.send(cmd);
 		}
-		
-    	else
-    	{
-    		super.displayNotAllFieldsFullError();
-    	}
+
+		else
+		{
+			super.displayNotAllFieldsFullError();
+		}
 	}
 
 }

@@ -46,20 +46,30 @@ public class ServerMessageParser
 			String id = args[1];
 			String carId = args[2];
 			String dep = args[3];
-			String email = args[4];
+			//String email = args[4];
+			String type = args[4];
 
 			CheckInCheckOut checkInCheckOut = new CheckInCheckOut();
-			client.sendToClient("submitCheckIn " + checkInCheckOut.CheckInCarToDB(id, carId, dep, email));
+			client.sendToClient("submitCheckIn " + checkInCheckOut.CheckInCarToDB(id, carId, dep, type));
 		}
-
-		else if(args[0].equals("payCheckOut"))
+		
+		else if(args[0].equals("submitCheckOutAction"))
 		{
 			String id = args[1];
-			String cost = args[2];
+			String carId = args[2];
 
 			CheckInCheckOut checkInCheckOut = new CheckInCheckOut();
-			client.sendToClient("payCheckOut " + checkInCheckOut.payCheckOut(id, cost));
+			client.sendToClient("submitCheckOutAction " + checkInCheckOut.submitCheckOut(id, carId));
 		}
+		
+//		else if(args[0].equals("payCheckOut"))
+//		{
+//			String id = args[1];
+//			String cost = args[2];
+//
+//			CheckInCheckOut checkInCheckOut = new CheckInCheckOut();
+//			client.sendToClient("payCheckOut " + checkInCheckOut.payCheckOut(id, cost));
+//		}
 
 		else if(args[0].equals("leaveParkingLot"))
 		{
