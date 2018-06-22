@@ -5,6 +5,7 @@ import java.io.IOException;
 import application.CheckInCheckOutController;
 import application.CommonController;
 import application.SignUpController;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
