@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import client.*;
@@ -48,13 +49,26 @@ public class CheckInCheckOutController extends CommonController
 	@FXML
 	private TextField costCheckOutText;
 
+    @FXML
+    private ComboBox<String> parkingLotComboBox;
 
+    @FXML
+    private ComboBox<String> CheckInTypeComboBox;
+    
 	@FXML
 	void SignInAction(ActionEvent event) throws IOException
 	{
 		super.openScene("LoginScene.fxml", event);
 	}
-
+	
+	@FXML
+	public void initialize() 
+	{
+		CheckInTypeComboBox.getItems().add("Casual");
+		CheckInTypeComboBox.getItems().add("Order");
+		CheckInTypeComboBox.getItems().add("Subscription");
+	}
+	
 	@FXML
 	void submitCheckInAction(ActionEvent event) 
 	{
@@ -110,4 +124,5 @@ public class CheckInCheckOutController extends CommonController
     		super.displayNotAllFieldsFullError();
     	}
 	}
+
 }

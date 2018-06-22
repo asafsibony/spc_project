@@ -1,6 +1,8 @@
 package client;
 
 import java.io.IOException;
+
+import application.CheckInCheckOutController;
 import application.CommonController;
 import application.SignUpController;
 import javafx.scene.control.Alert;
@@ -245,7 +247,6 @@ public class ClientMessageParser {
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
-		
 	}
 	
 	private void handleLogout(String[] args)

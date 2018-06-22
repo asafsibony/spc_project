@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 
+import client.ClientMessageParser;
 import client.ConnectToServer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +18,7 @@ import javafx.stage.Stage;
 
 public class SignUpController extends CommonController
 {
+	
     @FXML
     private Button PreviousButton;
    
@@ -25,6 +27,13 @@ public class SignUpController extends CommonController
 
     @FXML
     private PasswordField passText;
+    
+    
+	@FXML
+	public void initialize() 
+	{
+
+	}
     
     @FXML
     void PreviousAction(ActionEvent event) throws IOException 
@@ -47,4 +56,9 @@ public class SignUpController extends CommonController
     		super.displayNotAllFieldsFullError();
     	}
     }
+    
+	public void test() {
+		System.out.println("sdssdasfa");
+		super.displayNotAllFieldsFullError();
+	}
 }
