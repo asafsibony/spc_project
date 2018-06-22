@@ -240,14 +240,15 @@ public class ClientMessageParser {
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
-
 	}
 
 	private void handleSignUpParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
-		SignUpController.SignupServerResponse(statusFromServer);
+		Platform.runLater(() -> {
+			new Alert(Alert.AlertType.INFORMATION, statusFromServer).showAndWait();
+		});
 	}
 	
 	private void handleLogout(String[] args)

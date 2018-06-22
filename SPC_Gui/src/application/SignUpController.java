@@ -57,10 +57,4 @@ public class SignUpController extends CommonController
     		super.displayNotAllFieldsFullError();
     	}
     }
-    
-	public static void SignupServerResponse(String msg) {
-		Platform.runLater(() -> {
-			new Alert(Alert.AlertType.INFORMATION, msg).showAndWait();
-		});
-	}
 }
