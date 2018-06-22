@@ -247,7 +247,7 @@ public class ClientMessageParser {
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
-		SignUpController.test(statusFromServer);
+		SignUpController.SignupServerResponse(statusFromServer);
 	}
 	
 	private void handleLogout(String[] args)

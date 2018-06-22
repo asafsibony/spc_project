@@ -58,7 +58,7 @@ public class SignUpController extends CommonController
     	}
     }
     
-	public static void test(String msg) {
+	public static void SignupServerResponse(String msg) {
 		Platform.runLater(() -> {
 			new Alert(Alert.AlertType.INFORMATION, msg).showAndWait();
 		});
