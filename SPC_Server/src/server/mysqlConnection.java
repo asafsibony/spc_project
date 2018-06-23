@@ -417,20 +417,38 @@ public class mysqlConnection {
 		rs = ps.executeQuery();
 		while(rs.next())
 		{
-			str+=(rs.toString()+'\n');
+			str+="Orders In Advance:\n";
+			str+=String.format("|%20s|", "CarID") + String.format("|%20s|", "ParkingLot") + String.format("|%20s|", "ArrivalDate") + String.format("|%20s|", "ArrivalHour")
+					+ String.format("|%20s|", "DepartureAproxDate") + String.format("|%20s|", "DepartureAproxHour") + String.format("|%20s|", "Email")
+						+ String.format("|%20s|", "Cost") + "\n";
+			
+			str+=String.format("|%20s|", rs.getString("CarID")) + String.format("|%20s|", rs.getString("ParkingLot")) + String.format("|%20s|", rs.getString("ArrivalDate")) + String.format("|%20s|",  rs.getString("ArrivalHour"))
+			+ String.format("|%20s|", rs.getString("DepartureAproxDate")) + String.format("|%20s|", rs.getString("DepartureAproxHour")) + String.format("|%20s|", rs.getString("Email"))
+				+ String.format("|%20s|", rs.getString("Cost")) + "\n";
+			
+			str+="\n";
 		} 
 		ps = conn.prepareStatement("SELECT * FROM orderRegularSubscription WHERE ID = \""+ id +"\";");
 		rs = ps.executeQuery();
 		while(rs.next())
 		{
-			str+=(rs.toString()+'\n');
+			str+="Regular subscriptionts:\n";
+			str+=String.format("|%20s|", "CarID") + String.format("|%20s|", "StartDate") + String.format("|%20s|", "EndDate") + String.format("|%20s|", "Cost") + "\n";
+			str+=String.format("|%20s|", rs.getString("CarID")) + String.format("|%20s|", rs.getString("StartDate")) + 
+					String.format("|%20s|", rs.getString("EndDate")) + String.format("|%20s|",  rs.getString("Cost"))+ "\n";
+			str+="\n";
 		} 
 		ps = conn.prepareStatement("SELECT * FROM orderBusinessSubscription WHERE ID = \""+ id +"\";");
 		rs = ps.executeQuery();
 		while(rs.next())
 		{
-			str+=(rs.toString()+'\n');
+			str+="Buisness subscriptiont:\n";
+			str+=String.format("|%20s|", "CarID") + String.format("|%20s|", "StartDate") + String.format("|%20s|", "EndDate") + String.format("|%20s|", "Cost") + "\n";
+			str+=String.format("|%20s|", rs.getString("CarID")) + String.format("|%20s|", rs.getString("StartDate")) + 
+					String.format("|%20s|", rs.getString("EndDate")) + String.format("|%20s|",  rs.getString("Cost"))+ "\n";
+			str+="\n";
 		} 
-		return "true" + str;
+		System.out.println(str);
+		return "true " + str;
 	}
 }

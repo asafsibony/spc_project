@@ -102,7 +102,7 @@ public class ClientMessageParser {
 
 		else if(args[0].equals("viewOrder"))
 		{
-			handleViewOrderParse(args);
+			handleViewOrderParse(args, msg);
 		}
 
 		else if(args[0].equals("complaint"))
@@ -250,7 +250,7 @@ public class ClientMessageParser {
 		System.out.println(statusFromServer);
 	}
 
-	private void handleViewOrderParse(String[] args)
+	private void handleViewOrderParse(String[] args, String msg)
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
@@ -261,10 +261,8 @@ public class ClientMessageParser {
 		}
 		else
 		{
-			String orders="";
-			for(int i=2; i<args.length; i++)
-				orders+=args[i];
-			ClientsSystemController.orderListByID.set(orders);
+			msg = msg.replace("viewOrder true ","");
+			ClientsSystemController.orderListByID.set(msg);
 		}
 	}
 

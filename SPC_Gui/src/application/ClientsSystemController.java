@@ -78,9 +78,9 @@ public class ClientsSystemController extends CommonController
 
 	@FXML
 	private TextField refundCostCancelOrderText;
-
-	@FXML
-	private ListView<String> yourOrdersTextArea;
+	
+    @FXML
+    private TextArea yourOrdersTextArea;
 
 	@FXML
 	private TextField costSubText;
@@ -171,7 +171,8 @@ public class ClientsSystemController extends CommonController
 		orderListByID.addListener(new ChangeListener<Object>(){
 			@Override
 			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-				yourOrdersTextArea.setId(orderListByID.getValue().toString()); 
+				yourOrdersTextArea.setText(orderListByID.getValue().toString()); 
+				//yourOrdersTextArea.setDisable(true);
 			}
 		});
 	}
