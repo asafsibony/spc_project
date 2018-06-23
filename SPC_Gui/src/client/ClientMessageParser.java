@@ -272,6 +272,18 @@ public class ClientMessageParser {
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
+		if(!args[1].equals("true")) {
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.ERROR, statusFromServer).showAndWait();
+			});
+		}
+		else
+		{
+			ClientsSystemController.subscriptionOrderCost.set(args[2]);
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.INFORMATION, "Your order accepted.").showAndWait();
+			});
+		}
 	}
 
 	private void handleSubmitInAdvanceParkingParse(String[] args) 
@@ -280,7 +292,7 @@ public class ClientMessageParser {
 		System.out.println(statusFromServer);
 		if(!args[1].equals("true")) {
 			Platform.runLater(() -> {
-				new Alert(Alert.AlertType.ERROR, statusFromServer+" Try other time").showAndWait();
+				new Alert(Alert.AlertType.ERROR, statusFromServer).showAndWait();
 			});
 		}
 		else

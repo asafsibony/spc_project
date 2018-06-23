@@ -98,25 +98,18 @@ public class ServerMessageParser
 			
 		}
 
-		else if(args[0].equals("submitSubscription"))
+		else if(args[0].equals("submitSubscription"))	//Done
 		{
 			String id = args[1];
-			String carsId = args[2]; //need to parse cars id if there is more than one car (business)
+			String carId = args[2];
 			String date = args[3];		
-			String regOrbuis = args[4];	
-
-			String[] cars = carsId.split(" ");
-			int numberOfCars = cars.length;			
+			String regOrbuis = args[4];		
 
 			ClientSystem clientSystem = new ClientSystem();
-			if(clientSystem.addSubscriptionToDB(id, carsId, date, regOrbuis).equals("succeeded"))
-			{
-				int cost = numberOfCars*74;
-				client.sendToClient("submitSubscription " + String.valueOf(cost));						
-			}
+			client.sendToClient("submitSubscription " + clientSystem.addSubscriptionToDB(id, carId, date, regOrbuis));
 		}
 
-		else if(args[0].equals("cancelOrder"))
+		else if(args[0].equals("cancelOrder"))	//Done
 		{
 			String id = args[1];
 			String carId = args[2];

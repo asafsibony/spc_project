@@ -11,19 +11,25 @@ public class ClientSystem {
 			return mysqlConnection.addInAdvanceOrder(id, carId, arrivalDate, arrivalHour, depDate, depHour, parkingLot, email, cost);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "SQL error";
+			return e.getMessage();
 		}
 
 	}
 
 	private double calculatePriceInAdvance(String arrivalDate, String arrivalHour, String depDate, String depHour) {
+		//Read inAdvance price from DB
 		System.out.println(arrivalDate+" "+arrivalHour+" "+depDate+" "+depHour+" ");
 		return 10;
 	}
 
-	public Object addSubscriptionToDB(String id, String carsId, String date, String regOrbuis) {
-		// TODO Auto-generated method stub
-		return null;
+	public String addSubscriptionToDB(String id, String carsId, String date, String regOrbuis) {
+		try {
+			double cost = mysqlConnection.getSubscriptionPriceFromDB();
+			return mysqlConnection.addSubscriptionOrder(id, carsId, date, regOrbuis, cost);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return e.getMessage();
+		}
 	}
 
 	public String cancelOrder(String id, String carId, String date, String hour) {

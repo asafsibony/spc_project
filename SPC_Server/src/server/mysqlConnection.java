@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -345,6 +346,39 @@ public class mysqlConnection {
 		preparedStatement.setDouble(9, cost);
 		preparedStatement .executeUpdate();
 		return "true " + cost;
+	}
+
+	public static String addSubscriptionOrder(String id, String carId, String startDate, String regOrbuis, double cost) throws SQLException {
+		LocalDate start = LocalDate.parse(startDate);
+		String endDate = start.plusDays(28).toString();
+		conn.createStatement();
+		String query="";
+		if (regOrbuis.equals("Regular")) {
+			query = "INSERT INTO orderRegularSubscription(ID, CarID, StartDate, EndDate, Cost) VALUES(?,?,?,?,?)";
+		} else if (regOrbuis.equals("Buisness")) {
+			query = "INSERT INTO orderBusinessSubscription(ID, CarID, StartDate, EndDate, Cost) VALUES(?,?,?,?,?)";
+		}
+		PreparedStatement preparedStatement = conn.prepareStatement(query);
+		preparedStatement.setString(1, id);
+		preparedStatement.setString(2, carId);
+		preparedStatement.setString(3, startDate);
+		preparedStatement.setString(4, endDate);
+		preparedStatement.setDouble(5, cost);
+		preparedStatement .executeUpdate();
+		return "true " + cost;
+	}
+
+	public static double getSubscriptionPriceFromDB() throws Exception {
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM prices WHERE Type = \"Subscription\"";
+		ResultSet uprs = stmt.executeQuery(query);
+		if (!uprs.next()) {
+		    throw new Exception("Could not get price from DB");
+		} 
+		else {
+			String cost = uprs.getString("Price");
+			return Double.parseDouble(cost);
+		}
 	}
 
 

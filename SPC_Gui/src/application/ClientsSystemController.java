@@ -131,7 +131,9 @@ public class ClientsSystemController extends CommonController
 	private boolean isSubscriptionRegular = true;
 	static public StringProperty parkingLotsNames;
 	static public StringProperty inAdvanceOrderCost;
+	public static StringProperty subscriptionOrderCost;
 	//private final double inAdvanceParkingCostPerMin = 4/60;
+
 
 	@FXML
 	public void initialize() 
@@ -140,6 +142,7 @@ public class ClientsSystemController extends CommonController
 		subscriptionTypeComboBox.getItems().add("Buisness");
 		parkingLotsNames = new SimpleStringProperty("");
 		inAdvanceOrderCost = new SimpleStringProperty("");
+		subscriptionOrderCost = new SimpleStringProperty("");
 		getParkingLotsNamesFromServer();
 		parkingLotsNames.addListener(new ChangeListener<Object>(){
 			@Override
@@ -152,8 +155,13 @@ public class ClientsSystemController extends CommonController
 		inAdvanceOrderCost.addListener(new ChangeListener<Object>(){
 			@Override
 			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-				//String[] lots = parkingLotsNames.getValue().toString().split("\\s+");;
 				costInAdvText.setText(inAdvanceOrderCost.getValue().toString());  
+			}
+		});
+		subscriptionOrderCost.addListener(new ChangeListener<Object>(){
+			@Override
+			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				costSubText.setText(subscriptionOrderCost.getValue().toString());  
 			}
 		});
 	}
@@ -184,7 +192,6 @@ public class ClientsSystemController extends CommonController
 		{
 			Main.cts.send("submitInAdvanceParking " + id + " " + carId + " " + arrivalDate
 					+ " " + arrivalHour + " " + depDate + " " + depHour + " " + parkingLot + " " + email);
-			// The answer from ClientMessageParser will contain the cost calculated and than set it in costInAdvanceFromServer?
 		}
 		else
 		{
@@ -195,17 +202,6 @@ public class ClientsSystemController extends CommonController
 	@FXML
 	void payInAdvanceParkingAction(ActionEvent event) 
 	{
-		//String id = idInAdvText.getText();
-//		if(super.validateInputNotNull(new String[] {id, costInAdvanceFromServer}))
-//		{
-//			Main.cts.send("payInAdvanceParking" + id + " " + costInAdvanceFromServer);
-//			inAdvanceOrderCost="";
-//		}
-//
-//		else
-//		{
-//			super.displayNotAllFieldsFullError(); //Change to correct message
-//		}
 		inAdvanceOrderCost.set("");
 		new Alert(Alert.AlertType.INFORMATION, "Thanks, we love your money.").showAndWait();
 	}
@@ -234,25 +230,13 @@ public class ClientsSystemController extends CommonController
 		{
 			super.displayNotAllFieldsFullError();
 		}
-		// after getting cost from serverr
-		costSubText.setText(costSubscriptionFromServer);
 	}
 
 	@FXML
 	void paySubscriptionAction(ActionEvent event) 
 	{
-		// The cost will set from server after submition
-		String id = idInAdvText.getText();
-
-		if(super.validateInputNotNull(new String[] {id, costSubscriptionFromServer}))
-		{
-			Main.cts.send("paySubscription" + id + " " + costSubscriptionFromServer);
-		}
-
-		else
-		{
-			super.displayNotAllFieldsFullError(); //change to correct message
-		}
+		subscriptionOrderCost.set("");
+		new Alert(Alert.AlertType.INFORMATION, "Thanks, we love your money.").showAndWait();
 	}
 
 	/********************************/
@@ -266,19 +250,14 @@ public class ClientsSystemController extends CommonController
 		String carId = carIdCancelOrderText.getText();
 		String date = parkingDateCancelOrderDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		String hour = parkingHourCancelOrderText.getText();
-
-		if(super.validateInputNotNull(new String[] {id, carId, date, hour}))
+		if(super.validateInputNotNull(new String[] {id, carId, date, hour})) 
 		{
-			Main.cts.send("cancelOrder" + id + " " + carId + " " + date + " " + hour);
+			Main.cts.send("cancelOrder " + id + " " + carId + " " + date + " " + hour);
 		}
-
 		else
 		{
 			super.displayNotAllFieldsFullError();
 		}
-
-		// after getting the refund cost from server
-		refundCostCancelOrderText.setText(costRefundForCancelOrderFromSerever);
 	}
 
 	/********************************/

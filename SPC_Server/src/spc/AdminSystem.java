@@ -17,7 +17,7 @@ public class AdminSystem {
 			return "true";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "SQL error";
+			return e.getMessage();
 		}
 	}
 
@@ -32,7 +32,7 @@ public class AdminSystem {
 			return "true";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "SQL error";
+			return e.getMessage();
 		}
 	}
 
@@ -42,7 +42,7 @@ public class AdminSystem {
 			return "true";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "SQL error";
+			return e.getMessage();
 		}
 	}
 
@@ -63,7 +63,7 @@ public class AdminSystem {
 			return "true";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "Fail, try different name.";
+			return e.getMessage();
 		}
 	}
 
