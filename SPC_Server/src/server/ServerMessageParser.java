@@ -120,13 +120,12 @@ public class ServerMessageParser
 			client.sendToClient("cancelOrder " + clientSystem.cancelOrder(id, carId, date, hour));
 		}
 
-		else if(args[0].equals("viewOrder"))
+		else if(args[0].equals("viewOrder"))	//Done
 		{
 			String id = args[1];
-			String carId = args[2];
 
 			ClientSystem clientSystem = new ClientSystem();
-			client.sendToClient("viewOrder " + clientSystem.cancelOrder(id, carId));
+			client.sendToClient("viewOrder " + clientSystem.viewlOrders(id));
 		}
 
 		else if(args[0].equals("complaint"))

@@ -254,6 +254,18 @@ public class ClientMessageParser {
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
+		if(!args[1].equals("true")) {
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.ERROR, statusFromServer).showAndWait();
+			});
+		}
+		else
+		{
+			String orders="";
+			for(int i=2; i<args.length; i++)
+				orders+=args[i];
+			ClientsSystemController.cancelOrderRefund.set(orders);
+		}
 	}
 
 	private void handleCancelOrderParse(String[] args)

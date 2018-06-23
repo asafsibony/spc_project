@@ -56,9 +56,6 @@ public class ClientsSystemController extends CommonController
 	private DatePicker parkingDateCancelOrderDate;
 
 	@FXML
-	private TextField carIdViewOrdersText;
-
-	@FXML
 	private Button paySubButton;
 
 	@FXML
@@ -83,7 +80,7 @@ public class ClientsSystemController extends CommonController
 	private TextField refundCostCancelOrderText;
 
 	@FXML
-	private ListView<?> yourOrdersTextArea;
+	private ListView<String> yourOrdersTextArea;
 
 	@FXML
 	private TextField costSubText;
@@ -126,13 +123,12 @@ public class ClientsSystemController extends CommonController
     
 	/* non fxml variavles */
 	//private String costInAdvanceFromServer;
-	private String costSubscriptionFromServer;
-	private String costRefundForCancelOrderFromSerever;
-	private boolean isSubscriptionRegular = true;
 	static public StringProperty parkingLotsNames;
 	static public StringProperty inAdvanceOrderCost;
 	public static StringProperty subscriptionOrderCost;
 	public static StringProperty cancelOrderRefund;
+	public static StringProperty orderListByID;
+
 
 
 	@FXML
@@ -144,6 +140,7 @@ public class ClientsSystemController extends CommonController
 		inAdvanceOrderCost = new SimpleStringProperty("");
 		subscriptionOrderCost = new SimpleStringProperty("");
 		cancelOrderRefund = new SimpleStringProperty("");
+		orderListByID = new SimpleStringProperty("");
 		getParkingLotsNamesFromServer();
 		parkingLotsNames.addListener(new ChangeListener<Object>(){
 			@Override
@@ -169,6 +166,12 @@ public class ClientsSystemController extends CommonController
 			@Override
 			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
 				refundCostCancelOrderText.setText(cancelOrderRefund.getValue().toString());  
+			}
+		});
+		orderListByID.addListener(new ChangeListener<Object>(){
+			@Override
+			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				//yourOrdersTextArea.set(orderListByID.getValue().toString());  
 			}
 		});
 	}
@@ -275,18 +278,17 @@ public class ClientsSystemController extends CommonController
 	void submitViewOrderAction(ActionEvent event)
 	{
 		String id = idViewOrdersText.getText();
-		String carId = carIdViewOrdersText.getText();
 
-		if(super.validateInputNotNull(new String[] {id, carId}))
+		if(super.validateInputNotNull(new String[] {id}))
 		{
-			Main.cts.send("viewOrder" + id + " " + carId);
+			Main.cts.send("viewOrder " + id);
 		}
-
 		else
 		{
 			super.displayNotAllFieldsFullError();
 		}
 	}
+	
 	/********************************/
 
 	/* Complaint Function           */
@@ -315,11 +317,5 @@ public class ClientsSystemController extends CommonController
     	}
 		super.openScene("LoginScene.fxml", event);
 	}
-	
-    @FXML
-    void cancelOrderTabOpened(ActionEvent event) {
-    	if(cancelOrderRefund != null )
-    		cancelOrderRefund.set("");
-    }
 
 }

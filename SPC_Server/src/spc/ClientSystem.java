@@ -69,14 +69,19 @@ public class ClientSystem {
 		}
 	}
 
-	public String cancelOrder(String id, String carId) {
-		// TODO Auto-generated method stub
-		return null;
+	public String viewlOrders(String id) {
+		try {
+			return mysqlConnection.viewOrders(id);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return e.getMessage();
+		}
 	}
-
+	
 	public String complaint(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

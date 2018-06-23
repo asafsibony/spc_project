@@ -409,33 +409,28 @@ public class mysqlConnection {
 		}
 	}
 
-
-
-
-	//	public static String showUsers()
-	//	{
-	//		Statement stmt;
-	//		String str = "";
-	//		try 
-	//		{
-	//			stmt = conn.createStatement();
-	//			PreparedStatement  ps = conn.prepareStatement("SELECT * FROM users;");
-	//			ResultSet rs = ps.executeQuery();
-	//	 		while(rs.next())
-	//	 		{
-	//	 			str+=(rs.getString(1)+'\n');
-	//	 		} 
-	//	 	    if (rs != null) {
-	//	 	        try {
-	//	 	            rs.close();
-	//	 	        } catch (SQLException e) { /* ignored */}
-	//	 	    }
-	//	 	    if (stmt != null) {
-	//	 	        try {
-	//	 	            stmt.close();
-	//	 	        } catch (SQLException e) { /* ignored */}
-	//	 	    }
-	//		} catch (SQLException e) {e.printStackTrace();}
-	//		return str;
-	//	}
+	public static String viewOrders(String id) throws SQLException {
+		String str = "";
+		ResultSet rs;
+		conn.createStatement();
+		PreparedStatement  ps = conn.prepareStatement("SELECT * FROM orderInAdvance WHERE ID = \""+ id +"\";");
+		rs = ps.executeQuery();
+		while(rs.next())
+		{
+			str+=(rs.toString()+'\n');
+		} 
+		ps = conn.prepareStatement("SELECT * FROM orderRegularSubscription WHERE ID = \""+ id +"\";");
+		rs = ps.executeQuery();
+		while(rs.next())
+		{
+			str+=(rs.toString()+'\n');
+		} 
+		ps = conn.prepareStatement("SELECT * FROM orderBusinessSubscription WHERE ID = \""+ id +"\";");
+		rs = ps.executeQuery();
+		while(rs.next())
+		{
+			str+=(rs.toString()+'\n');
+		} 
+		return "true" + str;
+	}
 }
