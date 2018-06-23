@@ -127,7 +127,7 @@ public class mysqlConnection {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 			LocalTime now = LocalTime.now();
 			String f = formatter.format(now);
-		
+
 			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			ResultSet uprs = stmt.executeQuery("SELECT * FROM carsCheckedIn;");
 
@@ -160,7 +160,7 @@ public class mysqlConnection {
 			LocalTime now = LocalTime.now();
 			String f = formatter.format(now);
 			String query="";
-			
+
 			conn.createStatement();
 			query = "SELECT * FROM carsCheckedIn WHERE ID = ? AND CarID = ?;";
 			PreparedStatement  ps = conn.prepareStatement(query);
@@ -192,7 +192,7 @@ public class mysqlConnection {
 			{
 				cost = 0;
 			}
-			
+
 			String costStr = String.valueOf(cost);
 			return costStr + " NIS";
 
@@ -218,7 +218,7 @@ public class mysqlConnection {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			return "SQL Error at getParkingLotsNames()";
-			}
+		}
 		return str;
 	}
 
@@ -239,21 +239,19 @@ public class mysqlConnection {
 
 	public static void constructParkingLot(String name, String floors, String spaces) throws SQLException {
 		System.out.println(name);
-	    String query = "CREATE TABLE " + name + " (Floor INTEGER not NULL, Row INTEGER not NULL, Availability VARCHAR(30) default \"free\", PRIMARY KEY (Floor,Row))";
-	    PreparedStatement preparedStatement = conn.prepareStatement(query);
-	    preparedStatement.executeUpdate();
+		String query = "CREATE TABLE " + name + " (Floor INTEGER not NULL, Row INTEGER not NULL, Availability VARCHAR(30) default \"free\", PRIMARY KEY (Floor,Row))";
+		PreparedStatement preparedStatement = conn.prepareStatement(query);
+		preparedStatement.executeUpdate();
 
-	    for(int i=0; i<Integer.parseInt(floors); i++) {
-	    	for(int j=0; j<Integer.parseInt(spaces); j++) {
-	    		query = "INSERT INTO " + name + "(Floor, Row) VALUES(?,?)";
-	    		preparedStatement = conn.prepareStatement(query);
-	    		preparedStatement.setInt(1, i+1);
-	    		preparedStatement.setInt(2, j+1);
-	    		preparedStatement .executeUpdate();
-	    	}
-	    }
-
-		
+		for(int i=0; i<Integer.parseInt(floors); i++) {
+			for(int j=0; j<Integer.parseInt(spaces); j++) {
+				query = "INSERT INTO " + name + "(Floor, Row) VALUES(?,?)";
+				preparedStatement = conn.prepareStatement(query);
+				preparedStatement.setInt(1, i+1);
+				preparedStatement.setInt(2, j+1);
+				preparedStatement .executeUpdate();
+			}
+		}
 	}
 
 	public static void registerDefectSpot(String parkingLot, String floor, String row) throws SQLException {
@@ -269,12 +267,12 @@ public class mysqlConnection {
 	public static void countDownAvailableSpots(String parkingLot) throws SQLException {
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		String query = "SELECT * FROM parkingLots WHERE Name = \"" + parkingLot + "\"";
-        ResultSet uprs = stmt.executeQuery(query);
-        while (uprs.next()) {
-            int available = uprs.getInt("AvailableSpots");
-            uprs.updateInt( "AvailableSpots", available-1);
-            uprs.updateRow();
-        }
+		ResultSet uprs = stmt.executeQuery(query);
+		while (uprs.next()) {
+			int available = uprs.getInt("AvailableSpots");
+			uprs.updateInt( "AvailableSpots", available-1);
+			uprs.updateRow();
+		}
 	}
 
 	public static boolean checkIfAlreadyDefectOrNotExist(String parkingLot, String floor, String row) throws SQLException {
@@ -282,7 +280,7 @@ public class mysqlConnection {
 		String query = "SELECT * FROM " + parkingLot + " WHERE Floor = " + floor + " AND Row = " + row;
 		ResultSet uprs = stmt.executeQuery(query);
 		if (!uprs.next() ) {
-		    return true;
+			return true;
 		} 
 		else {
 			String availablilty = uprs.getString("Availability");
@@ -298,7 +296,7 @@ public class mysqlConnection {
 		String query = "SELECT * FROM " + parkingLot + " WHERE Floor = " + floor + " AND Row = " + row;
 		ResultSet uprs = stmt.executeQuery(query);
 		if (!uprs.next() ) {
-		    return true;
+			return true;
 		} 
 		else {
 			String availablilty = uprs.getString("Availability");
@@ -322,12 +320,12 @@ public class mysqlConnection {
 	public static void updatePrice(String priceType, String newPrice) throws SQLException {
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		String query = "SELECT * FROM prices WHERE Type = \"" + priceType + "\"";
-        ResultSet uprs = stmt.executeQuery(query);
-        while (uprs.next()) {
-            double available = uprs.getDouble("Price");
-            uprs.updateDouble( "Price", Double.parseDouble(newPrice));
-            uprs.updateRow();
-        }
+		ResultSet uprs = stmt.executeQuery(query);
+		while (uprs.next()) {
+			double available = uprs.getDouble("Price");
+			uprs.updateDouble( "Price", Double.parseDouble(newPrice));
+			uprs.updateRow();
+		}
 	}
 
 	public static String addInAdvanceOrder(String id, String carId, String arrivalDate, String arrivalHour,
@@ -373,7 +371,7 @@ public class mysqlConnection {
 		String query = "SELECT * FROM prices WHERE Type = \"Subscription\"";
 		ResultSet uprs = stmt.executeQuery(query);
 		if (!uprs.next()) {
-		    throw new Exception("Could not get price from DB");
+			throw new Exception("Could not get price from DB");
 		} 
 		else {
 			String cost = uprs.getString("Price");
@@ -395,6 +393,23 @@ public class mysqlConnection {
 			return "true " + refund;
 		}
 	}
+
+	public static double getInAdvancePriceFromDB() throws Exception 
+	{
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM prices WHERE Type = \"Order\"";
+		ResultSet uprs = stmt.executeQuery(query);
+		if (!uprs.next()) {
+			throw new Exception("Could not get price from data base.");
+		} 
+		else 
+		{
+			String cost = uprs.getString("Price");
+			return Double.parseDouble(cost);
+		}
+	}
+
+
 
 
 	//	public static String showUsers()
