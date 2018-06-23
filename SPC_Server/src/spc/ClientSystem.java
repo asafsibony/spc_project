@@ -22,10 +22,10 @@ public class ClientSystem {
 		return 10;
 	}
 
-	public String addSubscriptionToDB(String id, String carsId, String date, String regOrbuis) {
+	public String addSubscriptionToDB(String id, String carId, String date, String regOrbuis) {
 		try {
 			double cost = mysqlConnection.getSubscriptionPriceFromDB();
-			return mysqlConnection.addSubscriptionOrder(id, carsId, date, regOrbuis, cost);
+			return mysqlConnection.addSubscriptionOrder(id, carId, date, regOrbuis, cost);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return e.getMessage();
@@ -33,8 +33,12 @@ public class ClientSystem {
 	}
 
 	public String cancelOrder(String id, String carId, String date, String hour) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return mysqlConnection.cancelOrder(id, carId, date, hour);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return e.getMessage();
+		}
 	}
 
 	public String cancelOrder(String id, String carId) {

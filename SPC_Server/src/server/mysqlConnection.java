@@ -381,6 +381,20 @@ public class mysqlConnection {
 		}
 	}
 
+	public static String cancelOrder(String id, String carId, String date, String hour) throws Exception {
+		conn.createStatement();
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM orderInAdvance WHERE CarID = \"" + carId + "\" AND ID = \"" + id + "\" AND ArrivalDate = \"" + date + "\" AND ArrivalHour = \"" + hour + "\"";
+		ResultSet uprs = stmt.executeQuery(query);
+		if (!uprs.next() ) {
+			throw new Exception("Could not find the order. check your details.");
+		} 
+		else {
+			String refund = Double.toString(uprs.getDouble("Cost"));
+			uprs.deleteRow();
+			return "true " + refund;
+		}
+	}
 
 
 	//	public static String showUsers()

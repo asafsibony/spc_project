@@ -132,7 +132,7 @@ public class ClientsSystemController extends CommonController
 	static public StringProperty parkingLotsNames;
 	static public StringProperty inAdvanceOrderCost;
 	public static StringProperty subscriptionOrderCost;
-	//private final double inAdvanceParkingCostPerMin = 4/60;
+	public static StringProperty cancelOrderRefund;
 
 
 	@FXML
@@ -143,6 +143,7 @@ public class ClientsSystemController extends CommonController
 		parkingLotsNames = new SimpleStringProperty("");
 		inAdvanceOrderCost = new SimpleStringProperty("");
 		subscriptionOrderCost = new SimpleStringProperty("");
+		cancelOrderRefund = new SimpleStringProperty("");
 		getParkingLotsNamesFromServer();
 		parkingLotsNames.addListener(new ChangeListener<Object>(){
 			@Override
@@ -162,6 +163,12 @@ public class ClientsSystemController extends CommonController
 			@Override
 			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
 				costSubText.setText(subscriptionOrderCost.getValue().toString());  
+			}
+		});
+		cancelOrderRefund.addListener(new ChangeListener<Object>(){
+			@Override
+			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				refundCostCancelOrderText.setText(cancelOrderRefund.getValue().toString());  
 			}
 		});
 	}
