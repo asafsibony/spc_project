@@ -248,6 +248,17 @@ public class ClientMessageParser {
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
+		if(!args[1].equals("true")) {
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.ERROR, statusFromServer).showAndWait();
+			});
+		}
+		else
+		{
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.INFORMATION, "Your complaint has been submitted.").showAndWait();
+			});
+		}
 	}
 
 	private void handleViewOrderParse(String[] args, String msg)

@@ -128,12 +128,15 @@ public class ServerMessageParser
 			client.sendToClient("viewOrder " + clientSystem.viewlOrders(id));
 		}
 
-		else if(args[0].equals("complaint"))
+		else if(args[0].equals("complaint"))	//Done
 		{
 			String id = args[1];
-
+			String complaint = ""; //args[2];
+			for (int i=2; i<args.length; i++) {
+				complaint+= args[i] + " ";
+			}
 			ClientSystem clientSystem = new ClientSystem();
-			client.sendToClient("complaint " + clientSystem.complaint(id));
+			client.sendToClient("complaint " + clientSystem.complaint(id,complaint));
 		}
 
 		/* Admin System */
@@ -203,7 +206,6 @@ public class ServerMessageParser
 			CommonMethods common = new CommonMethods();
 			client.sendToClient("getParkingLots " + common.getParkingLotsNames());
 		}
-		
 		else
 		{
 			System.out.println("Command sent from client not found: "+msg);

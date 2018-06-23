@@ -448,7 +448,16 @@ public class mysqlConnection {
 					String.format("|%20s|", rs.getString("EndDate")) + String.format("|%20s|",  rs.getString("Cost"))+ "\n";
 			str+="\n";
 		} 
-		System.out.println(str);
 		return "true " + str;
+	}
+
+	public static String addComplaint(String id, String complaint) throws SQLException {
+		conn.createStatement();
+		String query = "INSERT INTO complains(ID, Content) VALUES(?,?)";
+		PreparedStatement preparedStatement = conn.prepareStatement(query);
+		preparedStatement.setString(1, id);
+		preparedStatement.setString(2, complaint);
+		preparedStatement .executeUpdate();
+		return "true";
 	}
 }

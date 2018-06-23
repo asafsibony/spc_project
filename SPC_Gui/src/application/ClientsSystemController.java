@@ -302,13 +302,12 @@ public class ClientsSystemController extends CommonController
 	@FXML
 	void submitComplaintAction(ActionEvent event) 
 	{
-		String id = idViewOrdersText.getText();
-
-		if(super.validateInputNotNull(new String[] {id}))
+		String id = idComplaintText.getText();
+		String complaint = complaintText.getText();
+		if(super.validateInputNotNull(id, complaint))
 		{
-			Main.cts.send("complaint" + id);
+			Main.cts.send("complaint " + id + " " + complaint);
 		}
-
 		else
 		{
 			super.displayNotAllFieldsFullError();

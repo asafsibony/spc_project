@@ -78,9 +78,13 @@ public class ClientSystem {
 		}
 	}
 	
-	public String complaint(String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public String complaint(String id, String complaint) {
+		try {
+			return mysqlConnection.addComplaint(id, complaint);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return e.getMessage();
+		}
 	}
 
 
