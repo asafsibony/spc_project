@@ -318,7 +318,8 @@ public class ClientsSystemController extends CommonController
 	
     @FXML
     void cancelOrderTabOpened(ActionEvent event) {
-    	cancelOrderRefund.set("");
+    	if(cancelOrderRefund != null )
+    		cancelOrderRefund.set("");
     }
 
 }
