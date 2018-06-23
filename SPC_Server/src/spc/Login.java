@@ -13,7 +13,7 @@ public class Login {
 		return mysqlConnection.checkIfUserExists(user, pass, "admin");
 	}
 
-	public static String Logout(String user, String Type) {
+	public String Logout(String user, String Type) {
 		// TODO Auto-generated method stub
 		return mysqlConnection.logout(user, Type);
 	}

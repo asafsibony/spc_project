@@ -2,6 +2,14 @@ package application;
 
 import java.io.IOException;
 
+
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,20 +66,37 @@ public class CheckInCheckOutController extends CommonController
 	@FXML
 	private ComboBox<String> CheckInTypeComboBox;
 
+	static public StringProperty parkingLotsNames;
+	
 	@FXML
 	void SignInAction(ActionEvent event) throws IOException
 	{
 		super.openScene("LoginScene.fxml", event);
 	}
-
+	
+	
 	@FXML
 	public void initialize() 
 	{
+		parkingLotsNames = new SimpleStringProperty("");
 		CheckInTypeComboBox.getItems().add("Casual");
 		CheckInTypeComboBox.getItems().add("Order");
 		CheckInTypeComboBox.getItems().add("Subscription");
-
 		CheckInTypeComboBox.getSelectionModel().select("Casual");
+		getParkingLotsNamesFromServer();
+		parkingLotsNames.addListener(new ChangeListener<Object>(){
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+            		//System.out.println("Property changed");
+            		String[] lots = parkingLotsNames.getValue().toString().split("\\s+");;
+            		parkingLotComboBox.getItems().setAll(lots);            		
+            }
+        });
+	}
+
+	
+	private void getParkingLotsNamesFromServer() {
+		Main.cts.send("getParkingLots");
 	}
 
 	@FXML

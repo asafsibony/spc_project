@@ -202,6 +202,151 @@ public class mysqlConnection {
 		}
 	}
 
+	public static String getParkingLotsNames() {
+		Statement stmt;
+		String str = "";
+		try 
+		{
+			stmt = conn.createStatement();
+			PreparedStatement  ps = conn.prepareStatement("SELECT * FROM parkingLots;");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				str+=(rs.getString(1).replace(" ", "_")+" ");
+			} 
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return "SQL Error at getParkingLotsNames()";
+			}
+		return str;
+	}
+
+	public static void addParkingLotInfo(String name, String floors, String spaces, String availableSpots,
+			String spotsInUse) throws NumberFormatException, SQLException {
+		conn.createStatement();
+		String query = "INSERT INTO parkingLots"
+				+ "(Name, Floors, Rows, AvailableSpots, SpotsInUse) VALUES"
+				+ "(?,?,?,?,?)";
+		PreparedStatement preparedStatement = conn.prepareStatement(query);
+		preparedStatement.setString(1, name);
+		preparedStatement.setInt(2, Integer.parseInt(floors));
+		preparedStatement.setInt(3, Integer.parseInt(spaces));
+		preparedStatement.setInt(4, Integer.parseInt(availableSpots));
+		preparedStatement.setInt(5, Integer.parseInt(spotsInUse));
+		preparedStatement .executeUpdate();
+	}
+
+	public static void constructParkingLot(String name, String floors, String spaces) throws SQLException {
+		System.out.println(name);
+	    String query = "CREATE TABLE " + name + " (Floor INTEGER not NULL, Row INTEGER not NULL, Availability VARCHAR(30) default \"free\", PRIMARY KEY (Floor,Row))";
+	    PreparedStatement preparedStatement = conn.prepareStatement(query);
+	    preparedStatement.executeUpdate();
+
+	    for(int i=0; i<Integer.parseInt(floors); i++) {
+	    	for(int j=0; j<Integer.parseInt(spaces); j++) {
+	    		query = "INSERT INTO " + name + "(Floor, Row) VALUES(?,?)";
+	    		preparedStatement = conn.prepareStatement(query);
+	    		preparedStatement.setInt(1, i+1);
+	    		preparedStatement.setInt(2, j+1);
+	    		preparedStatement .executeUpdate();
+	    	}
+	    }
+
+		
+	}
+
+	public static void registerDefectSpot(String parkingLot, String floor, String row) throws SQLException {
+		conn.createStatement();
+		String query="UPDATE " + parkingLot + " SET Availability = ? WHERE Floor = ? AND row = ?;";
+		PreparedStatement ps = conn.prepareStatement(query);
+		ps.setString(1, "defect");
+		ps.setInt(2, Integer.parseInt(floor));
+		ps.setInt(3, Integer.parseInt(row));
+		ps.executeUpdate();
+	}
+
+	public static void countDownAvailableSpots(String parkingLot) throws SQLException {
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM parkingLots WHERE Name = \"" + parkingLot + "\"";
+        ResultSet uprs = stmt.executeQuery(query);
+        while (uprs.next()) {
+            int available = uprs.getInt("AvailableSpots");
+            uprs.updateInt( "AvailableSpots", available-1);
+            uprs.updateRow();
+        }
+	}
+
+	public static boolean checkIfAlreadyDefectOrNotExist(String parkingLot, String floor, String row) throws SQLException {
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM " + parkingLot + " WHERE Floor = " + floor + " AND Row = " + row;
+		ResultSet uprs = stmt.executeQuery(query);
+		if (!uprs.next() ) {
+		    return true;
+		} 
+		else {
+			String availablilty = uprs.getString("Availability");
+			if (availablilty.equals("defect"))
+				return true;
+			else
+				return false;
+		}
+	}
+
+	public static boolean checkIfAlreadyPreserveOrNotExist(String parkingLot, String floor, String row) throws SQLException {
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM " + parkingLot + " WHERE Floor = " + floor + " AND Row = " + row;
+		ResultSet uprs = stmt.executeQuery(query);
+		if (!uprs.next() ) {
+		    return true;
+		} 
+		else {
+			String availablilty = uprs.getString("Availability");
+			if (availablilty.equals("preserve"))
+				return true;
+			else
+				return false;
+		}
+	}
+
+	public static void registerPresrveSpot(String parkingLot, String floor, String row) throws SQLException {
+		conn.createStatement();
+		String query="UPDATE " + parkingLot + " SET Availability = ? WHERE Floor = ? AND row = ?;";
+		PreparedStatement ps = conn.prepareStatement(query);
+		ps.setString(1, "preserve");
+		ps.setInt(2, Integer.parseInt(floor));
+		ps.setInt(3, Integer.parseInt(row));
+		ps.executeUpdate();
+	}
+
+	public static void updatePrice(String priceType, String newPrice) throws SQLException {
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM prices WHERE Type = \"" + priceType + "\"";
+        ResultSet uprs = stmt.executeQuery(query);
+        while (uprs.next()) {
+            double available = uprs.getDouble("Price");
+            uprs.updateDouble( "Price", Double.parseDouble(newPrice));
+            uprs.updateRow();
+        }
+	}
+
+	public static String addInAdvanceOrder(String id, String carId, String arrivalDate, String arrivalHour,
+			String depDate, String depHour, String parkingLot, String email, double cost) throws SQLException {
+		conn.createStatement();
+		String query = "INSERT INTO orderInAdvance(CarID, ID, ParkingLot, ArrivalDate, ArrivalHour, DepartureAproxDate, DepartureAproxHour, Email, Cost) VALUES(?,?,?,?,?,?,?,?,?)";
+		PreparedStatement preparedStatement = conn.prepareStatement(query);
+		preparedStatement.setString(1, carId);
+		preparedStatement.setString(2, id);
+		preparedStatement.setString(3, parkingLot);
+		preparedStatement.setString(4, arrivalDate);
+		preparedStatement.setString(5, arrivalHour);
+		preparedStatement.setString(6, depDate);
+		preparedStatement.setString(7, depHour);
+		preparedStatement.setString(8, email);
+		preparedStatement.setDouble(9, cost);
+		preparedStatement .executeUpdate();
+		return "true " + cost;
+	}
+
 
 
 	//	public static String showUsers()

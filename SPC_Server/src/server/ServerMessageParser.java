@@ -6,6 +6,7 @@ import ocsf.server.ConnectionToClient;
 import spc.AdminSystem;
 import spc.CheckInCheckOut;
 import spc.ClientSystem;
+import spc.CommonMethods;
 import spc.Login;
 import spc.SignUp;
 
@@ -81,7 +82,7 @@ public class ServerMessageParser
 		}
 
 		/* Client System */
-		else if(args[0].equals("submitInAdvanceParking"))
+		else if(args[0].equals("submitInAdvanceParking"))	//Done
 		{
 			String id = args[1];
 			String carId = args[2];
@@ -90,12 +91,11 @@ public class ServerMessageParser
 			String depDate = args[5];
 			String depHour = args[6];
 			String parkingLot = args[7];
-
+			String email = args[8];
+			
 			ClientSystem clientSystem = new ClientSystem();
-			if(clientSystem.addInAdvanceParkingToDB(id, carId, arrivalDate, arrivalHour, depDate, depHour, parkingLot).equals("succeeded"))
-			{
-				client.sendToClient("submitInAdvanceParking " + clientSystem.CalcInAdvanceParkingCost(arrivalDate, arrivalHour, depDate, depHour));
-			}			
+			client.sendToClient("submitInAdvanceParking " + clientSystem.addInAdvanceParkingToDB(id, carId, arrivalDate, arrivalHour, depDate, depHour, parkingLot, email));
+			
 		}
 
 		else if(args[0].equals("submitSubscription"))
@@ -145,32 +145,32 @@ public class ServerMessageParser
 		}
 
 		/* Admin System */
-		else if(args[0].equals("registerDefectSpot"))
+		else if(args[0].equals("registerDefectSpot"))	//Done
 		{
 			String parkingLot = args[1];
-			String spot = args[2];
-
+			String floor = args[2];
+			String row = args[3];
 			AdminSystem adminSystem = new AdminSystem();
-			client.sendToClient("registerDefectSpot " + adminSystem.registerDefectSpot(parkingLot, spot));
+			client.sendToClient("registerDefectSpot " + adminSystem.registerDefectSpot(parkingLot, floor, row));
 		}
 
-		else if(args[0].equals("preserveSpot"))
+		else if(args[0].equals("preserveSpot"))		//Done
 		{
 			String parkingLot = args[1];
-			String spot = args[2];
-
+			String floor = args[2];
+			String row = args[3];
+			
 			AdminSystem adminSystem = new AdminSystem();
-			client.sendToClient("preserveSpot " + adminSystem.preserveSpot(parkingLot, spot));
+			client.sendToClient("preserveSpot " + adminSystem.preserveSpot(parkingLot, floor, row));
 		}
 
-		else if(args[0].equals("submitUpdatePrices"))
+		else if(args[0].equals("submitUpdatePrices"))	//Done
 		{
-			String local = args[1];
-			String inAdv = args[2];
-			String sub = args[3];
+			String priceType = args[1];
+			String newPrice = args[2];
 
 			AdminSystem adminSystem = new AdminSystem();
-			client.sendToClient("submitUpdatePrices " + adminSystem.updatePrices(local, inAdv, sub));
+			client.sendToClient("submitUpdatePrices " + adminSystem.updatePrices(priceType, newPrice));
 		}
 
 		else if(args[0].equals("produceSnapShot"))
@@ -188,22 +188,30 @@ public class ServerMessageParser
 			client.sendToClient("producePerformanceReport " + adminSystem.producePerformanceReport());
 		}
 
-		else if(args[0].equals("addNewParkingLot"))
+		else if(args[0].equals("addNewParkingLot"))	//Done
 		{
 			String name = args[1];
 			String floors = args[2];
 			String spaces = args[3];
-
+			String availableSpots = args[4];
+			String SpotsInUse = args[5];
+			
 			AdminSystem adminSystem = new AdminSystem();
-			client.sendToClient("addNewParkingLot " + adminSystem.addNewParkingLotToDB(name, floors, spaces));
+			client.sendToClient("addNewParkingLot " + adminSystem.addNewParkingLotToDB(name, floors, spaces, availableSpots, SpotsInUse));
 		}
 		else if(args[0].equals("logout")) 	//Done
 		{
 			String name = args[1];
 			String type = args[2];
 			Login login = new Login();
-			client.sendToClient("logout " + Login.Logout(name, type));
+			client.sendToClient("logout " + login.Logout(name, type));
 		}
+		else if(args[0].equals("getParkingLots")) 	//Done
+		{
+			CommonMethods common = new CommonMethods();
+			client.sendToClient("getParkingLots " + common.getParkingLotsNames());
+		}
+		
 		else
 		{
 			System.out.println("Command sent from client not found: "+msg);

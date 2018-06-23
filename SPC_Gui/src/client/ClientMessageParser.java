@@ -1,11 +1,23 @@
 package client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import application.AdminSystemController;
 import application.CheckInCheckOutController;
+import application.ClientsSystemController;
 import application.CommonController;
+import application.LoginController;
+import application.Main;
 import application.SignUpController;
 import javafx.application.Platform;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -14,7 +26,8 @@ import javafx.scene.control.ButtonType;
 public class ClientMessageParser {
 
 	CommonController cc;
-
+//	public static StringProperty parkingLots = new SimpleStringProperty("hmm");
+	
 	public ClientMessageParser() {
 		cc = new CommonController();
 	}
@@ -67,10 +80,10 @@ public class ClientMessageParser {
 			handleSubmitInAdvanceParkingParse(args);
 		}
 
-		else if(args[0].equals("payInAdvanceParking"))
-		{
-			handlePayInAdvanceParkingParse(args);
-		}
+//		else if(args[0].equals("payInAdvanceParking"))
+//		{
+//			handlePayInAdvanceParkingParse(args);
+//		}
 
 		else if(args[0].equals("submitSubscription"))
 		{
@@ -131,6 +144,10 @@ public class ClientMessageParser {
 		{
 			handleLogout(args);
 		}
+		else if(args[0].equals("getParkingLots"))
+		{
+			handleGetParkingLots(args);
+		}
 		else 
 		{
 			System.out.println("Command sent from server not found: "+msg);
@@ -150,6 +167,18 @@ public class ClientMessageParser {
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
+		if(!statusFromServer.equals("true")) {
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.ERROR, statusFromServer).showAndWait();
+			});
+		}
+		else
+		{
+			Main.cts.send("getParkingLots");
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.INFORMATION, "Success").showAndWait();
+			});
+		}
 	}
 
 	private void handleProducePerformanceReportParse(String[] args)
@@ -168,18 +197,51 @@ public class ClientMessageParser {
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
+		if(!statusFromServer.equals("true")) {
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.ERROR, statusFromServer).showAndWait();
+			});
+		}
+		else
+		{
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.INFORMATION, "Success").showAndWait();
+			});
+		}
 	}
 
 	private void handlePreserveSpotParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
+		if(!statusFromServer.equals("true")) {
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.ERROR, statusFromServer).showAndWait();
+			});
+		}
+		else
+		{
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.INFORMATION, "Success").showAndWait();
+			});
+		}
 	}
 
 	private void handleRegisterDefectSpotParse(String[] args) 
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
+		if(!statusFromServer.equals("true")) {
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.ERROR, statusFromServer).showAndWait();
+			});
+		}
+		else
+		{
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.INFORMATION, "Success").showAndWait();
+			});
+		}
 	}
 
 	private void handleComplaintParse(String[] args) 
@@ -216,13 +278,25 @@ public class ClientMessageParser {
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
+		if(!args[1].equals("true")) {
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.ERROR, statusFromServer+" Try other time").showAndWait();
+			});
+		}
+		else
+		{
+			ClientsSystemController.inAdvanceOrderCost.set(args[2]);
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.INFORMATION, "Your order accepted.").showAndWait();
+			});
+		}
 	}
 
-	private void handlePayInAdvanceParkingParse(String[] args) 
-	{
-		String statusFromServer = parseMessage(args);
-		System.out.println(statusFromServer);
-	}
+//	private void handlePayInAdvanceParkingParse(String[] args) 
+//	{
+//		String statusFromServer = parseMessage(args);
+//		System.out.println(statusFromServer);
+//	}
 
 	private void handleLeaveParkingLotParse(String[] args) 
 	{
@@ -249,12 +323,30 @@ public class ClientMessageParser {
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
+		if(!statusFromServer.equals("true")) {
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.ERROR, statusFromServer).showAndWait();
+			});
+		}
+		else
+		{
+			LoginController.adminLoginVerified.setValue(true);;
+		}
 	}
 
 	private void handleSignInParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
+		if(!statusFromServer.equals("true")) {
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.ERROR, statusFromServer).showAndWait();
+			});
+		}
+		else
+		{
+			LoginController.clientLoginVerified.setValue(true);;
+		}
 	}
 
 	private void handleSignUpParse(String[] args)
@@ -272,17 +364,29 @@ public class ClientMessageParser {
 		System.out.println(statusFromServer);
 
 	}
+	
+	private void handleGetParkingLots(String[] args) {
+		String statusFromServer = parseMessage(args);
+		System.out.println(statusFromServer);
+		if(CheckInCheckOutController.parkingLotsNames != null)
+			CheckInCheckOutController.parkingLotsNames.setValue(statusFromServer);
+		if(AdminSystemController.parkingLotsNames != null)
+			AdminSystemController.parkingLotsNames.setValue(statusFromServer);
+		if(ClientsSystemController.parkingLotsNames != null)
+			ClientsSystemController.parkingLotsNames.setValue(statusFromServer);
+	}
+	
 	private String parseMessage(String[] args)
 	{
 		int argsLength = args.length;
 		String statusFromServer = "";
 		String space = " ";
-		for(int i=1; i<argsLength; i++)
+		for(int i=1; i<argsLength-1; i++)
 		{
-			statusFromServer += space;
 			statusFromServer += args[i];
+			statusFromServer += space;
 		}
-
+		statusFromServer += args[argsLength-1];
 		return statusFromServer;
 	}
 }

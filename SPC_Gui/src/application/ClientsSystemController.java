@@ -7,9 +7,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import javax.swing.text.DateFormatter;
 
+import client.ClientMessageParser;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -40,9 +48,6 @@ public class ClientsSystemController extends CommonController
 
 	@FXML
 	private DatePicker departureDateInAdvDate;
-
-	@FXML
-	private RadioButton regularSubRadioButton;
 
 	@FXML
 	private TextField idComplaintText;
@@ -105,9 +110,6 @@ public class ClientsSystemController extends CommonController
 	private TextField emailInAdvText;
 
 	@FXML
-	private RadioButton BusinessSubRadioButton;
-
-	@FXML
 	private TextField arrivalHourInAdvText;
 
 	@FXML
@@ -119,128 +121,119 @@ public class ClientsSystemController extends CommonController
 	@FXML
 	private TextField carIdCancelOrderText;
 
+    @FXML
+    private ComboBox<String> subscriptionTypeComboBox;
+    
 	/* non fxml variavles */
-	private String costInAdvanceFromServer;
+	//private String costInAdvanceFromServer;
 	private String costSubscriptionFromServer;
 	private String costRefundForCancelOrderFromSerever;
 	private boolean isSubscriptionRegular = true;
-	String[] parkingLotsNames; //put in combobox after parser calls getParkingLotsNamesFromServer
-
+	static public StringProperty parkingLotsNames;
+	static public StringProperty inAdvanceOrderCost;
 	//private final double inAdvanceParkingCostPerMin = 4/60;
 
-
-
-	/* Constructor */
-	public ClientsSystemController() 
+	@FXML
+	public void initialize() 
 	{
-		//Main.cts.send("getAllParkingLots");
+		subscriptionTypeComboBox.getItems().add("Regular");
+		subscriptionTypeComboBox.getItems().add("Buisness");
+		parkingLotsNames = new SimpleStringProperty("");
+		inAdvanceOrderCost = new SimpleStringProperty("");
+		getParkingLotsNamesFromServer();
+		parkingLotsNames.addListener(new ChangeListener<Object>(){
+			@Override
+			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				//System.out.println("Property changed");
+				String[] lots = parkingLotsNames.getValue().toString().split("\\s+");;
+				parkingLotsInAdvComboBox.getItems().setAll(lots);  
+			}
+		});
+		inAdvanceOrderCost.addListener(new ChangeListener<Object>(){
+			@Override
+			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				//String[] lots = parkingLotsNames.getValue().toString().split("\\s+");;
+				costInAdvText.setText(inAdvanceOrderCost.getValue().toString());  
+			}
+		});
 	}
-
+	
+	
+	private void getParkingLotsNamesFromServer() {
+		Main.cts.send("getParkingLots");
+	}
+	
 	/* In Advance Parking Functions */
 	/********************************/
 	@FXML
 	void submitInAdvanceParkingAction(ActionEvent event) 
 	{
+		if(parkingLotsInAdvComboBox.getValue() == null) {
+    		super.displayNotAllFieldsFullError();
+    		return;
+    	}
 		String id = idInAdvText.getText();
 		String carId = carIdInAdvText.getText();
 		String arrivalDate = arrivalDateInAdvDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		String arrivalHour = arrivalHourInAdvText.getText(); // format: 15:00
 		String depDate = departureDateInAdvDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		String depHour = departureHourInAdvText.getText();
+		String depHour = departureHourInAdvText.getText(); // format: 15:00
 		String parkingLot = parkingLotsInAdvComboBox.getValue().toString();
 		String email = emailInAdvText.getText();
-
-		// Call submit function in server (no need for email)
-
-		if(super.validateInputNotNull(new String[] {id, carId, arrivalDate, arrivalHour, depDate, depHour, parkingLot}))
+		if(super.validateInputNotNull(new String[] {id, carId, arrivalDate, arrivalHour, depDate, depHour}))
 		{
 			Main.cts.send("submitInAdvanceParking " + id + " " + carId + " " + arrivalDate
-					+ " " + arrivalHour + " " + depDate + " " + depHour + " " + parkingLot);
-
+					+ " " + arrivalHour + " " + depDate + " " + depHour + " " + parkingLot + " " + email);
 			// The answer from ClientMessageParser will contain the cost calculated and than set it in costInAdvanceFromServer?
 		}
-
 		else
 		{
 			super.displayNotAllFieldsFullError();
 		}
-
-		// after getting cost from server (or from calculating here)
-		costInAdvText.setText(costInAdvanceFromServer);
-
-		
-		
-		//    	Date arriv = Date.from(arrivalDateInAdvDate.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-		//    	Date dep = Date.from(departureDateInAdvDate.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-		//
-		//    	Period p = new Period();
-		//    	String[] arrivalHourSplit = arrivalHour.split(":");
-		//    	String[] depHourSplit = depHour.split(":");
-		//    	
-		//    	double totalParkingTime = (Double.parseDouble(depHourSplit[0]) - Double.parseDouble(arrivalHourSplit[0])) + 
-		//    			Double.parseDouble(depHourSplit[1])/60 - Double.parseDouble(arrivalHourSplit[1])/60; 
-		//    	
-		//    	//costInAdvText.setText(String.valueOf(totalParkingTime*inAdvanceParkingCostPerMin));
-		//    	costInAdvText.setText(String.valueOf(totalParkingTime*inAdvanceParkingCostPerMin));
-
 	}
 
 	@FXML
 	void payInAdvanceParkingAction(ActionEvent event) 
 	{
-		// The cost will set from server after submition
-		String id = idInAdvText.getText();
-
-		if(super.validateInputNotNull(new String[] {id, costInAdvanceFromServer}))
-		{
-			Main.cts.send("payInAdvanceParking" + id + " " + costInAdvanceFromServer);
-		}
-
-		else
-		{
-			super.displayNotAllFieldsFullError(); //Change to correct message
-		}
-
+		//String id = idInAdvText.getText();
+//		if(super.validateInputNotNull(new String[] {id, costInAdvanceFromServer}))
+//		{
+//			Main.cts.send("payInAdvanceParking" + id + " " + costInAdvanceFromServer);
+//			inAdvanceOrderCost="";
+//		}
+//
+//		else
+//		{
+//			super.displayNotAllFieldsFullError(); //Change to correct message
+//		}
+		inAdvanceOrderCost.set("");
+		new Alert(Alert.AlertType.INFORMATION, "Thanks, we love your money.").showAndWait();
 	}
+	
 	/********************************/
 
 	/* Subscription Functions       */
 	/********************************/
-	@FXML
-	void checkBusinessSubAction(ActionEvent event) 
-	{
-		BusinessSubRadioButton.setSelected(true);
-		regularSubRadioButton.setSelected(false);
-		isSubscriptionRegular = true;
-	}
-
-	@FXML
-	void checkRegularSubAction(ActionEvent event) 
-	{
-		BusinessSubRadioButton.setSelected(false);
-		regularSubRadioButton.setSelected(true);
-		isSubscriptionRegular = false;
-	}
 
 	@FXML
 	void submitSubscriptionAction(ActionEvent event) 
 	{
+		if(subscriptionTypeComboBox.getValue() == null) {
+    		super.displayNotAllFieldsFullError();
+    		return;
+    	}
 		String id = idSubText.getText();
-		String carsId = carIdSubText.getText(); // if there are more than one car, the cars id will be: carI1 CarId2 and so on
+		String carId = carIdSubText.getText();
 		String date = startDateSubDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		String regOrBuis;
-
-		if(isSubscriptionRegular) regOrBuis = "regular"; else regOrBuis = "business";
-		if(super.validateInputNotNull(new String[] {id, carsId, date}))
+		String regOrBuis = subscriptionTypeComboBox.getValue().toString();
+		if(super.validateInputNotNull(new String[] {id, carId, date}))
 		{
-			Main.cts.send("submitSubscription" + id + " " + carsId + " " + date + " " + regOrBuis);
+			Main.cts.send("submitSubscription " + id + " " + carId + " " + date + " " + regOrBuis);
 		}
-
 		else
 		{
 			super.displayNotAllFieldsFullError();
 		}
-
 		// after getting cost from serverr
 		costSubText.setText(costSubscriptionFromServer);
 	}
@@ -337,12 +330,4 @@ public class ClientsSystemController extends CommonController
 		super.openScene("LoginScene.fxml", event);
 	}
 
-	public void getParkingLotsNamesFromServer(String[] names) 
-	{
-		parkingLotsNames = names;
-		for(String name:names)
-		{
-			parkingLotsInAdvComboBox.setValue(name);
-		}
-	}
 }

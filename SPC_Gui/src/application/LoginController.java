@@ -1,18 +1,16 @@
 package application;
 
+import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-
 import javafx.scene.control.TextField;
 import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
-import javafx.stage.Stage;
-
 
 public class LoginController extends CommonController
 {
@@ -28,12 +26,58 @@ public class LoginController extends CommonController
     private PasswordField passwordText;
 	@FXML
     private TextField userNameText;
-	
-//	String[] parkingLotsNames; //put in combobox after parser calls getParkingLotsNamesFromServer
 
-	public LoginController(){
-		//Main.cts.send("getAllParkingLots");
+	public static BooleanProperty clientLoginVerified;
+	public static BooleanProperty adminLoginVerified;
+	private ActionEvent lastEvent = null;
+	
+	@FXML
+	public void initialize() 
+	{
+		clientLoginVerified= new SimpleBooleanProperty(false);
+		adminLoginVerified= new SimpleBooleanProperty(false);
+		clientLoginVerified.addListener(new ChangeListener<Object>(){
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+            		if(clientLoginVerified.getValue() == true)
+            		{
+            			clientLoginVerified.setValue(false);          		
+            			clientSignIn();
+            		}
+            }
+        });
+		adminLoginVerified.addListener(new ChangeListener<Object>(){
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+            		if(adminLoginVerified.getValue() == true)
+            		{
+            			adminLoginVerified.setValue(false);          		
+            			adminSignIn();
+            		}
+            }
+        });
 	}
+	
+	private void clientSignIn() {
+		Platform.runLater(() -> {
+			try {
+				super.openScene("ClientsSystemScene.fxml", lastEvent);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+	
+	private void adminSignIn() {
+		Platform.runLater(() -> {
+			try {
+				super.openScene("AdminSystemScene.fxml", lastEvent);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+	
 	@FXML
 	void SignInAction(ActionEvent event) throws IOException
 	{
@@ -52,8 +96,8 @@ public class LoginController extends CommonController
 			super.displayNotAllFieldsFullError();
 			return;
 		}
-		
-		super.openScene("ClientsSystemScene.fxml", event);
+		lastEvent = event;
+		//super.openScene("ClientsSystemScene.fxml", event);
 	}	
 
 	@FXML
@@ -74,8 +118,8 @@ public class LoginController extends CommonController
 			super.displayNotAllFieldsFullError();
 			return;
 		}
-		
-		super.openScene("AdminSystemScene.fxml", event);
+		lastEvent = event;
+		//super.openScene("AdminSystemScene.fxml", event);
 	}
 
 	@FXML
@@ -89,10 +133,6 @@ public class LoginController extends CommonController
 	{
 		super.openScene("CheckInCheckOutScene.fxml", event);
 	}
-	
-//	public void getParkingLotsNamesFromServer(String[] names) {
-//		parkingLotsNames= names;
-//	}
 	
 }
 
