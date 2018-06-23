@@ -415,39 +415,39 @@ public class mysqlConnection {
 		conn.createStatement();
 		PreparedStatement  ps = conn.prepareStatement("SELECT * FROM orderInAdvance WHERE ID = \""+ id +"\";");
 		rs = ps.executeQuery();
+		str+="Orders In Advance:\n";
+		str+=String.format("|%20s|", "CarID") + String.format("|%20s|", "ParkingLot") + String.format("|%20s|", "ArrivalDate") + String.format("|%20s|", "ArrivalHour")
+		+ String.format("|%20s|", "DepartureAproxDate") + String.format("|%20s|", "DepartureAproxHour") + String.format("|%20s|", "Email")
+		+ String.format("|%20s|", "Cost") + "\n";
+
 		while(rs.next())
-		{
-			str+="Orders In Advance:\n";
-			str+=String.format("|%20s|", "CarID") + String.format("|%20s|", "ParkingLot") + String.format("|%20s|", "ArrivalDate") + String.format("|%20s|", "ArrivalHour")
-					+ String.format("|%20s|", "DepartureAproxDate") + String.format("|%20s|", "DepartureAproxHour") + String.format("|%20s|", "Email")
-						+ String.format("|%20s|", "Cost") + "\n";
-			
+		{			
 			str+=String.format("|%20s|", rs.getString("CarID")) + String.format("|%20s|", rs.getString("ParkingLot")) + String.format("|%20s|", rs.getString("ArrivalDate")) + String.format("|%20s|",  rs.getString("ArrivalHour"))
 			+ String.format("|%20s|", rs.getString("DepartureAproxDate")) + String.format("|%20s|", rs.getString("DepartureAproxHour")) + String.format("|%20s|", rs.getString("Email"))
-				+ String.format("|%20s|", rs.getString("Cost")) + "\n";
-			
-			str+="\n";
+			+ String.format("|%20s|", rs.getString("Cost")) + "\n";
 		} 
+		str+="\n";
 		ps = conn.prepareStatement("SELECT * FROM orderRegularSubscription WHERE ID = \""+ id +"\";");
 		rs = ps.executeQuery();
+		str+="Regular subscriptionts:\n";
+		str+=String.format("|%20s|", "CarID") + String.format("|%20s|", "StartDate") + String.format("|%20s|", "EndDate") + String.format("|%20s|", "Cost") + "\n";		
 		while(rs.next())
 		{
-			str+="Regular subscriptionts:\n";
-			str+=String.format("|%20s|", "CarID") + String.format("|%20s|", "StartDate") + String.format("|%20s|", "EndDate") + String.format("|%20s|", "Cost") + "\n";
 			str+=String.format("|%20s|", rs.getString("CarID")) + String.format("|%20s|", rs.getString("StartDate")) + 
 					String.format("|%20s|", rs.getString("EndDate")) + String.format("|%20s|",  rs.getString("Cost"))+ "\n";
-			str+="\n";
 		} 
+		str+="\n";
 		ps = conn.prepareStatement("SELECT * FROM orderBusinessSubscription WHERE ID = \""+ id +"\";");
 		rs = ps.executeQuery();
+		str+="Buisness subscriptiont:\n";
+		str+=String.format("|%20s|", "CarID") + String.format("|%20s|", "StartDate") + String.format("|%20s|", "EndDate") + String.format("|%20s|", "Cost") + "\n";		
 		while(rs.next())
 		{
-			str+="Buisness subscriptiont:\n";
-			str+=String.format("|%20s|", "CarID") + String.format("|%20s|", "StartDate") + String.format("|%20s|", "EndDate") + String.format("|%20s|", "Cost") + "\n";
 			str+=String.format("|%20s|", rs.getString("CarID")) + String.format("|%20s|", rs.getString("StartDate")) + 
 					String.format("|%20s|", rs.getString("EndDate")) + String.format("|%20s|",  rs.getString("Cost"))+ "\n";
-			str+="\n";
 		} 
+
+		System.out.println(str);
 		return "true " + str;
 	}
 
@@ -460,4 +460,53 @@ public class mysqlConnection {
 		preparedStatement .executeUpdate();
 		return "true";
 	}
+	
+	public static String getParkingLotRowsFromDB(String parkingLot) throws SQLException 
+	{
+		String str = "";
+		ResultSet rs;
+		conn.createStatement();
+		PreparedStatement  ps = conn.prepareStatement("SELECT * FROM " + parkingLot + ";");
+		rs = ps.executeQuery();
+		str+=String.format("|%20s|", "Floor") + String.format("|%20s|", "Row") + String.format("|%20s|", "Availability")+ "\n";			
+
+		while(rs.next())
+		{
+			str+=String.format("|%20s|", rs.getString("Floor")) + String.format("|%20s|", rs.getString("Row")) + String.format("|%20s|", rs.getString("Availability")) + "\n";			
+		} 
+		return "true " + str;
+	}
+
+	public static String getReport() throws SQLException 
+	{
+		ResultSet rs;
+		conn.createStatement();
+		PreparedStatement  ps = conn.prepareStatement("SELECT * FROM orderRegularSubscription;");
+		rs = ps.executeQuery();
+		rs.last();
+		int regularSubsrows = rs.getRow();
+		rs.beforeFirst();
+		
+		ResultSet rs2;
+		conn.createStatement();
+		PreparedStatement  ps2 = conn.prepareStatement("SELECT * FROM orderBusinessSubscription;");
+		rs2 = ps2.executeQuery();
+		rs2.last();
+		int busSubsrows = rs2.getRow();
+		rs2.beforeFirst();		
+		int totalSubs = regularSubsrows + busSubsrows;
+				
+		ResultSet rs3;
+		conn.createStatement();
+		PreparedStatement  ps3 = conn.prepareStatement("SELECT ID FROM orderBusinessSubscription GROUP BY ID HAVING COUNT(*) > 1;");
+		rs3 = ps3.executeQuery();
+		
+		rs3.last();
+		int moreThanOnerows = rs3.getRow();
+		rs3.beforeFirst();
+
+		System.out.println("Total subscriptions = " + String.valueOf(totalSubs) + " and subscriptions with more than one car = " + String.valueOf(moreThanOnerows));
+		return "true " + String.valueOf(totalSubs) + " " + String.valueOf(moreThanOnerows);	
+	}
 }
+
