@@ -198,10 +198,13 @@ public class ClientsSystemController extends CommonController
 		String depHour = departureHourInAdvText.getText(); // format: 15:00
 		String parkingLot = parkingLotsInAdvComboBox.getValue().toString();
 		String email = emailInAdvText.getText();
-		if(super.validateInputNotNull(new String[] {id, carId, arrivalDate, arrivalHour, depDate, depHour}))
+		if(super.validateInputNotNull(new String[] {id, carId, arrivalDate, arrivalHour, depDate, depHour})				)
 		{
-			Main.cts.send("submitInAdvanceParking " + id + " " + carId + " " + arrivalDate
-					+ " " + arrivalHour + " " + depDate + " " + depHour + " " + parkingLot + " " + email);
+			if(super.validateHoursFormatCorrect(arrivalHour, depHour))
+			{				
+				Main.cts.send("submitInAdvanceParking " + id + " " + carId + " " + arrivalDate
+						+ " " + arrivalHour + " " + depDate + " " + depHour + " " + parkingLot + " " + email);
+			}
 		}
 		else
 		{
@@ -262,7 +265,10 @@ public class ClientsSystemController extends CommonController
 		String hour = parkingHourCancelOrderText.getText();
 		if(super.validateInputNotNull(new String[] {id, carId, date, hour})) 
 		{
-			Main.cts.send("cancelOrder " + id + " " + carId + " " + date + " " + hour);
+			if(super.validateHoursFormatCorrect(hour))
+			{				
+				Main.cts.send("cancelOrder " + id + " " + carId + " " + date + " " + hour);
+			}
 		}
 		else
 		{

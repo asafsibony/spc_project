@@ -116,7 +116,10 @@ public class AdminSystemController extends CommonController
     	
 		if(super.validateInputNotNull(new String[] {rowIndex, floorIndex}))
 		{
-			Main.cts.send("registerDefectSpot " + parkingLot + " " + floorIndex + " " + rowIndex);
+			if(super.validateFieldIsANumber(floorIndex, rowIndex))
+			{
+				Main.cts.send("registerDefectSpot " + parkingLot + " " + floorIndex + " " + rowIndex);
+			}
 		}
 		else
 		{
@@ -137,7 +140,10 @@ public class AdminSystemController extends CommonController
     	
 		if(super.validateInputNotNull(new String[] {floorIndex, rowIndex}))
 		{
-			Main.cts.send("preserveSpot " + parkingLot + " " + floorIndex + " " + rowIndex);
+			if(super.validateFieldIsANumber(floorIndex, rowIndex))
+			{
+				Main.cts.send("preserveSpot " + parkingLot + " " + floorIndex + " " + rowIndex);
+			}
 		}
 		else
 		{
@@ -163,7 +169,10 @@ public class AdminSystemController extends CommonController
     	// only of permission given
 		if(super.validateInputNotNull(new String[] {priceToUpdat}))
 		{
-			Main.cts.send("submitUpdatePrices " + priceType + " " + priceToUpdat);
+			if(super.validateFieldIsANumber(priceToUpdat))
+			{				
+				Main.cts.send("submitUpdatePrices " + priceType + " " + priceToUpdat);
+			}
 		}
 
 		else
@@ -207,13 +216,18 @@ public class AdminSystemController extends CommonController
     	String name = nameNewParkingLotText.getText().replace(" ", "_");
     	String floors = floorsNewParkingLotText.getText();
     	String spaces = spacesNewParkingLotText.getText();
-    	String availableSpots = Integer.toString(Integer.parseInt(floors) * Integer.parseInt(spaces));
     	String SpotsInUse = "0";
 		if(super.validateInputNotNull(new String[] {name, floors, spaces}))
 		{
-			Main.cts.send("addNewParkingLot " + name + " " + floors + " " + spaces + " "+ availableSpots + " " + SpotsInUse);
+			if(super.validateFieldIsANumber(new String[] {floors, spaces}))
+			{
+		    	if(super.validateFieldIsANumber(floors, spaces))
+		    	{		    		
+			    	String availableSpots = Integer.toString(Integer.parseInt(floors) * Integer.parseInt(spaces));
+		    		Main.cts.send("addNewParkingLot " + name + " " + floors + " " + spaces + " "+ availableSpots + " " + SpotsInUse);
+		    	}
+			}
 		}
-
 		else
 		{
 			super.displayNotAllFieldsFullError();
@@ -229,3 +243,4 @@ public class AdminSystemController extends CommonController
     	super.openScene("LoginScene.fxml", event);
     }
 }
+

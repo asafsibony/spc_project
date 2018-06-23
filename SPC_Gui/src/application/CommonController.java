@@ -1,6 +1,9 @@
 package application;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -22,11 +25,6 @@ public class CommonController
 		window.show();
 	}
 	
-	public void displayMessage(String message)
-	{
-		new Alert(Alert.AlertType.CONFIRMATION, message).showAndWait();
-	}
-	
 	public boolean validateInputNotNull(String... args)
 	{
 		for(String arg : args)
@@ -44,4 +42,44 @@ public class CommonController
 	{
 		new Alert(Alert.AlertType.ERROR, "Please fill out all fields").showAndWait();
 	}
+	
+	public boolean validateFieldIsANumber(String... args)
+	{
+		for (String arg : args)
+		{
+			try
+			{
+				Integer.parseInt(arg);
+			}
+			catch(Exception e)
+			{
+				new Alert(Alert.AlertType.ERROR, "Wrong input. Try again.").showAndWait();
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean validateHoursFormatCorrect(String... args)
+	{
+		String format = "HH:mm";
+		
+		for (String arg : args)
+		{
+			Date date = null;
+			try {
+	            SimpleDateFormat sdf = new SimpleDateFormat(format);
+	            date = sdf.parse(arg);
+	            if (!arg.equals(sdf.format(date))) {
+	                date = null;
+	            }
+	        } catch (ParseException ex) {
+	            ex.printStackTrace();
+				new Alert(Alert.AlertType.ERROR, "Wrong input. Try again.").showAndWait();	     
+	            return false;
+	        }
+		}
+		return true;
+	}
+	
 }
