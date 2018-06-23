@@ -11,7 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Tab;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class AdminSystemController extends CommonController
@@ -30,10 +30,19 @@ public class AdminSystemController extends CommonController
 
     @FXML
     private Button submitUpdatePricesButton;
-
+    
+    @FXML
+	private TextArea snapshotTextArea;
+        
     @FXML
     private TextField spacesNewParkingLotText;
-
+    
+    @FXML
+    private TextField moreThanOneCarSubsText;
+    
+    @FXML
+    private TextField totalSubsText;
+    
     @FXML
     private Button preserveButton;
 
@@ -78,6 +87,11 @@ public class AdminSystemController extends CommonController
     
     private static boolean permissionGiven = false;
     static public StringProperty parkingLotsNames;
+    static public StringProperty snapshot;
+    static public StringProperty totalSubs;
+    static public StringProperty subsWithMoreThanOneCar;
+
+
     
     @FXML
 	public void initialize() 
@@ -86,6 +100,11 @@ public class AdminSystemController extends CommonController
     	priceTypeComboBox.getItems().add("Order");
     	priceTypeComboBox.getItems().add("Subscription");
     	parkingLotsNames = new SimpleStringProperty("");
+    	snapshot = new SimpleStringProperty("");
+    	totalSubs = new SimpleStringProperty("");
+    	subsWithMoreThanOneCar = new SimpleStringProperty("");
+
+
     	getParkingLotsNamesFromServer();
 		parkingLotsNames.addListener(new ChangeListener<Object>(){
             @Override
@@ -95,6 +114,24 @@ public class AdminSystemController extends CommonController
             		parkingLotDefectComboBox.getItems().setAll(lots);  
             		parkingLotSnapshotComboBox.getItems().setAll(lots); 
             		parkingLotPreserveComboBox.getItems().setAll(lots); 
+            }
+        });
+		snapshot.addListener(new ChangeListener<Object>(){
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				snapshotTextArea.setText(snapshot.getValue().toString()); 
+            }
+        });
+		totalSubs.addListener(new ChangeListener<Object>(){
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				totalSubsText.setText(totalSubs.getValue().toString()); 
+            }
+        });
+		subsWithMoreThanOneCar.addListener(new ChangeListener<Object>(){
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				moreThanOneCarSubsText.setText(subsWithMoreThanOneCar.getValue().toString()); 
             }
         });
 	}

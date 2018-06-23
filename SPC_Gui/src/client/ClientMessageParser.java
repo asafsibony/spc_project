@@ -128,12 +128,12 @@ public class ClientMessageParser {
 
 		else if(args[0].equals("produceSnapShot"))
 		{
-			handleProduceSnapShotParse(args);
+			handleProduceSnapShotParse(args, msg);
 		}
 
 		else if(args[0].equals("producePerformanceReport"))
 		{
-			handleProducePerformanceReportParse(args);
+			handleProducePerformanceReportParse(args, msg);
 		}
 
 		else if(args[0].equals("addNewParkingLot"))
@@ -181,16 +181,36 @@ public class ClientMessageParser {
 		}
 	}
 
-	private void handleProducePerformanceReportParse(String[] args)
+	private void handleProducePerformanceReportParse(String[] args, String msg)
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
+		if(!args[1].equals("true")) {
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.ERROR, statusFromServer).showAndWait();
+			});
+		}
+		else
+		{
+			AdminSystemController.totalSubs.set(args[2]);
+			AdminSystemController.subsWithMoreThanOneCar.set(args[3]);
+		}
 	}
 
-	private void handleProduceSnapShotParse(String[] args)
+	private void handleProduceSnapShotParse(String[] args, String msg)
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
+		if(!args[1].equals("true")) {
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.ERROR, statusFromServer).showAndWait();
+			});
+		}
+		else
+		{
+			msg = msg.replace("produceSnapShot true ","");
+			AdminSystemController.snapshot.set(msg);
+		}
 	}
 
 	private void handleUpdatePricesParse(String[] args)

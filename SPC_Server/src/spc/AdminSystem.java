@@ -46,14 +46,34 @@ public class AdminSystem {
 		}
 	}
 
-	public String produceSnapShot(String parkingLot, String spot) {
-		// TODO Auto-generated method stub
-		return null;
+	public String produceSnapShot(String parkingLot) throws SQLException 
+	{
+		try
+		{
+			String res = mysqlConnection.getParkingLotRowsFromDB(parkingLot);
+			System.out.println("result = " + res);
+			return res;
+		}
+		catch (Exception e) 
+		{
+			System.out.println(e.getMessage());
+			return e.getMessage();
+		}
 	}
 
-	public String producePerformanceReport() {
-		// TODO Auto-generated method stub
-		return null;
+	public String producePerformanceReport() 
+	{
+		try
+		{
+			String res = mysqlConnection.getReport();
+			System.out.println(res);
+			return res;
+		}
+		catch (Exception e) 
+		{
+			System.out.println(e.getMessage());
+			return e.getMessage();
+		}
 	}
 
 	public String addNewParkingLotToDB(String name, String floors, String spaces, String availableSpots, String SpotsInUse) {

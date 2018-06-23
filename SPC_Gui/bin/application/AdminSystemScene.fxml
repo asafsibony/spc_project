@@ -115,6 +115,7 @@
                                        <children>
                                           <Button fx:id="produceSnapshotButton" layoutX="30.0" layoutY="83.0" mnemonicParsing="false" onAction="#produceSnapshotAction" text="Produce Snapshot" />
                                           <ComboBox fx:id="parkingLotSnapshotComboBox" layoutX="14.0" layoutY="51.0" promptText="Choose Parking Lot" />
+                                          <TextArea fx:id="snapshotTextArea" layoutX="54.0" layoutY="129.0" prefHeight="308.0" prefWidth="661.0" />
                                        </children>
                                     </AnchorPane>
                               </content>
@@ -124,6 +125,10 @@
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
                                           <Button fx:id="performanceReportButton" layoutX="14.0" layoutY="51.0" mnemonicParsing="false" onAction="#performanceReportAction" text="Produce Performance Report" />
+                                          <Label layoutX="31.0" layoutY="115.0" text="Number of subscriptions in the system:" />
+                                          <Label layoutX="31.0" layoutY="156.0" text="Number of subscriptions that have more than one car:" />
+                                          <TextField fx:id="totalSubsText" layoutX="258.0" layoutY="111.0" />
+                                          <TextField fx:id="moreThanOneCarSubsText" layoutX="333.0" layoutY="152.0" />
                                        </children>
                                     </AnchorPane>
                               </content>

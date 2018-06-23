@@ -1,6 +1,7 @@
 package server;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import ocsf.server.ConnectionToClient;
 import spc.AdminSystem;
@@ -14,7 +15,7 @@ public class ServerMessageParser
  {
 	public ServerMessageParser() {}
 
-	public void parse(String msg, ConnectionToClient client) throws IOException
+	public void parse(String msg, ConnectionToClient client) throws IOException, SQLException
 	{
 		String[] args =  msg.split("\\s+");
 		
@@ -171,10 +172,9 @@ public class ServerMessageParser
 		else if(args[0].equals("produceSnapShot"))
 		{
 			String parkingLot = args[1];
-			String spot = args[2];
 
 			AdminSystem adminSystem = new AdminSystem();
-			client.sendToClient("produceSnapShot " + adminSystem.produceSnapShot(parkingLot, spot));
+			client.sendToClient("produceSnapShot " + adminSystem.produceSnapShot(parkingLot));
 		}
 
 		else if(args[0].equals("producePerformanceReport"))

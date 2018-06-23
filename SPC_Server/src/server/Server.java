@@ -3,6 +3,7 @@
 // license found at www.lloseng.com 
 package server;
 import java.io.*;
+import java.sql.SQLException;
 
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -47,6 +48,10 @@ public class Server extends AbstractServer
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+ catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

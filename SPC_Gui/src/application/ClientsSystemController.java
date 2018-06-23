@@ -130,7 +130,6 @@ public class ClientsSystemController extends CommonController
 	public static StringProperty orderListByID;
 
 
-
 	@FXML
 	public void initialize() 
 	{
@@ -141,6 +140,7 @@ public class ClientsSystemController extends CommonController
 		subscriptionOrderCost = new SimpleStringProperty("");
 		cancelOrderRefund = new SimpleStringProperty("");
 		orderListByID = new SimpleStringProperty("");
+
 		getParkingLotsNamesFromServer();
 		parkingLotsNames.addListener(new ChangeListener<Object>(){
 			@Override
@@ -174,7 +174,7 @@ public class ClientsSystemController extends CommonController
 				yourOrdersTextArea.setText(orderListByID.getValue().toString()); 
 				//yourOrdersTextArea.setDisable(true);
 			}
-		});
+		});		
 	}
 	
 	
