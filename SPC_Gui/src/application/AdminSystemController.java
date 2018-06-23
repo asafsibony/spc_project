@@ -1,7 +1,7 @@
 package application;
 
 import java.io.IOException;
-
+import javafx.scene.control.Tab;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -84,6 +84,15 @@ public class AdminSystemController extends CommonController
     
     @FXML
     private ComboBox<String> priceTypeComboBox;
+    
+    @FXML
+    private TextArea complaintsTextArea;
+    
+    @FXML
+    private TextField clientIdComplaintText;
+
+    @FXML
+    private Button complaintResponseSubmitButton;
     
     private static boolean permissionGiven = false;
     static public StringProperty parkingLotsNames;
@@ -278,6 +287,11 @@ public class AdminSystemController extends CommonController
     		Main.cts.send("logout " + Main.userName + " admin");
     	}
     	super.openScene("LoginScene.fxml", event);
+    }
+    
+    @FXML
+    void submitComplaintResponseAction(ActionEvent event) {
+
     }
 }
 

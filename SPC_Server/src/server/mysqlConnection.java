@@ -11,7 +11,10 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import javax.management.Query;
 
 
@@ -120,35 +123,25 @@ public class mysqlConnection {
 			return "SQL failure.";}
 	}
 
-	public static String CheckInCar(String id, String carId, String dep, String type)
+	public static String CheckInCar(String id, String carId, String dep, String type, String parkingLot) throws SQLException
 	{
 		Statement stmt;
-		try {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-			LocalTime now = LocalTime.now();
-			String f = formatter.format(now);
-
-			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			ResultSet uprs = stmt.executeQuery("SELECT * FROM carsCheckedIn;");
-
-			uprs.moveToInsertRow();
-			uprs.updateString("CarID", carId);
-			uprs.updateString("ID", id);
-			uprs.updateString("ParkingType", type);
-			uprs.updateString("EnterTime", f);
-			uprs.updateString("DepartureAproxTime", dep);  // לפי הסיפור לקוח מנוי יכול לחנות עד 14 שעות ברצף. בנוסף את זמן העזיבה המשוער עבור לקוח שהזמין מראש צריך לקחת מההזמנה שלו. 
-			uprs.updateString("ParkingLot", "parkingLot");
-			uprs.updateString("Email", "email@");
-
-			uprs.insertRow();
-			uprs.moveToCurrentRow();  
-			return "Car checked in Successfuly";
-
-		}catch(SQLException e)
-		{ 
-			System.out.println(e.getMessage());
-			return "Failure, could not check in car.";
-		}
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+		LocalTime now = LocalTime.now();
+		String enterTime = formatter.format(now);
+		stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		ResultSet uprs = stmt.executeQuery("SELECT * FROM carsCheckedIn;");
+		uprs.moveToInsertRow();
+		uprs.updateString("CarID", carId);
+		uprs.updateString("ID", id);
+		uprs.updateString("ParkingType", type);
+		uprs.updateString("EnterTime", enterTime);
+		uprs.updateString("DepartureAproxTime", dep);
+		uprs.updateString("ParkingLot", parkingLot);
+		uprs.updateString("Email", "email@");
+		uprs.insertRow();
+		uprs.moveToCurrentRow();  
+		return "true";
 	}
 
 	public static String getParkingCostCheckOut(String id, String carId)
@@ -388,9 +381,23 @@ public class mysqlConnection {
 			throw new Exception("Could not find the order. check your details.");
 		} 
 		else {
-			String refund = Double.toString(uprs.getDouble("Cost"));
+			double cost = uprs.getDouble("Cost");
+			double refund = 0;
+			String arrivalTime = date + ", " + hour;
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd, HH:mm");
+			Date dateArr;
+			dateArr = format.parse(arrivalTime);
+			long diffInMillies = dateArr.getTime() - new Date().getTime();
+			double numberOfminuets = TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS);
+			System.out.println(numberOfminuets);
+			if(numberOfminuets>180)
+				refund = cost - (cost * 0.1);
+			else if((numberOfminuets<=180 && numberOfminuets>60))
+				refund = cost - (cost * 0.5);
+			else if((numberOfminuets<=60 && numberOfminuets>0))
+				refund = 0;
 			uprs.deleteRow();
-			return "true " + refund;
+			return "true " + Double.toString(refund);
 		}
 	}
 
@@ -507,6 +514,41 @@ public class mysqlConnection {
 
 		System.out.println("Total subscriptions = " + String.valueOf(totalSubs) + " and subscriptions with more than one car = " + String.valueOf(moreThanOnerows));
 		return "true " + String.valueOf(totalSubs) + " " + String.valueOf(moreThanOnerows);	
+	}
+	
+	public static boolean checkIfParkingLotIsFull(String parkingLot) throws Exception {
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM parkingLots WHERE Name = \"" + parkingLot + "\"";
+		ResultSet uprs = stmt.executeQuery(query);
+		if (!uprs.next()) {
+			throw new Exception("Parking lot not found.");
+		} 
+		else 
+		{
+			int availableSpots = uprs.getInt("AvailableSpots");
+			int spotsInUse = uprs.getInt("SpotsInUse");
+			if(availableSpots > spotsInUse)
+				return false;
+			else
+				return true;
+		}
+	}
+
+	public static String getNotFullParkingLots() throws SQLException {
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM parkingLots";
+		ResultSet uprs = stmt.executeQuery(query);
+		String alternatives = "";
+		while (uprs.next()) {
+			int available = uprs.getInt("AvailableSpots");
+			int inUse = uprs.getInt("SpotsInUse");
+			String name = uprs.getString("Name");
+			if(available > inUse)
+				alternatives+= (name + " ");
+		}
+		if (alternatives.equals(""))
+			return ("All parking lot are full");
+		return alternatives;
 	}
 }
 
