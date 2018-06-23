@@ -171,7 +171,7 @@ public class ClientsSystemController extends CommonController
 		orderListByID.addListener(new ChangeListener<Object>(){
 			@Override
 			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-				//yourOrdersTextArea.set(orderListByID.getValue().toString());  
+				yourOrdersTextArea.setId(orderListByID.getValue().toString()); 
 			}
 		});
 	}

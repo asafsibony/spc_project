@@ -264,7 +264,7 @@ public class ClientMessageParser {
 			String orders="";
 			for(int i=2; i<args.length; i++)
 				orders+=args[i];
-			ClientsSystemController.cancelOrderRefund.set(orders);
+			ClientsSystemController.orderListByID.set(orders);
 		}
 	}
 
