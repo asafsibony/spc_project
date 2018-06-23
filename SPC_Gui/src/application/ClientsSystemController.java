@@ -315,5 +315,10 @@ public class ClientsSystemController extends CommonController
     	}
 		super.openScene("LoginScene.fxml", event);
 	}
+	
+    @FXML
+    void cancelOrderTabOpened(ActionEvent event) {
+    	cancelOrderRefund.set("");
+    }
 
 }
