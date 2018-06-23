@@ -82,7 +82,6 @@ public class CheckInCheckOutController extends CommonController
 		CheckInTypeComboBox.getItems().add("Casual");
 		CheckInTypeComboBox.getItems().add("Order");
 		CheckInTypeComboBox.getItems().add("Subscription");
-		CheckInTypeComboBox.getSelectionModel().select("Casual");
 		getParkingLotsNamesFromServer();
 		parkingLotsNames.addListener(new ChangeListener<Object>(){
             @Override
@@ -102,39 +101,36 @@ public class CheckInCheckOutController extends CommonController
 	@FXML
 	void submitCheckInAction(ActionEvent event) 
 	{
+		if(CheckInTypeComboBox.getValue() == null) {
+    		super.displayNotAllFieldsFullError();
+    		return;
+    	}
+		if(parkingLotsNames.getValue() == null) {
+    		super.displayNotAllFieldsFullError();
+    		return;
+    	}
 		String id = checkInIdText.getText();
 		String carId = carIdCheckInText.getText();
 		String dep = depCheckInText.getText();
-		//String email = emailCheckInText.getText();
 		String type = CheckInTypeComboBox.getValue();
-
+		String parkingLot = parkingLotsNames.getValue();
 		if(!type.equals("Casual"))
 		{
 			dep = "None";
-			if(super.validateInputNotNull(new String[] {id, carId, type}))
-			{			
-				String cmd = "submitCheckIn " + id + " " + carId + " " + dep + " " + type ;
-				Main.cts.send(cmd);
-			}
-
-			else
+		}
+		if(super.validateInputNotNull(new String[] {id, carId, type, dep}))
+		{			
+			if(super.validateHoursFormatCorrect(dep))
 			{
-				super.displayNotAllFieldsFullError();
+				String cmd = "submitCheckIn " + id + " " + carId + " " + dep + " " + type + " " + parkingLot;
+				Main.cts.send(cmd);					
 			}
 		}
-		else if(type.equals("Casual"))
+		else
 		{
-			if(super.validateInputNotNull(new String[] {id, carId, type, dep}))
-			{			
-				String cmd = "submitCheckIn " + id + " " + carId + " " + dep + " " + type;
-				Main.cts.send(cmd);
-			}
-
-			else
-			{
-				super.displayNotAllFieldsFullError();
-			}
-		}    	
+			super.displayNotAllFieldsFullError();
+		}
+		 	
 	}
 
 	@FXML

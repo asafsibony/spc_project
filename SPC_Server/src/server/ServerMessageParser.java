@@ -48,11 +48,11 @@ public class ServerMessageParser
 			String id = args[1];
 			String carId = args[2];
 			String dep = args[3];
-			//String email = args[4];
 			String type = args[4];
-
+			String parkingLot = args[5];
+			
 			CheckInCheckOut checkInCheckOut = new CheckInCheckOut();
-			client.sendToClient("submitCheckIn " + checkInCheckOut.CheckInCarToDB(id, carId, dep, type));
+			client.sendToClient("submitCheckIn " + checkInCheckOut.CheckInCarToDB(id, carId, dep, type, parkingLot));
 		}
 		
 		else if(args[0].equals("submitCheckOutAction"))
