@@ -129,7 +129,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TextArea layoutX="7.0" layoutY="100.0" prefHeight="271.0" prefWidth="840.0" />
+                        <TextArea layoutX="7.0" layoutY="100.0" prefHeight="271.0" prefWidth="840.0" promptText="You dont have any notifications." />
                      </children>
                   </AnchorPane>
               </content>
