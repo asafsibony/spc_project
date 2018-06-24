@@ -12,10 +12,18 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.management.Query;
+
+import javafx.util.Pair;
 
 
 public class mysqlConnection {
@@ -123,77 +131,46 @@ public class mysqlConnection {
 			return "SQL failure.";}
 	}
 
-	public static String CheckInCar(String id, String carId, String dep, String type, String parkingLot) throws SQLException
+	public static void addToCarsCheckedInTable(String id, String carId, String depHour, String type, String parkingLot, String depDate) throws SQLException
 	{
 		Statement stmt;
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-		LocalTime now = LocalTime.now();
-		String enterTime = formatter.format(now);
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd, HH:mm");
+		Date now = new Date();
 		stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		ResultSet uprs = stmt.executeQuery("SELECT * FROM carsCheckedIn;");
 		uprs.moveToInsertRow();
 		uprs.updateString("CarID", carId);
 		uprs.updateString("ID", id);
 		uprs.updateString("ParkingType", type);
-		uprs.updateString("EnterTime", enterTime);
-		uprs.updateString("DepartureAproxTime", dep);
+		uprs.updateString("EnterTime", format.format(now));
+		uprs.updateString("DepartureAproxTime", depDate + ", " + depHour);
 		uprs.updateString("ParkingLot", parkingLot);
 		uprs.updateString("Email", "email@");
 		uprs.insertRow();
 		uprs.moveToCurrentRow();  
-		return "true";
 	}
 
-	public static String getParkingCostCheckOut(String id, String carId)
+	public static String checkOutCar(String id, String carId, String parkingLotName, double price) throws Exception
 	{
-		Statement stmt;
-		try {
-			double cost;
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-			LocalTime now = LocalTime.now();
-			String f = formatter.format(now);
-			String query="";
-
-			conn.createStatement();
-			query = "SELECT * FROM carsCheckedIn WHERE ID = ? AND CarID = ?;";
-			PreparedStatement  ps = conn.prepareStatement(query);
-			ps.setString(1, id);
-			ps.setString(2, carId);
-
-			ResultSet rs = ps.executeQuery();
-			if(!rs.next())
-			{
-				return "Car not found";
-			}
-
-			String enterTime = rs.getString("EnterTime");
-			String type = rs.getString("ParkingType");
-
-			LocalTime enterTimeObj = LocalTime.parse(enterTime);
-			double numberOfHours = ChronoUnit.HOURS.between(enterTimeObj, now);
-			System.out.println("total hours = " + numberOfHours);
-
-			if(type.equals("Casual"))
-			{
-				cost = 5*numberOfHours;
-			}
-			else if(type.equals("Order"))
-			{
-				cost = 4*numberOfHours;
-			}
-			else
-			{
-				cost = 0;
-			}
-
-			String costStr = String.valueOf(cost);
-			return costStr + " NIS";
-
-		}catch(SQLException e)
-		{ 
-			System.out.println(e.getMessage());
-			return "Failure, calculate check out cost.";
+		conn.createStatement();
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM carsCheckedIn WHERE CarID = \"" + carId + "\" AND ID = \"" + id + "\"";
+		ResultSet uprs = stmt.executeQuery(query);
+		if (!uprs.next() ) {
+			throw new Exception("Could not find the car.");
+		} 
+		else {
+			uprs.deleteRow();
 		}
+		stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		query = "SELECT * FROM " + parkingLotName + " WHERE Availability = \"" + carId + "\"";
+		uprs = stmt.executeQuery(query);
+		while (uprs.next()) {
+			uprs.updateString("Availability", "free");
+			uprs.updateString("Deperture", "");
+			uprs.updateRow();
+		}
+		return "true "+price;
 	}
 
 	public static String getParkingLotsNames() {
@@ -232,7 +209,7 @@ public class mysqlConnection {
 
 	public static void constructParkingLot(String name, String floors, String spaces) throws SQLException {
 		System.out.println(name);
-		String query = "CREATE TABLE " + name + " (Floor INTEGER not NULL, Row INTEGER not NULL, Availability VARCHAR(30) default \"free\", PRIMARY KEY (Floor,Row))";
+		String query = "CREATE TABLE " + name + " (Floor INTEGER not NULL, Row INTEGER not NULL, Availability VARCHAR(30) default \"free\", Deperture VARCHAR(30) default \"\", PRIMARY KEY (Floor,Row))";
 		PreparedStatement preparedStatement = conn.prepareStatement(query);
 		preparedStatement.executeUpdate();
 
@@ -415,6 +392,21 @@ public class mysqlConnection {
 			return Double.parseDouble(cost);
 		}
 	}
+	
+	public static double getCasualPriceFromDB() throws Exception 
+	{
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM prices WHERE Type = \"Casual\"";
+		ResultSet uprs = stmt.executeQuery(query);
+		if (!uprs.next()) {
+			throw new Exception("Could not get price from data base.");
+		} 
+		else 
+		{
+			String cost = uprs.getString("Price");
+			return Double.parseDouble(cost);
+		}
+	}
 
 	public static String viewOrders(String id) throws SQLException {
 		String str = "";
@@ -550,5 +542,204 @@ public class mysqlConnection {
 			return ("All parking lot are full");
 		return alternatives;
 	}
+
+	public static void countDownUsedSpots(String parkingLot) throws SQLException {
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM parkingLots WHERE Name = \"" + parkingLot + "\"";
+		ResultSet uprs = stmt.executeQuery(query);
+		while (uprs.next()) {
+			int inUse = uprs.getInt("SpotsInUse");
+			uprs.updateInt( "SpotsInUse", inUse-1);
+			uprs.updateRow();
+		}
+	}
+
+	public static void RobotCheckIn(String carId, String depHour, String parkingLot, String depDate) throws SQLException, ParseException {
+		//Transfer all spots info from DB to ArrayList
+		ArrayList<Pair<String, Date>> spots=new ArrayList<Pair<String, Date>>();  
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM " + parkingLot;
+		ResultSet uprs = stmt.executeQuery(query);
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd, HH:mm");
+		while (uprs.next()) {
+			String status = uprs.getString("Availability");
+			String deperture = uprs.getString("Deperture"); 
+			if(!deperture.equals("")) {
+				Date depertureDate = format.parse(deperture);
+				spots.add(new Pair<String, Date>(status, depertureDate));
+			} else {
+				spots.add(new Pair<String, Date>(status, new Date()));
+			}
+		}
+		//find first free space index
+		int firstFreeSpot = 0;
+		for (int i = 0; i < spots.size(); i++) {
+			if (spots.get(i).getKey().equals("free")) {
+				firstFreeSpot = i;
+				break;
+			}
+		}		
+		//Remove every thing after firstFreeSpot
+		for (int j = firstFreeSpot; j < spots.size(); j++) {
+			spots.remove(j);
+			j--;
+		}
+		//Remove preserve and defects spots
+		for (int j = 0; j < spots.size(); j++) {
+			if (spots.get(j).getKey().equals("defect") || spots.get(j).getKey().equals("preserve")) {
+				spots.remove(j);
+				j--;
+			}
+		}
+		// Insert New car
+		String newDepTime = depDate + ", " + depHour;
+		Date newDepTimeDate = format.parse(newDepTime);
+		spots.add(new Pair<String, Date>(carId,newDepTimeDate));		
+		// Sort
+		Collections.sort(spots, new Comparator<Pair<String, Date>>() {
+			public int compare(Pair<String, Date> o1, Pair<String, Date> o2) {
+				return o1.getValue().compareTo(o2.getValue());
+			}
+		});			
+		// Return Cars
+		stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		query = "SELECT * FROM " + parkingLot;
+		uprs = stmt.executeQuery(query);
+		int i=0;
+		while (uprs.next() && i!=spots.size()) {
+			String status = uprs.getString("Availability");
+			if(!status.equals("preserve") && !status.equals("defect")) {
+				uprs.updateString("Availability", spots.get(i).getKey());
+				uprs.updateString("Deperture", format.format(spots.get(i).getValue()));
+				uprs.updateRow();
+				i++;
+			}
+		}
+	}
+
+	public static void countUpUsedSpots(String parkingLot) throws SQLException {
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM parkingLots WHERE Name = \"" + parkingLot + "\"";
+		ResultSet uprs = stmt.executeQuery(query);
+		while (uprs.next()) {
+			int inUse = uprs.getInt("SpotsInUse");
+			uprs.updateInt( "SpotsInUse", inUse+1);
+			uprs.updateRow();
+		}
+	}
+
+	public static String getParkingLot(String id, String carId) throws Exception {
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM carsCheckedIn WHERE CarID = \"" + carId + "\" AND ID = \"" + id + "\"";
+		ResultSet uprs = stmt.executeQuery(query);
+		if (!uprs.next() ) {
+			throw new Exception("Car was not found. check your details.");
+		} else {
+			String name = uprs.getString("ParkingLot");
+			return name;
+		}
+	}
+
+	public static boolean checkIfUserGotSubscription(String id, String carId) throws Exception {
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			String query = "SELECT * FROM orderBusinessSubscription WHERE CarID = \"" + carId + "\" AND ID = \"" + id + "\"";
+			ResultSet uprs = stmt.executeQuery(query);
+			if (!uprs.next() ) {
+				return false;
+			} else {
+				String Start = uprs.getString("StartDate");
+				String End = uprs.getString("EndDate");
+				Date StartDate = format.parse(Start);
+				Date EndDate = format.parse(End);
+				Date now = new Date();
+				if (now.getDate() >= StartDate.getDate() &&  now.getDate()<=EndDate.getDate())
+					return true;
+			}
+			query = "SELECT * FROM orderRegularSubscription WHERE CarID = \"" + carId + "\" AND ID = \"" + id + "\"";
+			uprs = stmt.executeQuery(query);
+			if (!uprs.next() ) {
+				return false;
+			} else {
+				String Start = uprs.getString("StartDate");
+				String End = uprs.getString("EndDate");
+				Date StartDate = format.parse(Start);
+				Date EndDate = format.parse(End);
+				Date now = new Date();
+				if (now.getDate() >= StartDate.getDate() &&  now.getDate()<=EndDate.getDate())
+					return true;
+			}
+			return false;
+	}
+
+	public static boolean checkIfUserGotOrder(String id, String carId) throws Exception {
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM orderInAdvance WHERE CarID = \"" + carId + "\" AND ID = \"" + id + "\"";
+		ResultSet uprs = stmt.executeQuery(query);
+		if (!uprs.next() ) {
+			return false;
+		} else {
+			String Start = uprs.getString("ArrivalDate");
+			Date StartDate = format.parse(Start);
+			Date now = new Date();
+			if (now.getDay() == StartDate.getDay())
+				return true;
+		}
+		return false;
+	}
+
+	public static boolean checkIfLateToDep(String id, String carId) throws SQLException, ParseException {
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd, HH:mm");
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM orderInAdvance WHERE CarID = \"" + carId + "\" AND ID = \"" + id + "\"";
+		ResultSet uprs = stmt.executeQuery(query);
+		if (!uprs.next() ) {
+			return false;
+		} else {
+			String depDay = uprs.getString("DepartureAproxDate");
+			String depHour = uprs.getString("DepartureAproxHour");
+			Date depDate = format.parse(depDay + ", " + depHour);
+			Date now = new Date();
+			if (now.getTime() > depDate.getTime())
+				return true;
+		}
+		return false;
+	}
+
+	public static double calculateCheckOutPrice(String id, String carId, String type, boolean lateToDep) throws Exception {
+		
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd, HH:mm");
+		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		String query = "SELECT * FROM carsCheckedIn WHERE CarID = \"" + carId + "\" AND ID = \"" + id + "\"";
+		ResultSet uprs = stmt.executeQuery(query);
+		uprs.next();
+		String EnterTime = uprs.getString("EnterTime");
+		Date EnterTimeDate = format.parse(EnterTime);
+		Date now = new Date();
+		long minuets = (now.getTime() - EnterTimeDate.getTime()) / 60000;
+		double hoursIn =  Math.ceil(minuets/60.0);
+		if (type == "Subscription")
+			return 0;		//Subscription paid in advance
+		if (type == "Order") 
+		{
+			if(lateToDep)
+			{
+				double price = getInAdvancePriceFromDB();
+				return (price*0.2)*hoursIn;		//financial penalty for being late
+			}
+			else
+			{
+				return 0;	//Orders paid in advance
+			}
+		}
+		if (type == "Casual") {
+			double price = getCasualPriceFromDB();
+			return price*hoursIn;
+		}
+		return 0;
+	}
+
+	
 }
 

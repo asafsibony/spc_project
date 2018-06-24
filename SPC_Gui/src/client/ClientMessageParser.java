@@ -59,19 +59,9 @@ public class ClientMessageParser {
 			handleSubmitCheckInParse(args);
 		}
 
-		//		else if(args[0].equals("payCheckOut"))
-		//		{
-		//			handlePayCheckOutParse(args);
-		//		}
-
 		else if(args[0].equals("submitCheckOutAction"))
 		{
 			handleSubmitCheckOutParse(args);
-		}
-
-		else if(args[0].equals("leaveParkingLot"))
-		{
-			handleLeaveParkingLotParse(args);
 		}
 
 		/* Client System */
@@ -79,11 +69,6 @@ public class ClientMessageParser {
 		{
 			handleSubmitInAdvanceParkingParse(args);
 		}
-
-//		else if(args[0].equals("payInAdvanceParking"))
-//		{
-//			handlePayInAdvanceParkingParse(args);
-//		}
 
 		else if(args[0].equals("submitSubscription"))
 		{
@@ -161,6 +146,18 @@ public class ClientMessageParser {
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);	
+		if(!args[1].equals("true")) {
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.ERROR, statusFromServer).showAndWait();
+			});
+		}
+		else
+		{
+			CheckInCheckOutController.checkOutCost.set(args[2]);
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.INFORMATION, "Almost done, please Pay.").showAndWait();
+			});
+		}
 	}
 
 	private void handleAddNewParkingLotParse(String[] args)
@@ -357,18 +354,6 @@ public class ClientMessageParser {
 		}
 	}
 
-//	private void handlePayInAdvanceParkingParse(String[] args) 
-//	{
-//		String statusFromServer = parseMessage(args);
-//		System.out.println(statusFromServer);
-//	}
-
-	private void handleLeaveParkingLotParse(String[] args) 
-	{
-		String statusFromServer = parseMessage(args);
-		System.out.println(statusFromServer);
-	}
-
 	private void handlePayCheckOutParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
@@ -379,9 +364,17 @@ public class ClientMessageParser {
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
-		Platform.runLater(() -> {
-			new Alert(Alert.AlertType.INFORMATION, statusFromServer).showAndWait();
-		});
+		if(!args[1].equals("true")) {
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.ERROR, statusFromServer).showAndWait();
+			});
+		}
+		else
+		{
+			Platform.runLater(() -> {
+				new Alert(Alert.AlertType.INFORMATION, "Congrats! Your car just Checked-in.").showAndWait();
+			});
+		}
 	}
 
 	private void handleSignInAsAdminParse(String[] args)

@@ -43,43 +43,26 @@ public class ServerMessageParser
 			client.sendToClient("SignInAsAdmin " + login.SignInAsAdmin(user, pass));
 		}
 
-		else if(args[0].equals("submitCheckIn"))
+		else if(args[0].equals("submitCheckIn"))	//Done
 		{
 			String id = args[1];
 			String carId = args[2];
 			String dep = args[3];
 			String type = args[4];
 			String parkingLot = args[5];
+			String depDate = args[6];
 			
 			CheckInCheckOut checkInCheckOut = new CheckInCheckOut();
-			client.sendToClient("submitCheckIn " + checkInCheckOut.CheckInCarToDB(id, carId, dep, type, parkingLot));
+			client.sendToClient("submitCheckIn " + checkInCheckOut.CheckInCarToDB(id, carId, dep, type, parkingLot, depDate));
 		}
 		
-		else if(args[0].equals("submitCheckOutAction"))
+		else if(args[0].equals("submitCheckOutAction"))		//Done
 		{
 			String id = args[1];
 			String carId = args[2];
 
 			CheckInCheckOut checkInCheckOut = new CheckInCheckOut();
 			client.sendToClient("submitCheckOutAction " + checkInCheckOut.submitCheckOut(id, carId));
-		}
-		
-//		else if(args[0].equals("payCheckOut"))
-//		{
-//			String id = args[1];
-//			String cost = args[2];
-//
-//			CheckInCheckOut checkInCheckOut = new CheckInCheckOut();
-//			client.sendToClient("payCheckOut " + checkInCheckOut.payCheckOut(id, cost));
-//		}
-
-		else if(args[0].equals("leaveParkingLot"))
-		{
-			String id = args[1];
-			String carId = args[2];
-
-			CheckInCheckOut checkInCheckOut = new CheckInCheckOut();
-			client.sendToClient("leaveParkingLot " + checkInCheckOut.removeCarFromDB(id, carId));
 		}
 
 		/* Client System */

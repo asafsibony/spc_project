@@ -1,7 +1,7 @@
 package application;
 
 import java.io.IOException;
-
+import java.time.format.DateTimeFormatter;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import client.*;
@@ -29,9 +30,6 @@ public class CheckInCheckOutController extends CommonController
 
 	@FXML
 	private TextField carIdCheckInText;
-
-	@FXML
-	private Button leaveCheckOutButton;
 
 	@FXML
 	private Button submitCheckInButton;
@@ -66,7 +64,11 @@ public class CheckInCheckOutController extends CommonController
 	@FXML
 	private ComboBox<String> CheckInTypeComboBox;
 
+    @FXML
+    private DatePicker depCheckInDatePicker;
+    
 	static public StringProperty parkingLotsNames;
+	static public StringProperty checkOutCost;
 	
 	@FXML
 	void SignInAction(ActionEvent event) throws IOException
@@ -79,6 +81,7 @@ public class CheckInCheckOutController extends CommonController
 	public void initialize() 
 	{
 		parkingLotsNames = new SimpleStringProperty("");
+		checkOutCost = new SimpleStringProperty("");
 		CheckInTypeComboBox.getItems().add("Casual");
 		CheckInTypeComboBox.getItems().add("Order");
 		CheckInTypeComboBox.getItems().add("Subscription");
@@ -90,7 +93,13 @@ public class CheckInCheckOutController extends CommonController
             		String[] lots = parkingLotsNames.getValue().toString().split("\\s+");;
             		parkingLotComboBox.getItems().setAll(lots);            		
             }
-        });
+		});
+		checkOutCost.addListener(new ChangeListener<Object>(){
+			@Override
+			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				costCheckOutText.setText(checkOutCost.getValue().toString());  
+			}
+		});
 	}
 
 	
@@ -105,24 +114,22 @@ public class CheckInCheckOutController extends CommonController
     		super.displayNotAllFieldsFullError();
     		return;
     	}
-		if(parkingLotsNames.getValue() == null) {
+		if(parkingLotComboBox.getValue() == null) {
     		super.displayNotAllFieldsFullError();
     		return;
     	}
 		String id = checkInIdText.getText();
 		String carId = carIdCheckInText.getText();
-		String dep = depCheckInText.getText();
+		String depTime = depCheckInText.getText();
 		String type = CheckInTypeComboBox.getValue();
-		String parkingLot = parkingLotsNames.getValue();
-		if(!type.equals("Casual"))
-		{
-			dep = "None";
-		}
-		if(super.validateInputNotNull(new String[] {id, carId, type, dep}))
+		String parkingLot = parkingLotComboBox.getValue();
+		String depDate = depCheckInDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+		if(super.validateInputNotNull(new String[] {id, carId, type, depTime, depDate}))
 		{			
-			if(super.validateHoursFormatCorrect(dep))
+			if(super.validateHoursFormatCorrect(depTime))
 			{
-				String cmd = "submitCheckIn " + id + " " + carId + " " + dep + " " + type + " " + parkingLot;
+				String cmd = "submitCheckIn " + id + " " + carId + " " + depTime + " " + type + " " + parkingLot + " " + depDate;
 				Main.cts.send(cmd);					
 			}
 		}
@@ -144,7 +151,6 @@ public class CheckInCheckOutController extends CommonController
 			String cmd = "submitCheckOutAction " + id + " " + carId;
 			Main.cts.send(cmd);
 		}
-
 		else
 		{
 			super.displayNotAllFieldsFullError();
@@ -154,25 +160,8 @@ public class CheckInCheckOutController extends CommonController
 	@FXML
 	void payAction(ActionEvent event) 
 	{
-		new Alert(Alert.AlertType.CONFIRMATION, "Payment ended succsesfully").showAndWait();
-	}
-
-	@FXML
-	void leaveAction(ActionEvent event) 
-	{
-		String id = checkInIdText.getText();
-		String carId = carIdCheckInText.getText();
-
-		if(super.validateInputNotNull(new String[] {id, carId}))
-		{			
-			String cmd = "leaveParkingLot " + id + " " + carId;
-			Main.cts.send(cmd);
-		}
-
-		else
-		{
-			super.displayNotAllFieldsFullError();
-		}
+		checkOutCost.setValue("");
+		new Alert(Alert.AlertType.CONFIRMATION, "Payment ended succsesfully, you are good to go!").showAndWait();
 	}
 
 }
