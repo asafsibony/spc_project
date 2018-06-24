@@ -22,10 +22,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-
+/**
+ * Main function: Launch application and establish connections
+ * @author scadaadmin
+ *
+ */
 public class Main extends Application {
-
-
 	static public ConnectToServer cts;
 	static public String userName="";
 	

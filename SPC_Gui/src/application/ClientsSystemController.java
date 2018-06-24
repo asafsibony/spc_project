@@ -26,6 +26,11 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+/**
+ * The controller for ClientSystemScene
+ * @author scadaadmin
+ *
+ */
 public class ClientsSystemController extends CommonController
 {
 	@FXML
@@ -130,6 +135,9 @@ public class ClientsSystemController extends CommonController
 	public static StringProperty orderListByID;
 
 
+	/**
+	 * Action when initializing scene
+	 */
 	@FXML
 	public void initialize() 
 	{
@@ -178,12 +186,19 @@ public class ClientsSystemController extends CommonController
 	}
 	
 	
+	/**
+	 * get parking lot names from server
+	 */
 	private void getParkingLotsNamesFromServer() {
 		Main.cts.send("getParkingLots");
 	}
 	
 	/* In Advance Parking Functions */
 	/********************************/
+	/**
+	 * Submit in advance parking button clicked event handler
+	 * @param event
+	 */
 	@FXML
 	void submitInAdvanceParkingAction(ActionEvent event) 
 	{
@@ -213,6 +228,10 @@ public class ClientsSystemController extends CommonController
 		}
 	}
 
+	/**
+	 * pay button clicked event handler
+	 * @param event
+	 */
 	@FXML
 	void payInAdvanceParkingAction(ActionEvent event) 
 	{
@@ -225,6 +244,10 @@ public class ClientsSystemController extends CommonController
 	/* Subscription Functions       */
 	/********************************/
 
+	/**
+	 * submit subscripion button clicked event handler
+	 * @param event
+	 */
 	@FXML
 	void submitSubscriptionAction(ActionEvent event) 
 	{
@@ -246,6 +269,10 @@ public class ClientsSystemController extends CommonController
 		}
 	}
 
+	/**
+	 * pay button clicked event handler
+	 * @param event
+	 */
 	@FXML
 	void paySubscriptionAction(ActionEvent event) 
 	{
@@ -257,6 +284,10 @@ public class ClientsSystemController extends CommonController
 
 	/* Cancel Order Functions       */
 	/********************************/
+	/**
+	 * cancel order button clicked event handler
+	 * @param event
+	 */
 	@FXML
 	void cancelOrderAction(ActionEvent event)
 	{
@@ -281,6 +312,10 @@ public class ClientsSystemController extends CommonController
 
 	/* View Order Functions         */
 	/********************************/
+	/**
+	 * submit view order button clicked event handler
+	 * @param event
+	 */
 	@FXML
 	void submitViewOrderAction(ActionEvent event)
 	{
@@ -299,6 +334,10 @@ public class ClientsSystemController extends CommonController
 	/********************************/
 
 	/* Complaint Function           */
+	/**
+	 * submit complaint button clicked event handler
+	 * @param event
+	 */
 	@FXML
 	void submitComplaintAction(ActionEvent event) 
 	{
@@ -315,6 +354,11 @@ public class ClientsSystemController extends CommonController
 	}
 
 	/* LogOut Function              */
+	/**
+	 * log out button clicked event handler
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	void LogOutAction(ActionEvent event) throws IOException
 	{

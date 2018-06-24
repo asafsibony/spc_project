@@ -9,9 +9,24 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import server.mysqlConnection;
 
+/**
+ * Server side client system 
+ * @author scadaadmin
+ *
+ */
 public class ClientSystem {
-
-
+	/**
+	 * add in advance parking to data base
+	 * @param id
+	 * @param carId
+	 * @param arrivalDate
+	 * @param arrivalHour
+	 * @param depDate
+	 * @param depHour
+	 * @param parkingLot
+	 * @param email
+	 * @return
+	 */
 	public String addInAdvanceParkingToDB(String id, String carId, String arrivalDate, String arrivalHour,
 			String depDate, String depHour, String parkingLot, String email) {
 		try {
@@ -24,6 +39,15 @@ public class ClientSystem {
 		}
 	}
 
+	/**
+	 * calculate in advance price
+	 * @param arrivalDate
+	 * @param arrivalHour
+	 * @param depDate
+	 * @param depHour
+	 * @return
+	 * @throws Exception
+	 */
 	private double calculatePriceInAdvance(String arrivalDate, String arrivalHour, String depDate, String depHour) throws Exception
 	{
 		double inAdvPrice = mysqlConnection.getInAdvancePriceFromDB();
@@ -50,6 +74,14 @@ public class ClientSystem {
 		}
 	}
 
+	/**
+	 * add subscription to data base
+	 * @param id
+	 * @param carId
+	 * @param date
+	 * @param regOrbuis
+	 * @return
+	 */
 	public String addSubscriptionToDB(String id, String carId, String date, String regOrbuis) {
 		try {
 			double cost = mysqlConnection.getSubscriptionPriceFromDB();
@@ -60,6 +92,14 @@ public class ClientSystem {
 		}
 	}
 
+	/**
+	 * cancel order
+	 * @param id
+	 * @param carId
+	 * @param date
+	 * @param hour
+	 * @return
+	 */
 	public String cancelOrder(String id, String carId, String date, String hour) {
 		try {
 			return mysqlConnection.cancelOrder(id, carId, date, hour);
@@ -69,6 +109,11 @@ public class ClientSystem {
 		}
 	}
 
+	/**
+	 * get user's orders from data base
+	 * @param id
+	 * @return
+	 */
 	public String viewlOrders(String id) {
 		try {
 			return mysqlConnection.viewOrders(id);
@@ -78,6 +123,12 @@ public class ClientSystem {
 		}
 	}
 	
+	/**
+	 * add complaint to data base
+	 * @param id
+	 * @param complaint
+	 * @return
+	 */
 	public String complaint(String id, String complaint) {
 		try {
 			return mysqlConnection.addComplaint(id, complaint);

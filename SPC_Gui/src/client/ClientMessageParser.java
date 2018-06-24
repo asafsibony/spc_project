@@ -22,16 +22,25 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 
-
+/**
+ * Parse messages from server
+ * @author scadaadmin
+ *
+ */
 public class ClientMessageParser {
 
-	CommonController cc;
-//	public static StringProperty parkingLots = new SimpleStringProperty("hmm");
-	
+	CommonController cc;	
+	/**
+	 * Constructor
+	 */
 	public ClientMessageParser() {
 		cc = new CommonController();
 	}
 
+	/**
+	 * Parse method for all messages
+	 * @param msg
+	 */
 	public void parse(String msg)
 	{
 		String[] args =  msg.split("\\s+");
@@ -142,6 +151,10 @@ public class ClientMessageParser {
 
 	/* Message From Server Handlres*/
 
+	/**
+	 * submit check out parse handle 
+	 * @param args
+	 */
 	private void handleSubmitCheckOutParse(String[] args) 
 	{
 		String statusFromServer = parseMessage(args);
@@ -160,6 +173,10 @@ public class ClientMessageParser {
 		}
 	}
 
+	/**
+	 * add new parking lot parse handle
+	 * @param args
+	 */
 	private void handleAddNewParkingLotParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
@@ -178,6 +195,11 @@ public class ClientMessageParser {
 		}
 	}
 
+	/**
+	 * produce performance report parse handle
+	 * @param args
+	 * @param msg
+	 */
 	private void handleProducePerformanceReportParse(String[] args, String msg)
 	{
 		String statusFromServer = parseMessage(args);
@@ -194,6 +216,11 @@ public class ClientMessageParser {
 		}
 	}
 
+	/**
+	 * produce snapshot parse handle
+	 * @param args
+	 * @param msg
+	 */
 	private void handleProduceSnapShotParse(String[] args, String msg)
 	{
 		String statusFromServer = parseMessage(args);
@@ -210,6 +237,10 @@ public class ClientMessageParser {
 		}
 	}
 
+	/**
+	 * update prices parse handle
+	 * @param args
+	 */
 	private void handleUpdatePricesParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
@@ -227,6 +258,10 @@ public class ClientMessageParser {
 		}
 	}
 
+	/**
+	 * preserve spot parse handle
+	 * @param args
+	 */
 	private void handlePreserveSpotParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
@@ -244,6 +279,10 @@ public class ClientMessageParser {
 		}
 	}
 
+	/**
+	 * register defect spot parse handle
+	 * @param args
+	 */
 	private void handleRegisterDefectSpotParse(String[] args) 
 	{
 		String statusFromServer = parseMessage(args);
@@ -261,6 +300,10 @@ public class ClientMessageParser {
 		}
 	}
 
+	/**
+	 * complaint parse handle
+	 * @param args
+	 */
 	private void handleComplaintParse(String[] args) 
 	{
 		String statusFromServer = parseMessage(args);
@@ -278,6 +321,11 @@ public class ClientMessageParser {
 		}
 	}
 
+	/**
+	 * view order parse handle
+	 * @param args
+	 * @param msg
+	 */
 	private void handleViewOrderParse(String[] args, String msg)
 	{
 		String statusFromServer = parseMessage(args);
@@ -294,6 +342,10 @@ public class ClientMessageParser {
 		}
 	}
 
+	/**
+	 * cancel order parse handle
+	 * @param args
+	 */
 	private void handleCancelOrderParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
@@ -312,12 +364,20 @@ public class ClientMessageParser {
 		}
 	}
 
+	/**
+	 * pay subscription 
+	 * @param args
+	 */
 	private void handlePaySubscriptionParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
 	}
 
+	/**
+	 * submit subscription parse handle
+	 * @param args
+	 */
 	private void handleSubmitSubscriptionParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
@@ -336,6 +396,10 @@ public class ClientMessageParser {
 		}
 	}
 
+	/**
+	 * submit in advance parse handle
+	 * @param args
+	 */
 	private void handleSubmitInAdvanceParkingParse(String[] args) 
 	{
 		String statusFromServer = parseMessage(args);
@@ -354,12 +418,20 @@ public class ClientMessageParser {
 		}
 	}
 
+	/**
+	 * 
+	 * @param args
+	 */
 	private void handlePayCheckOutParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
 	}
 
+	/**
+	 * submit check in 
+	 * @param args
+	 */
 	private void handleSubmitCheckInParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
@@ -377,6 +449,10 @@ public class ClientMessageParser {
 		}
 	}
 
+	/**
+	 * sign in as admin parse handle
+	 * @param args
+	 */
 	private void handleSignInAsAdminParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
@@ -392,6 +468,10 @@ public class ClientMessageParser {
 		}
 	}
 
+	/**
+	 * sign in parse handle
+	 * @param args
+	 */
 	private void handleSignInParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
@@ -407,6 +487,10 @@ public class ClientMessageParser {
 		}
 	}
 
+	/**
+	 * sign up parse handle
+	 * @param args
+	 */
 	private void handleSignUpParse(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
@@ -416,6 +500,11 @@ public class ClientMessageParser {
 		});
 	}
 
+	/**
+	 * log out parse handle
+	 * @param args
+	 */
+	
 	private void handleLogout(String[] args)
 	{
 		String statusFromServer = parseMessage(args);
@@ -423,6 +512,10 @@ public class ClientMessageParser {
 
 	}
 	
+	/**
+	 * get parking lots 
+	 * @param args
+	 */
 	private void handleGetParkingLots(String[] args) {
 		String statusFromServer = parseMessage(args);
 		System.out.println(statusFromServer);
@@ -434,6 +527,11 @@ public class ClientMessageParser {
 			ClientsSystemController.parkingLotsNames.setValue(statusFromServer);
 	}
 	
+	/**
+	 * parse message
+	 * @param args
+	 * @return
+	 */
 	private String parseMessage(String[] args)
 	{
 		int argsLength = args.length;

@@ -17,6 +17,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * The controller for SignUpScene
+ * @author scadaadmin
+ *
+ */
 public class SignUpController extends CommonController
 {
 	
@@ -36,12 +41,21 @@ public class SignUpController extends CommonController
 
 	}
     
+	/**
+	 * previous button clicked event handler
+	 * @param event
+	 * @throws IOException
+	 */
     @FXML
     void PreviousAction(ActionEvent event) throws IOException 
     {
 		super.openScene("LoginScene.fxml", event);
     }
     
+    /**
+     * sign up button clicked event handler
+     * @param event
+     */
     @FXML
     void signUpAction(ActionEvent event) {
     	String user = userText.getText();

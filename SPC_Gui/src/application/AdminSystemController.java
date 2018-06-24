@@ -14,6 +14,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+/**
+ * The controller for AdminSystemScence
+ * @author scadaadmin
+ *
+ */
 public class AdminSystemController extends CommonController
 {
     @FXML
@@ -93,7 +98,9 @@ public class AdminSystemController extends CommonController
     static public StringProperty subsWithMoreThanOneCar;
 
 
-    
+    /**
+     * Actions when initializng the scene: get all parking lots names from server and activate listeners
+     */
     @FXML
 	public void initialize() 
 	{
@@ -137,10 +144,17 @@ public class AdminSystemController extends CommonController
         });
 	}
     
+    /**
+     * Get parking lot names from server
+     */
 	private void getParkingLotsNamesFromServer() {
 		Main.cts.send("getParkingLots");
 	}
 	
+	/**
+	 * Report parking spot as defect button click event handler
+	 * @param event
+	 */
     @FXML
     void reportAsDefectAction(ActionEvent event)
     {
@@ -165,6 +179,10 @@ public class AdminSystemController extends CommonController
 		}
     }
 
+    /**
+     * Preserve parking spot button click event handler
+     * @param event
+     */
     @FXML
     void presereveSpotAction(ActionEvent event) 
     {
@@ -189,6 +207,10 @@ public class AdminSystemController extends CommonController
 		}
     }
 
+    /**
+     * Submit update prices  button click event handler
+     * @param event
+     */
     @FXML
     void submitUpdatePricesAction(ActionEvent event)
     {
@@ -219,6 +241,9 @@ public class AdminSystemController extends CommonController
 		}
     }
 
+    /**
+     * Get permission from manager before changing prices
+     */
     @FXML
     void getPermissionPricesAction(ActionEvent event) 
     {
@@ -226,6 +251,10 @@ public class AdminSystemController extends CommonController
     	new Alert(Alert.AlertType.INFORMATION, "Congrats, you got permissions to update the prices").showAndWait();
     }
 
+    /**
+     * Produce snapshot button clicked event handler
+     * @param event
+     */
     @FXML
     void produceSnapshotAction(ActionEvent event)
     {
@@ -242,12 +271,20 @@ public class AdminSystemController extends CommonController
 		}
     }
 
+    /**
+     * Produce performance report button clicked event handler
+     * @param event
+     */
     @FXML
     void performanceReportAction(ActionEvent event) 
     {
     	Main.cts.send("producePerformanceReport");
     }
 
+    /**
+     * Add new parking lot button clicked event handler
+     * @param event
+     */
     @FXML
     void addNewParkingLotAction(ActionEvent event)		//Done, except input check for integers
     {
@@ -272,6 +309,9 @@ public class AdminSystemController extends CommonController
 		}    	
     }
 
+    /**
+     * Log out button clicked event handler
+     */
     @FXML
     void LogOutAction(ActionEvent event) throws IOException 
     {

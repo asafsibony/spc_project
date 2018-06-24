@@ -1,5 +1,10 @@
 package server;
 
+/**
+ * Server main method
+ * @author scadaadmin
+ *
+ */
 public class Main {
 	static mysqlConnection m;
 	final public static int DEFAULT_PORT = 5555;

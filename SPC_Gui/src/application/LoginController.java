@@ -12,6 +12,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 
+/**
+ * The controller for LoginScene
+ * @author scadaadmin
+ *
+ */
+
 public class LoginController extends CommonController
 {
 	@FXML 
@@ -31,6 +37,9 @@ public class LoginController extends CommonController
 	public static BooleanProperty adminLoginVerified;
 	private ActionEvent lastEvent = null;
 	
+	/**
+	 * Action when initializing the scene
+	 */
 	@FXML
 	public void initialize() 
 	{
@@ -78,6 +87,11 @@ public class LoginController extends CommonController
 		});
 	}
 	
+	/**
+	 * Sign in button clicked event handler
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	void SignInAction(ActionEvent event) throws IOException
 	{
@@ -100,6 +114,11 @@ public class LoginController extends CommonController
 		//super.openScene("ClientsSystemScene.fxml", event);
 	}	
 
+	/**
+	 * Sign in as admin button clicked event handler
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	void SignInAsAdminAction(ActionEvent event) throws IOException
 	{
@@ -122,12 +141,22 @@ public class LoginController extends CommonController
 		//super.openScene("AdminSystemScene.fxml", event);
 	}
 
+	/**
+	 * sign up button clicked event handler
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	void SignUpAction(ActionEvent event) throws IOException 
 	{
 		super.openScene("SignUpScene.fxml", event);
 	}
 
+	/**
+	 * back button clicked event handler
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	void backAction(ActionEvent event) throws IOException 
 	{

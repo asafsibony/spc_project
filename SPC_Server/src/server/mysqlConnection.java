@@ -25,10 +25,17 @@ import javax.management.Query;
 
 import javafx.util.Pair;
 
-
+/**
+ * Class for data base actions
+ * @author scadaadmin
+ *
+ */
 public class mysqlConnection {
 	public static Connection conn;
 
+	/**
+	 * connect 
+	 */
 	public mysqlConnection() {
 		super();
 		try 
@@ -51,6 +58,12 @@ public class mysqlConnection {
 		}
 	}
 
+	/**
+	 * add user to data base
+	 * @param user
+	 * @param password
+	 * @return
+	 */
 	public static String addUser(String user, String password)
 	{
 		Statement stmt;
@@ -66,6 +79,13 @@ public class mysqlConnection {
 		}catch(SQLException e) { return "Failure, try other user name.";}
 	}
 
+	/**
+	 * check if user exists in data base
+	 * @param userName
+	 * @param password
+	 * @param type
+	 * @return
+	 */
 	public static String checkIfUserExists(String userName, String password, String type)
 	{
 		try 
@@ -110,6 +130,12 @@ public class mysqlConnection {
 			return "SQL failure.";}
 	}
 
+	/**
+	 * update logout column in data base table
+	 * @param user
+	 * @param type
+	 * @return
+	 */
 	public static String logout(String user, String type) {
 		try {
 			conn.createStatement();
@@ -131,6 +157,16 @@ public class mysqlConnection {
 			return "SQL failure.";}
 	}
 
+	/**
+	 * add car to carCheckedIn data base table
+	 * @param id
+	 * @param carId
+	 * @param depHour
+	 * @param type
+	 * @param parkingLot
+	 * @param depDate
+	 * @throws SQLException
+	 */
 	public static void addToCarsCheckedInTable(String id, String carId, String depHour, String type, String parkingLot, String depDate) throws SQLException
 	{
 		Statement stmt;
@@ -150,6 +186,15 @@ public class mysqlConnection {
 		uprs.moveToCurrentRow();  
 	}
 
+	/**
+	 * check out car and update data base
+	 * @param id
+	 * @param carId
+	 * @param parkingLotName
+	 * @param price
+	 * @return
+	 * @throws Exception
+	 */
 	public static String checkOutCar(String id, String carId, String parkingLotName, double price) throws Exception
 	{
 		conn.createStatement();
@@ -173,6 +218,10 @@ public class mysqlConnection {
 		return "true "+price;
 	}
 
+	/**
+	 * get parking lot names from data base
+	 * @return
+	 */
 	public static String getParkingLotsNames() {
 		Statement stmt;
 		String str = "";
@@ -192,6 +241,16 @@ public class mysqlConnection {
 		return str;
 	}
 
+	/**
+	 * add parking lot info to data base
+	 * @param name
+	 * @param floors
+	 * @param spaces
+	 * @param availableSpots
+	 * @param spotsInUse
+	 * @throws NumberFormatException
+	 * @throws SQLException
+	 */
 	public static void addParkingLotInfo(String name, String floors, String spaces, String availableSpots,
 			String spotsInUse) throws NumberFormatException, SQLException {
 		conn.createStatement();
@@ -207,6 +266,13 @@ public class mysqlConnection {
 		preparedStatement .executeUpdate();
 	}
 
+	/**
+	 * construct parking lot in data base
+	 * @param name
+	 * @param floors
+	 * @param spaces
+	 * @throws SQLException
+	 */
 	public static void constructParkingLot(String name, String floors, String spaces) throws SQLException {
 		System.out.println(name);
 		String query = "CREATE TABLE " + name + " (Floor INTEGER not NULL, Row INTEGER not NULL, Availability VARCHAR(30) default \"free\", Deperture VARCHAR(30) default \"\", PRIMARY KEY (Floor,Row))";
@@ -224,6 +290,13 @@ public class mysqlConnection {
 		}
 	}
 
+	/**
+	 * update spot as defect in data base
+	 * @param parkingLot
+	 * @param floor
+	 * @param row
+	 * @throws SQLException
+	 */
 	public static void registerDefectSpot(String parkingLot, String floor, String row) throws SQLException {
 		conn.createStatement();
 		String query="UPDATE " + parkingLot + " SET Availability = ? WHERE Floor = ? AND row = ?;";
@@ -234,6 +307,11 @@ public class mysqlConnection {
 		ps.executeUpdate();
 	}
 
+	/**
+	 * count avaliable spots
+	 * @param parkingLot
+	 * @throws SQLException
+	 */
 	public static void countDownAvailableSpots(String parkingLot) throws SQLException {
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		String query = "SELECT * FROM parkingLots WHERE Name = \"" + parkingLot + "\"";
@@ -245,6 +323,14 @@ public class mysqlConnection {
 		}
 	}
 
+	/**
+	 * check if spot is defect or not exists
+	 * @param parkingLot
+	 * @param floor
+	 * @param row
+	 * @return
+	 * @throws SQLException
+	 */
 	public static boolean checkIfAlreadyDefectOrNotExist(String parkingLot, String floor, String row) throws SQLException {
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		String query = "SELECT * FROM " + parkingLot + " WHERE Floor = " + floor + " AND Row = " + row;
@@ -261,6 +347,14 @@ public class mysqlConnection {
 		}
 	}
 
+	/**
+	 * check if spot is preserved or not exists
+	 * @param parkingLot
+	 * @param floor
+	 * @param row
+	 * @return
+	 * @throws SQLException
+	 */
 	public static boolean checkIfAlreadyPreserveOrNotExist(String parkingLot, String floor, String row) throws SQLException {
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		String query = "SELECT * FROM " + parkingLot + " WHERE Floor = " + floor + " AND Row = " + row;
@@ -277,6 +371,13 @@ public class mysqlConnection {
 		}
 	}
 
+	/**
+	 * update spot as preserved
+	 * @param parkingLot
+	 * @param floor
+	 * @param row
+	 * @throws SQLException
+	 */
 	public static void registerPresrveSpot(String parkingLot, String floor, String row) throws SQLException {
 		conn.createStatement();
 		String query="UPDATE " + parkingLot + " SET Availability = ? WHERE Floor = ? AND row = ?;";
@@ -287,6 +388,12 @@ public class mysqlConnection {
 		ps.executeUpdate();
 	}
 
+	/**
+	 * update price in data base
+	 * @param priceType
+	 * @param newPrice
+	 * @throws SQLException
+	 */
 	public static void updatePrice(String priceType, String newPrice) throws SQLException {
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		String query = "SELECT * FROM prices WHERE Type = \"" + priceType + "\"";
@@ -298,6 +405,20 @@ public class mysqlConnection {
 		}
 	}
 
+	/**
+	 * add in advance order to data base
+	 * @param id
+	 * @param carId
+	 * @param arrivalDate
+	 * @param arrivalHour
+	 * @param depDate
+	 * @param depHour
+	 * @param parkingLot
+	 * @param email
+	 * @param cost
+	 * @return
+	 * @throws SQLException
+	 */
 	public static String addInAdvanceOrder(String id, String carId, String arrivalDate, String arrivalHour,
 			String depDate, String depHour, String parkingLot, String email, double cost) throws SQLException {
 		conn.createStatement();
@@ -316,6 +437,16 @@ public class mysqlConnection {
 		return "true " + cost;
 	}
 
+	/**
+	 * add subscription order to data base
+	 * @param id
+	 * @param carId
+	 * @param startDate
+	 * @param regOrbuis
+	 * @param cost
+	 * @return
+	 * @throws SQLException
+	 */
 	public static String addSubscriptionOrder(String id, String carId, String startDate, String regOrbuis, double cost) throws SQLException {
 		LocalDate start = LocalDate.parse(startDate);
 		String endDate = start.plusDays(28).toString();
@@ -336,6 +467,11 @@ public class mysqlConnection {
 		return "true " + cost;
 	}
 
+	/**
+	 * get subscription from data base
+	 * @return
+	 * @throws Exception
+	 */
 	public static double getSubscriptionPriceFromDB() throws Exception {
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		String query = "SELECT * FROM prices WHERE Type = \"Subscription\"";
@@ -349,6 +485,15 @@ public class mysqlConnection {
 		}
 	}
 
+	/**
+	 * cancel order
+	 * @param id
+	 * @param carId
+	 * @param date
+	 * @param hour
+	 * @return
+	 * @throws Exception
+	 */
 	public static String cancelOrder(String id, String carId, String date, String hour) throws Exception {
 		conn.createStatement();
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -378,6 +523,11 @@ public class mysqlConnection {
 		}
 	}
 
+	/**
+	 * get in advance price from data base
+	 * @return
+	 * @throws Exception
+	 */
 	public static double getInAdvancePriceFromDB() throws Exception 
 	{
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -393,6 +543,11 @@ public class mysqlConnection {
 		}
 	}
 	
+	/**
+	 * get casual price from data base
+	 * @return
+	 * @throws Exception
+	 */
 	public static double getCasualPriceFromDB() throws Exception 
 	{
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -408,6 +563,12 @@ public class mysqlConnection {
 		}
 	}
 
+	/**
+	 * get client's orders from data base
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public static String viewOrders(String id) throws SQLException {
 		String str = "";
 		ResultSet rs;
@@ -450,6 +611,13 @@ public class mysqlConnection {
 		return "true " + str;
 	}
 
+	/**
+	 * add complaints to data base
+	 * @param id
+	 * @param complaint
+	 * @return
+	 * @throws SQLException
+	 */
 	public static String addComplaint(String id, String complaint) throws SQLException {
 		conn.createStatement();
 		String query = "INSERT INTO complains(ID, Content) VALUES(?,?)";
@@ -460,6 +628,12 @@ public class mysqlConnection {
 		return "true";
 	}
 	
+	/**
+	 * get parking lot table from data base
+	 * @param parkingLot
+	 * @return
+	 * @throws SQLException
+	 */
 	public static String getParkingLotRowsFromDB(String parkingLot) throws SQLException 
 	{
 		String str = "";
@@ -476,6 +650,11 @@ public class mysqlConnection {
 		return "true " + str;
 	}
 
+	/**
+	 * get data for performance report
+	 * @return
+	 * @throws SQLException
+	 */
 	public static String getReport() throws SQLException 
 	{
 		ResultSet rs;
@@ -508,6 +687,12 @@ public class mysqlConnection {
 		return "true " + String.valueOf(totalSubs) + " " + String.valueOf(moreThanOnerows);	
 	}
 	
+	/**
+	 * check if parking lot is full
+	 * @param parkingLot
+	 * @return
+	 * @throws Exception
+	 */
 	public static boolean checkIfParkingLotIsFull(String parkingLot) throws Exception {
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		String query = "SELECT * FROM parkingLots WHERE Name = \"" + parkingLot + "\"";
@@ -526,6 +711,11 @@ public class mysqlConnection {
 		}
 	}
 
+	/**
+	 * get not full parking lots
+	 * @return
+	 * @throws SQLException
+	 */
 	public static String getNotFullParkingLots() throws SQLException {
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		String query = "SELECT * FROM parkingLots";
@@ -543,6 +733,11 @@ public class mysqlConnection {
 		return alternatives;
 	}
 
+	/**
+	 * count used spots
+	 * @param parkingLot
+	 * @throws SQLException
+	 */
 	public static void countDownUsedSpots(String parkingLot) throws SQLException {
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		String query = "SELECT * FROM parkingLots WHERE Name = \"" + parkingLot + "\"";
@@ -554,6 +749,15 @@ public class mysqlConnection {
 		}
 	}
 
+	/**
+	 * check in using robot
+	 * @param carId
+	 * @param depHour
+	 * @param parkingLot
+	 * @param depDate
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
 	public static void RobotCheckIn(String carId, String depHour, String parkingLot, String depDate) throws SQLException, ParseException {
 		//Transfer all spots info from DB to ArrayList
 		ArrayList<Pair<String, Date>> spots=new ArrayList<Pair<String, Date>>();  
@@ -617,6 +821,11 @@ public class mysqlConnection {
 		}
 	}
 
+	/**
+	 * 
+	 * @param parkingLot
+	 * @throws SQLException
+	 */
 	public static void countUpUsedSpots(String parkingLot) throws SQLException {
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		String query = "SELECT * FROM parkingLots WHERE Name = \"" + parkingLot + "\"";
@@ -628,6 +837,13 @@ public class mysqlConnection {
 		}
 	}
 
+	/**
+	 * get parking lot from data base
+	 * @param id
+	 * @param carId
+	 * @return
+	 * @throws Exception
+	 */
 	public static String getParkingLot(String id, String carId) throws Exception {
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		String query = "SELECT * FROM carsCheckedIn WHERE CarID = \"" + carId + "\" AND ID = \"" + id + "\"";
@@ -640,6 +856,13 @@ public class mysqlConnection {
 		}
 	}
 
+	/**
+	 * check if user got subscription
+	 * @param id
+	 * @param carId
+	 * @return
+	 * @throws Exception
+	 */
 	public static boolean checkIfUserGotSubscription(String id, String carId) throws Exception {
 			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -672,6 +895,13 @@ public class mysqlConnection {
 			return false;
 	}
 
+	/**
+	 * check if user got order
+	 * @param id
+	 * @param carId
+	 * @return
+	 * @throws Exception
+	 */
 	public static boolean checkIfUserGotOrder(String id, String carId) throws Exception {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -689,6 +919,14 @@ public class mysqlConnection {
 		return false;
 	}
 
+	/**
+	 * check if user is late for deparure
+	 * @param id
+	 * @param carId
+	 * @return
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
 	public static boolean checkIfLateToDep(String id, String carId) throws SQLException, ParseException {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd, HH:mm");
 		Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -707,6 +945,15 @@ public class mysqlConnection {
 		return false;
 	}
 
+	/**
+	 * calculate check out price
+	 * @param id
+	 * @param carId
+	 * @param type
+	 * @param lateToDep
+	 * @return
+	 * @throws Exception
+	 */
 	public static double calculateCheckOutPrice(String id, String carId, String type, boolean lateToDep) throws Exception {
 		
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd, HH:mm");
@@ -739,7 +986,5 @@ public class mysqlConnection {
 		}
 		return 0;
 	}
-
-	
 }
 

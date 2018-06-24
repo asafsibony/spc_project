@@ -2,8 +2,23 @@ package spc;
 
 import server.mysqlConnection;
 
+/**
+ * Server side checkInCheckOut
+ * @author scadaadmin
+ *
+ */
 public class CheckInCheckOut {
 
+	/**
+	 * check in car to data base
+	 * @param id
+	 * @param carId
+	 * @param dep
+	 * @param type
+	 * @param parkingLot
+	 * @param depDate
+	 * @return
+	 */
 	public String CheckInCarToDB(String id, String carId, String dep, String type, String parkingLot, String depDate)
 	{
 		try {
@@ -25,6 +40,12 @@ public class CheckInCheckOut {
 		}
 	}
 
+	/**
+	 * submit check out
+	 * @param id
+	 * @param carId
+	 * @return
+	 */
 	public String submitCheckOut(String id, String carId) 
 	{
 		try {

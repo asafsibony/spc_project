@@ -13,8 +13,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
+/**
+ * Class for common actions for all controllers
+ * @author scadaadmin
+ *
+ */
 public class CommonController 
 {
+	/**
+	 * Open scene
+	 * @param sceneName
+	 * @param event
+	 * @throws IOException
+	 */
 	public void openScene(String sceneName, ActionEvent event) throws IOException
 	{
 		Parent parent = FXMLLoader.load(getClass().getResource(sceneName));
@@ -25,6 +36,11 @@ public class CommonController
 		window.show();
 	}
 	
+	/**
+	 * validate that user's input is not empty
+	 * @param args
+	 * @return
+	 */
 	public boolean validateInputNotNull(String... args)
 	{
 		for(String arg : args)
@@ -38,11 +54,17 @@ public class CommonController
 		
 	}
 	
+	/**
+	 * display error message 
+	 */
 	public void displayNotAllFieldsFullError()
 	{
 		new Alert(Alert.AlertType.ERROR, "Please fill out all fields").showAndWait();
 	}
 	
+	/**
+	 * validate that user's input is a number
+	 */
 	public boolean validateFieldIsANumber(String... args)
 	{
 		for (String arg : args)
@@ -60,6 +82,11 @@ public class CommonController
 		return true;
 	}
 	
+	/**
+	 * validate that hour format from input is valid
+	 * @param args
+	 * @return
+	 */
 	public boolean validateHoursFormatCorrect(String... args)
 	{
 		String format = "HH:mm";

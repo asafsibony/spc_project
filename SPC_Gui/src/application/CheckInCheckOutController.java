@@ -1,6 +1,7 @@
 package application;
 
 import java.io.IOException;
+
 import java.time.format.DateTimeFormatter;
 
 import javafx.beans.property.ListProperty;
@@ -23,6 +24,12 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import client.*;
+
+/**
+ * The controller for CheckInCheckOutScene
+ * @author scadaadmin
+ *
+ */
 public class CheckInCheckOutController extends CommonController
 {
 	@FXML
@@ -70,13 +77,20 @@ public class CheckInCheckOutController extends CommonController
 	static public StringProperty parkingLotsNames;
 	static public StringProperty checkOutCost;
 	
+	/**
+	 * Sign in button clicked event handler
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	void SignInAction(ActionEvent event) throws IOException
 	{
 		super.openScene("LoginScene.fxml", event);
 	}
 	
-	
+	/**
+	 * Actions wher initializeng the scene
+	 */
 	@FXML
 	public void initialize() 
 	{
@@ -102,11 +116,17 @@ public class CheckInCheckOutController extends CommonController
 		});
 	}
 
-	
+	/**
+	 * Get parking lots names from server
+	 */
 	private void getParkingLotsNamesFromServer() {
 		Main.cts.send("getParkingLots");
 	}
 
+	/**
+	 * Submit check in button clicked event handler
+	 * @param event
+	 */
 	@FXML
 	void submitCheckInAction(ActionEvent event) 
 	{
@@ -140,6 +160,10 @@ public class CheckInCheckOutController extends CommonController
 		 	
 	}
 
+	/**
+	 * submit check out button clicked event handler
+	 * @param event
+	 */
 	@FXML
 	void submitCheckOutAction(ActionEvent event) 
 	{
@@ -157,6 +181,10 @@ public class CheckInCheckOutController extends CommonController
 		}
 	}
 
+	/**
+	 * Pay button clicked event handler
+	 * @param event
+	 */
 	@FXML
 	void payAction(ActionEvent event) 
 	{

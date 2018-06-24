@@ -4,8 +4,20 @@ import java.sql.SQLException;
 
 import server.mysqlConnection;
 
+/**
+ * Server side admin system
+ * @author scadaadmin
+ *
+ */
 public class AdminSystem {
 
+	/**
+	 * register spot as defect 
+	 * @param parkingLot
+	 * @param floor
+	 * @param row
+	 * @return
+	 */
 	public String registerDefectSpot(String parkingLot, String floor, String row) {
 		try {
 			boolean res = mysqlConnection.checkIfAlreadyDefectOrNotExist(parkingLot, floor, row);
@@ -21,6 +33,13 @@ public class AdminSystem {
 		}
 	}
 
+	/**
+	 * preserve spot 
+	 * @param parkingLot
+	 * @param floor
+	 * @param row
+	 * @return
+	 */
 	public String preserveSpot(String parkingLot, String floor, String row) {
 		try {
 			boolean res = mysqlConnection.checkIfAlreadyPreserveOrNotExist(parkingLot, floor, row);
@@ -36,6 +55,12 @@ public class AdminSystem {
 		}
 	}
 
+	/**
+	 * update prices
+	 * @param priceType
+	 * @param newPrice
+	 * @return
+	 */
 	public String updatePrices(String priceType, String newPrice) {
 		try {
 			mysqlConnection.updatePrice(priceType, newPrice);
@@ -46,6 +71,12 @@ public class AdminSystem {
 		}
 	}
 
+	/**
+	 * produce snapshot
+	 * @param parkingLot
+	 * @return
+	 * @throws SQLException
+	 */
 	public String produceSnapShot(String parkingLot) throws SQLException 
 	{
 		try
@@ -61,6 +92,10 @@ public class AdminSystem {
 		}
 	}
 
+	/**
+	 * produce performance report
+	 * @return
+	 */
 	public String producePerformanceReport() 
 	{
 		try
@@ -76,6 +111,15 @@ public class AdminSystem {
 		}
 	}
 
+	/**
+	 * add new parking lot to data base
+	 * @param name
+	 * @param floors
+	 * @param spaces
+	 * @param availableSpots
+	 * @param SpotsInUse
+	 * @return
+	 */
 	public String addNewParkingLotToDB(String name, String floors, String spaces, String availableSpots, String SpotsInUse) {
 		try {
 			mysqlConnection.addParkingLotInfo(name, floors, spaces, availableSpots, SpotsInUse);

@@ -8,6 +8,11 @@ import java.sql.SQLException;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
+/**
+ * Server class
+ * @author scadaadmin
+ *
+ */
 public class Server extends AbstractServer 
 {
 	ServerMessageParser parser;
@@ -18,6 +23,9 @@ public class Server extends AbstractServer
 		parser = new ServerMessageParser();
 	}
 
+	/**
+	 * handle message from client
+	 */
 	public void handleMessageFromClient
 	(Object msg, ConnectionToClient client)
 	{

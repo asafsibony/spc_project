@@ -1,5 +1,10 @@
 package client;
 
+/**
+ * connect to server
+ * @author scadaadmin
+ *
+ */
 public final class ConnectToServer {
 	final public static int DEFAULT_PORT = 5555;
 	public static ChatClient client;

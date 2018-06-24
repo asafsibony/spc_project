@@ -11,10 +11,22 @@ import spc.CommonMethods;
 import spc.Login;
 import spc.SignUp;
 
+/**
+ * Parse message for client
+ * @author scadaadmin
+ *
+ */
 public class ServerMessageParser
  {
 	public ServerMessageParser() {}
 
+	/**
+	 * Parse all messages and send to client
+	 * @param msg
+	 * @param client
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	public void parse(String msg, ConnectionToClient client) throws IOException, SQLException
 	{
 		String[] args =  msg.split("\\s+");
